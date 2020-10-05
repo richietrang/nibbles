@@ -1,3 +1,11 @@
+## Backend
+
+Install pipenv package: pip3 install pipenv
+
+Create virtual environment: pipenv install --skip-lock
+
+Enter venv: pipenv shell
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
