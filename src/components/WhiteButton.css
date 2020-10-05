@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Raleway:wght@700;@800');
+
+.white-button {
+  padding: 10px 20px;
+  border-radius: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #002344;
+  background-color: white;
+  width: fit-content;
+  font-family: 'Karla', sans-serif;
+  font-weight: 700;
+}

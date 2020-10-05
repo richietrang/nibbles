@@ -1,0 +1,24 @@
+.outerContent {
+  display: flex;
+  justify-content: center;
+  background-color: #E6DBCC;
+  padding: 15px 0;
+}
+
+.innerContent {
+  width: 1000px;
+  border-radius: 30px;
+  background-color: white;
+  min-height: calc(100vh - 30px);
+}
+
+@media only screen and (max-width: 1000px) {
+  .innerContent {
+    width: 100%;
+    border-radius: 0px;
+  }
+
+  .outerContent {
+    padding: 0;
+  }
+}
