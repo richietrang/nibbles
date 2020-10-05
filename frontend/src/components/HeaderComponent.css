@@ -1,0 +1,125 @@
+@import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Raleway:wght@700;@800");
+
+.header-container {
+  background-color: #febd2e;
+  border-radius: 20px;
+  margin: 7px;
+}
+
+.navbar {
+  display: flex;
+  height: 80px;
+  align-items: center;
+  padding: 10px 0 0 40px;
+}
+
+.icon-with-title {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  color: #333333;
+  font-size: 2rem;
+}
+
+.navbar-logo {
+  height: 30px;
+}
+
+.nav-items {
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  flex: 4;
+}
+
+.nav-item {
+  padding: 0 2rem;
+}
+
+.login-sign-up-buttons-container {
+  display: flex;
+  align-items: center;
+  flex: 2;
+  padding-right: 10px;
+}
+
+.login-button {
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-right: 2rem;
+}
+
+.header-title-graphic-container {
+  display: flex;
+}
+
+.header-title {
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+  font-size: 3.5rem;
+  flex: 3;
+  color: #333333;
+  padding: 0 0 0 40px;
+}
+
+.header-image-of-chef-wrapper {
+  flex: 2;
+  padding-right: 10px;
+}
+
+.header-image-of-chef {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+@media only screen and (max-width: 900px) {
+  .header-title {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header-title {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
+
+  .nav-items {
+    flex: 2;
+  }
+
+  .navbar {
+    padding-left: 10px;
+  }
+
+  .navbar-title {
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .nav-item {
+    padding: 0 1rem;
+  }
+
+  .navbar {
+    padding-left: 0;
+  }
+  .login-button {
+    margin-right: 10px;
+  }
+
+  .nav-item {
+    text-align: right;
+  }
+}
