@@ -2,16 +2,15 @@ import React from 'react';
 import DefaultLayout from '../layouts/DefaultLayout';
 import HeaderComponent from '../components/HeaderComponent';
 
-const HomePage = () => {
+const HowNibblesWorksPage = () => {
   return (
     <DefaultLayout>
       <HeaderComponent 
-        headerText='Turn your leftovers into lunchtime magic!'
+        headerText='Curious about food? You must be curious about Nibbles!'
       />
+      <h1>Dis is how it works bruddah</h1>
     </DefaultLayout>
   );
 }
 
-const styles = {};
-
-export default HomePage;
+export default HowNibblesWorksPage;

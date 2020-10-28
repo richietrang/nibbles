@@ -13,6 +13,10 @@
   padding: 10px 0 0 40px;
 }
 
+.navbar-title {
+  cursor: pointer;
+}
+
 .icon-with-title {
   display: flex;
   align-items: center;
@@ -37,6 +41,7 @@
 
 .nav-item {
   padding: 0 2rem;
+  cursor: pointer;
 }
 
 .login-sign-up-buttons-container {
@@ -52,6 +57,7 @@
   font-size: 1rem;
   font-weight: 700;
   margin-right: 2rem;
+  cursor: pointer;
 }
 
 .header-title-graphic-container {

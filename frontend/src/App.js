@@ -1,13 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
+import history from './history';
 import './App.css';
 import HomePage from './pages/HomePage';
+import HowNibblesWorksPage from './pages/HowNibblesWorksPage';
 
 function App() {
   return (
-    <div className="App">
-      <HomePage></HomePage>
-    </div>
+
+    <BrowserRouter>
+      <div className='App'>
+        <Router history={history}>
+          <Switch>
+            <Route path='/' exact component={HomePage} />
+            <Route path='/how-nibbles-works' component={HowNibblesWorksPage} />
+          </Switch>
+        </Router>
+      </div>
+    </BrowserRouter>
   );
 }
 
