@@ -13,3 +13,4 @@ yarn-error.log*
 .npm/
 yarn.lock
 backend/api_config.json
+backend/aws_config.json
