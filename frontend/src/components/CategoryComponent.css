@@ -6,7 +6,9 @@
     font-size: 2rem;
     color: #333333;
     padding: 40px 0 0 40px;
-    width: 50%;
+    width: 40%;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .search-title {

@@ -7,7 +7,6 @@ const list = [
     "Apple",
     "Banana",
     "Pear",
-    "jono",
     "Testingsasdsdas",
     "rnfj",
     "Testing",
@@ -58,6 +57,8 @@ const CategoryComponent = ( {categoryTitle} ) => {
         
     }, [searchTerm]);
 
+    // This following function allows for selected buttons to be moved and displayed at the top
+    // Commented this out, because it makes UX quite weird...?
 /*     useEffect(() => {
         const objectSorted = Object.fromEntries(
             Object.entries(fruitsAndVegeIngredients).sort(([,a], [,b]) => b-a)
