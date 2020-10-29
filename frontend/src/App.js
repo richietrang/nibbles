@@ -7,7 +7,6 @@ import HowNibblesWorksPage from './pages/HowNibblesWorksPage';
 
 function App() {
   return (
-
     <BrowserRouter>
       <div className='App'>
         <Router history={history}>
