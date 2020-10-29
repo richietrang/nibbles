@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './HeaderComponent.css';
 import ModalComponent from './ModalComponent';
 import { Link } from 'react-router-dom';
-
 import ButtonComponent from './ButtonComponent';
 
 const HeaderComponent = ({ headerText }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [loginModalVisible, setloginModalVisible] = useState(false);
+
   const showSignUpModal = () => {
     setSignUpModalVisible(true);
   }
