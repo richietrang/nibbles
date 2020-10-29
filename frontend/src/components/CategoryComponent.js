@@ -2,24 +2,25 @@ import React, { useEffect, useState } from 'react';
 import './CategoryComponent.css';
 import ButtonComponent from './ButtonComponent';
 
-// Test list of items, need to populate prehand
-const list = [
-    "Apple",
-    "Banana",
-    "Pear",
-    "Testingsasdsdas",
-    "rnfj",
-    "Testing",
-    "Oranges",
-    "Chicken",
-]
-
-const sortedList = list.sort(function (a, b) {
-    return a.toLowerCase().localeCompare(b.toLowerCase());
-});
-
 // Category component
 const CategoryComponent = ( {categoryTitle} ) => {
+
+    // (Fruit and Veg List) Test list of items, need to populate prehand
+    const FVlist = [
+        "Apple",
+        "Banana",
+        "Pear",
+        "Testingsasdsdas",
+        "rnfj",
+        "Testing",
+        "Oranges",
+        "Chicken",
+    ]
+
+    // Sort the list of items (case insensitive)
+    const sortedList = FVlist.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
 
     // Searching functionality
     const [searchTerm, setSearchTerm] = useState("");
