@@ -63,7 +63,62 @@ const HeaderComponent = ({ headerText }) => {
           closeButtonCb={closeSignUpModal}
           alternateButtonText="Sign Up"
         >
-          <div>Hello world!!! This is some sign up content babyeee</div>
+          <div>
+          <h1>Sign up Form</h1>
+            <Formik
+              initialValues={{ email: '', password: '' }}
+              validate={values => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = 'Email is required';
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = 'Invalid email address';
+                }
+                return errors;
+              }}
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(JSON.stringify(values, null, 2));
+                  setSubmitting(false);
+                }, 400);
+              }}
+            >
+              {({ touched, errors, isSubmitting }) => (
+                <Form>
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    className={`form-control ${
+  									  touched.email && errors.email ? "is-invalid" : ""
+  									}`} />
+                  <ErrorMessage
+                    component="div"
+                    name="email"
+                    className="invalid-feedback"/>
+                  <br/>
+                  <label htmlFor="password">Password</label>
+                    <Field
+                      type="password"
+                      name="password"
+                      placeholder="Enter password"
+                      className={`form-control ${
+                        touched.password && errors.password ? "is-invalid" : ""
+                      }`} />
+                    <ErrorMessage
+                      component="div"
+                      name="password"
+                      className="invalid-feedback"/>
+                  <button type="submit" disabled={isSubmitting}>
+                  Submit
+                  </button>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </ModalComponent>
       }
 
