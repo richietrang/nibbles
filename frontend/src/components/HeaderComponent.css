@@ -1,5 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Raleway:wght@700;@800");
 
+/* .login-button {
+  position: absolute;
+  padding: 0 20px;
+  display: flex;
+  bottom: 20px;
+  justify-content: space-between;
+  width: 92%;
+} */
+
 .header-container {
   background-color: #febd2e;
   border-radius: 20px;

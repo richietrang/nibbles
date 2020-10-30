@@ -3,6 +3,7 @@ import './HeaderComponent.css';
 import ModalComponent from './ModalComponent';
 import { Link } from 'react-router-dom';
 import ButtonComponent from './ButtonComponent';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const HeaderComponent = ({ headerText }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
@@ -113,9 +114,7 @@ const HeaderComponent = ({ headerText }) => {
                       component="div"
                       name="password"
                       className="invalid-feedback"/>
-                  <button type="submit" disabled={isSubmitting}>
-                  Submit
-                  </button>
+                  <ButtonComponent type="signin" buttonText="Sign In" disabled={isSubmitting} backgroundColor='#febd2e'/>
                 </Form>
               )}
             </Formik>
@@ -179,9 +178,9 @@ const HeaderComponent = ({ headerText }) => {
                     component="div"
                     name="password"
                     className="invalid-feedback"/>
-                <button type="submit" disabled={isSubmitting}>
-                Submit
-                </button>
+                <div className = "login-button">
+                  <ButtonComponent type="login" buttonText="Log In" disabled={isSubmitting} backgroundColor='#febd2e'/>
+                </div>
               </Form>
             )}
           </Formik>

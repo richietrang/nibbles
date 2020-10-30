@@ -12,7 +12,7 @@ const ModalComponent = ({ children, enableCloseButton, closeButtonCb, alternateB
           </div>
           { enableCloseButton &&
             <div className="modal-buttons-wrapper">
-              <ButtonComponent 
+              <ButtonComponent
                 buttonText="Close"
                 backgroundColor='#efefef'
                 onClick={closeButtonCb}
