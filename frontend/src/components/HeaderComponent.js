@@ -114,7 +114,9 @@ const HeaderComponent = ({ headerText }) => {
                       component="div"
                       name="password"
                       className="invalid-feedback"/>
-                  <ButtonComponent type="signin" buttonText="Sign In" disabled={isSubmitting} backgroundColor='#febd2e'/>
+                  <ButtonComponent type="submit" buttonText="Sign Up" disabled={isSubmitting} backgroundColor='#febd2e'>
+                    {isSubmitting ? "Please wait..." : "Run"}
+                  </ButtonComponent>
                 </Form>
               )}
             </Formik>
@@ -179,7 +181,9 @@ const HeaderComponent = ({ headerText }) => {
                     name="password"
                     className="invalid-feedback"/>
                 <div className = "login-button">
-                  <ButtonComponent type="login" buttonText="Log In" disabled={isSubmitting} backgroundColor='#febd2e'/>
+                  <ButtonComponent type="submit" buttonText="Log In" disabled={isSubmitting} backgroundColor='#febd2e'>
+                    {isSubmitting ? "Please wait..." : "Run"}
+                  </ButtonComponent>
                 </div>
               </Form>
             )}

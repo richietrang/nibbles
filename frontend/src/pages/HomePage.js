@@ -11,7 +11,7 @@ const HomePage = () => {
       <HeaderComponent
         headerText='Turn your leftovers into lunchtime magic!'
       />
-      <CategoryComponent 
+      <CategoryComponent
         categoryTitle="Your Ingredients"
       />
       <div className="recipe-thumbnail-results-container">

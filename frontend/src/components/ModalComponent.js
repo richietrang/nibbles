@@ -4,7 +4,7 @@ import ButtonComponent from '../components/ButtonComponent';
 
 const ModalComponent = ({ children, enableCloseButton, closeButtonCb, alternateButtonText, alternateButtonCb }) => {
   return (
-    <div className="semi-transparent-page-wrapper">
+    <div className="semi-transparent-page-wrapper" style={{zIndex: '1000'}}>
       <div className="modal-border">
         <div className="modal-container">
           <div className="modal-children-wrapper">
@@ -17,7 +17,7 @@ const ModalComponent = ({ children, enableCloseButton, closeButtonCb, alternateB
                 backgroundColor='#efefef'
                 onClick={closeButtonCb}
               />
-              <ButtonComponent 
+              <ButtonComponent
                 buttonText={`${alternateButtonText}`}
                 backgroundColor='#febd2e'
               />
