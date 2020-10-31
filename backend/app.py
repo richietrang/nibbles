@@ -1,29 +1,28 @@
-from spoonacular import *
+import json
 
-from flask import Flask
+from spoonacular import search_recipes
+
+
+from flask import Flask, request
 app = Flask(__name__)
 
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['POST'])
 def search_for_recipes():
     """
     Search for recipes that match list of ingredients
     """
 
-    # Use some test JSON
-    # response = findByIngredient_response
+    # Get json
+    print(request.json)
+    req_data = request.get_json(force=True)
+    ingredient_list = req_data['ingredients']
 
-    # Should probably fetch all recipe information at the same time before returning as we need
-    # the URL for the original recipe when displaying results
-    result = []
-    for r in response:
-        result.append({
-            'id': r['id'],
-            'recipe_name': r['title'],
-            'image_link': r['image'],
-        })
+    print(req_data)
+    print(ingredient_list)
+    result = search_recipes(ingredient_list)
 
-    return result
+    return json.dumps(result)
 
 
 @app.route('/')
