@@ -5,5 +5,8 @@
         "Tomato",
         "Butter",
         "Carrot"
-    ]
+    ],
+
+    "RecipesToQuery": 100,
+    "QueryOffset": 0
 }
