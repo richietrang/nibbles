@@ -1,3 +1,4 @@
+import heapq
 import json
 import requests
 import sys
@@ -58,9 +59,8 @@ def build_endpoint(api_key, query_info, original_endpoint):
         return new_endpoint
 
 
-    # read in endpoint_schema
-    # TODO: How to do this better
-    endpoint_schema = read_json_from_file(ENDPOINT_SCHEMA_JSON_PATH)
+    # TODO: improve method of a global endpoint_schema
+    from app import endpoint_schema
 
     # build endpoint url
     endpoint = add_authorisation_to_endpoint(original_endpoint, api_key)
@@ -79,15 +79,74 @@ def build_endpoint(api_key, query_info, original_endpoint):
 def build_list_identifier(lst):
     return '<{}>'.format('-'.join(lst))
 
-# def build_endpoint_query_info(raw_query_info, endpoint_schema):
-#     '''
+def rank_recipe_data(recipe_data, queried_ingredients):
+    '''
 
-#     '''
+    '''
+    def extract_num_used_ingredients(recipe):
+        used_ingredients = recipe['usedIngredients']
+        num_used_ingredients = 0
+        for used_ingredient in used_ingredients:
+            used_ingredient_keywords = []
 
-#     to_return = {}
-#     for query_key in raw_query_info:
-#         query_value = raw_query_info[query_key]
-#         new_value = {}
+            # extract keywords for multi-worded ingredients
+            # TODO: more robust way to handle plurals
+            for used_ingredient_keyword in used_ingredient['name'].split(' '):
+                used_ingredient_keywords.append(used_ingredient_keyword)
+                if used_ingredient_keyword.endswith('s'): used_ingredient_keywords.append(used_ingredient_keyword[:-1])
+                if used_ingredient_keyword.endswith('es'): used_ingredient_keywords.append(used_ingredient_keyword[:-2])
+            
+            for used_ingredient_keyword in used_ingredient_keywords:
+                if used_ingredient_keyword in queried_ingredients_set:
+                    num_used_ingredients += 1
+                    continue
+        return num_used_ingredients
+
+    def calculate_match_score(num_used_ingredients, num_unused_ingredients, num_missed_ingredients):
+        # match_accuracy_score = num_used_ingredients / (num_queried_ingredients + num_unused_ingredients + num_missed_ingredients)
+        return USED_WEIGHTING * num_used_ingredients - \
+            (UNUSED_WEIGHTING * num_unused_ingredients + MISSED_WEIGHTING * num_missed_ingredients)
+
+    # declarations of weightings used to rank importance of used, unused and missed ingredients
+    USED_WEIGHTING = 1
+    UNUSED_WEIGHTING = 0.8
+    MISSED_WEIGHTING = 1.2
+
+    # extraction
+    num_queried_ingredients = len(queried_ingredients)
+    queried_ingredients_set = set([w.lower() for w in queried_ingredients])
+    to_return = []
+
+    # dict to map a recipe's id to itself
+    id_to_recipe_map = {}
+    for recipe in recipe_data: id_to_recipe_map[recipe['id']] = recipe
+
+    # sort data using a heap
+    sorting_heap = []
+
+    # extract matched data and calculate an accuracy score
+    for index, recipe in enumerate(recipe_data):
+
+        # extract used ingredients
+        # num_used_ingredients = extract_num_used_ingredients(recipe)
+        num_used_ingredients = recipe['usedIngredientCount']
+        num_unused_ingredients = num_queried_ingredients - num_used_ingredients
+        num_missed_ingredients = len(recipe['missedIngredients'])
+        match_accuracy_score = calculate_match_score(num_used_ingredients, num_unused_ingredients, num_missed_ingredients)
+        
+        # insert into heap with stability using insertion order
+        heapq.heappush(sorting_heap, (-match_accuracy_score, index, recipe['id']))
+
+    # append to heap in decreasing order of calculated match score
+    while len(sorting_heap) > 0:
+        heap_tup = heapq.heappop(sorting_heap)
+        mapped_recipe_score = heap_tup[0]
+        mapped_recipe_id = heap_tup[2]
+        mapped_recipe = id_to_recipe_map[mapped_recipe_id]
+        mapped_recipe['internalMatchScore'] = mapped_recipe_score
+        to_return.append(mapped_recipe)
+
+    return to_return
 
 
 # I don't think it should be required to pass in aws_info here
@@ -110,6 +169,10 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
 
     if test:
         response_json = read_json_from_file('sample/findByIngredients.json')
+        num_ingredients = 5
+        ingredients = [
+            'Chicken', 'Parsley', 'Tomato', 'Butter', 'Carrot'
+        ]
     else:
         # TODO: May have to add retrying, also better to use a session
         try:
@@ -121,14 +184,21 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             # This means unable to fetch data for some reason, front end should handle this properly
             return None
 
-    result = [
-        {
-            'id': r['id'],
-            'title': r['title'],
-            'image': r['image'],
-        } for r in response_json
-    ]
+    # rank the response in order of pseudo-accuracy
+    ranked_json = rank_recipe_data(response_json, ingredients)
 
+    # result = [
+    #     {
+    #         'id': r['id'],
+    #         'title': r['title'],
+    #         'image': r['image'],
+    #     } for r in ranked_json
+    # ]
+
+    # return a list of ids since informationBulk handles getting all required info
+
+    # TODO: extract usedRecipes, internalMatchScore, etc here
+    result = [r['id'] for r in ranked_json]
     return result    
 
     # dump_json_to_filepath(returned_json, 'sample/findByIngredients.json')
@@ -175,20 +245,18 @@ def information_bulk(query_info, api_key=API_KEY, test=False):
     return response_json
 
 
-def search_recipes(query_info):
-    recipe_list = find_by_ingredients(query_info=query_info)
+def search_recipes(query_info, test=False):
+    '''
+    Combine results from 2 endpoints:
+    - findByIngredients
+    - informationBulk
+    '''
+    recipe_id_list = find_by_ingredients(query_info=query_info, test=test)
 
-    # extract required ids
-    id_list = [r['id'] for r in recipe_list]
     recipes_query_info = {
-        'RecipeIds': id_list
+        'RecipeIds': recipe_id_list
     }
-    recipe_info = information_bulk(query_info = recipes_query_info)
-
-    # Combine results from 2 endpoints
-    # TODO: Actually information_bulk has all the info, we only need the list of ids from find_by_ingredients
-    # for r in recipe_info:
-    #     recipe_list
+    recipe_info = information_bulk(query_info = recipes_query_info, test=test)
 
     result = []
     for r in recipe_info:
@@ -201,11 +269,15 @@ def search_recipes(query_info):
                     'servings': r['servings'],
                     'readyInMinutes': r['readyInMinutes'],
                     'sourceUrl': r['sourceUrl'],
+                    # 'usedIngredientCount': r['usedIngredientCount'],
+                    # 'missedIngredientCount': r['missedIngredientCount'],
+                    # 'internalMatchScore': r['internalMatchScore']
                     # 'spoonacularSourceUrl': r['spoonacularSourceUrl'],
                 }
             )
         except Exception:
             print('Failed to parse recipe: id={}', r['id'])
+            return None
 
     return result
 
