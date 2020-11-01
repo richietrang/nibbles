@@ -1,6 +1,6 @@
 import json
 
-from spoonacular import search_recipes
+from spoonacular import search_recipes, read_json_from_file
 
 
 from flask import Flask, request
@@ -12,15 +12,23 @@ def search_for_recipes():
     """
     Search for recipes that match list of ingredients
     """
+    
+    # TODO: OPTIMISE THIS, CALLING THIS MANY TIMES
+    endpoint_schema = read_json_from_file('endpoint_schema.json')
+
 
     # Get json
     print(request.json)
     req_data = request.get_json(force=True)
-    ingredient_list = req_data['ingredients']
 
-    print(req_data)
-    print(ingredient_list)
-    result = search_recipes(ingredient_list)
+    query_info = {k:req_data[k] for k in req_data if k in endpoint_schema}
+
+    print("reqdata=", req_data)
+    print("queryinfo=", query_info)
+    # print(ingredient_list)
+    result = search_recipes(query_info)
+
+    print("result=", result)
 
     return json.dumps(result)
 

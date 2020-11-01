@@ -8,10 +8,10 @@ import boto3
 # Put constants at the top
 MAX_RECIPES_TO_QUERY = 2
 
-
 # Alex's spoonacular API key, doesn't have many requests right now, probably need to create another
 API_KEY = 'f494a127555c4c3b80a621fc4a6dd7b4'
 
+ENDPOINT_SCHEMA_JSON_PATH = 'endpoint_schema.json'
 
 def get_aws_client(resource_name, aws_information):
     return boto3.client(
@@ -39,39 +39,55 @@ def build_endpoint(api_key, query_info, original_endpoint):
     Use the decorator pattern to add information to the endpoint
     '''
 
-    # helper methods to decorate a given endpoint
-    def add_authorisation_endpoint(endpoint, api_key):
+    def add_authorisation_to_endpoint(endpoint, api_key):
         return endpoint + '?apiKey=' + api_key
 
-    def add_ingredients_to_endpoint(endpoint, ingredient_list):
-        return endpoint + '&ingredients=' + ',+'.join(ingredient_list)
+    def add_query_data_to_endpoint(endpoint: str, query_data: dict) -> str:
+        '''
 
-    def add_ids_to_endpoint(endpoint, ids):
-        return endpoint + '&ids=' + ','.join(str(x) for x in ids)
+        '''
+        new_endpoint = endpoint + '&{}='.format(query_data['key'])
+        if not query_data['islist']: new_endpoint += str(query_data['value'])
+        else:
 
-    def add_num_recipes_to_endpoint(endpoint, num_recipes):
-        return endpoint + '&number=' + str(num_recipes)
+            # turn list of values into list of strs
+            query_value = [str(q) for q in query_data['value']]
 
-    def add_query_offset_to_endpoint(endpoint, query_offset):
-        return endpoint + '&offset=' + str(query_offset)
+            # join list with joining value (sep) from schema
+            new_endpoint += query_data['sep'].join(query_value)
+        return new_endpoint
 
-    # extract ingredients key-value from front-end
-    ingredients = query_info.get('ingredients', None)
-    ids = query_info.get('ids', None)
-    query_offset = query_info.get('QueryOffset', None)
-    num_recipes_to_query = query_info.get('RecipesToQuery', None)
+
+    # read in endpoint_schema
+    # TODO: How to do this better
+    endpoint_schema = read_json_from_file(ENDPOINT_SCHEMA_JSON_PATH)
 
     # build endpoint url
-    endpoint = add_authorisation_endpoint(original_endpoint, api_key)
-    if ingredients: endpoint = add_ingredients_to_endpoint(endpoint, ingredients)
-    if ids: endpoint = add_ids_to_endpoint(endpoint, ids)
-    if query_offset: endpoint = add_query_offset_to_endpoint(endpoint, query_offset)
-    if num_recipes_to_query: endpoint = add_num_recipes_to_endpoint(endpoint, num_recipes_to_query)
-    
+    endpoint = add_authorisation_to_endpoint(original_endpoint, api_key)
+    for query_key in query_info:
+
+        # build a new query_data dictionary using the schema
+        query_value = query_info[query_key]
+        query_data = {k:endpoint_schema[query_key][k] for k in endpoint_schema[query_key]}
+        query_data['value'] = query_info[query_key]
+
+        # decorate endpoint
+        endpoint = add_query_data_to_endpoint(endpoint, query_data)
+
     return endpoint
 
 def build_list_identifier(lst):
     return '<{}>'.format('-'.join(lst))
+
+# def build_endpoint_query_info(raw_query_info, endpoint_schema):
+#     '''
+
+#     '''
+
+#     to_return = {}
+#     for query_key in raw_query_info:
+#         query_value = raw_query_info[query_key]
+#         new_value = {}
 
 
 # I don't think it should be required to pass in aws_info here
@@ -82,7 +98,7 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
     '''
 
     # extract ingredients
-    ingredients = query_info['ingredients']
+    ingredients = query_info['IngredientsList']
     num_ingredients = len(ingredients)
 
     # TODO: further optimisations
@@ -91,7 +107,6 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
 
     # generate endpoint
     endpoint = build_endpoint(api_key, query_info, 'https://api.spoonacular.com/recipes/findByIngredients')
-    print(endpoint)
 
     if test:
         response_json = read_json_from_file('sample/findByIngredients.json')
@@ -101,7 +116,6 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             # send the query to spoonacular and retrieve the response
             response = requests.get(endpoint)
             response_json = json.loads(response.text)
-            print(response_json)
         except Exception as ex:
             print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
@@ -142,13 +156,8 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
 
 
 # This should really be a class but I'm lazy and we're only implementing 2 endpoints
-def information_bulk(id_list, api_key=API_KEY, test=False):
-    query_info = {
-        'ids': id_list
-    }
-
+def information_bulk(query_info, api_key=API_KEY, test=False):
     endpoint = build_endpoint(api_key, query_info, 'https://api.spoonacular.com/recipes/informationBulk')
-    print('endpoint:', endpoint)
     if test:
         response_json = []
         # response_json = read_json_from_file('sample/findByIngredients.json')
@@ -158,18 +167,23 @@ def information_bulk(id_list, api_key=API_KEY, test=False):
             response_json = json.loads(response.text)
             print(response_json)
         except Exception as ex:
-            print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
+            
+            print(traceback.format_exc(ex))
             return None
     
-    print(response_json)
     return response_json
 
 
-def search_recipes(ingredients):
-    recipe_list = find_by_ingredients(query_info={'ingredients': ingredients})
+def search_recipes(query_info):
+    recipe_list = find_by_ingredients(query_info=query_info)
+
+    # extract required ids
     id_list = [r['id'] for r in recipe_list]
-    recipe_info = information_bulk(id_list=id_list)
+    recipes_query_info = {
+        'RecipeIds': id_list
+    }
+    recipe_info = information_bulk(query_info = recipes_query_info)
 
     # Combine results from 2 endpoints
     # TODO: Actually information_bulk has all the info, we only need the list of ids from find_by_ingredients
@@ -209,10 +223,24 @@ if __name__ == '__main__':
     # # easier to just store in the code (it's not secure and wise for production but don't really care if someone steals)
     # api_key = read_json_from_file('api_config.json')['ApiKey']
 
-    ingredients = ['apple, chicken']
-    print(search_recipes(ingredients))
-    # resp = find_by_ingredients(query_info={'ingredients': ingredients})
-    # print(resp)
+    ingredients = [
+        "Chicken",
+        "Parsley",
+        "Tomato",
+        "Butter",
+        "Carrot"
+    ]
+    num_recipes = 3
+    query_offset = 0
+
+    # given from front-end
+    raw_query_info = {
+        'IngredientsList': ingredients,
+        'NumRecipes': num_recipes,
+        'QueryOffset': query_offset
+    }    
+    search_results = search_recipes(raw_query_info)
+    print("SEARCH_RESULTS = ", search_results)
 
 
 

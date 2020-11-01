@@ -1,0 +1,25 @@
+{
+  "IngredientsList": {
+    "key": "ingredients",
+    "islist": true,
+    "sep": ",+"
+  },
+
+  "NumRecipes": {
+    "key": "number",
+    "islist": false,
+    "sep": null
+  },
+
+  "QueryOffset": {
+    "key": "offset",
+    "islist": false,
+    "sep": null
+  },
+
+  "RecipeIds": {
+    "key": "ids",
+    "islist": true,
+    "sep": ","
+  }
+}
