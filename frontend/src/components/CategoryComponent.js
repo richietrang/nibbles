@@ -18,28 +18,35 @@ const CategoryComponent = ( {categoryTitle} ) => {
     ]
 
     // Sort the list of items (case insensitive)
-    const sortedList = FVlist.sort(function (a, b) {
+    const sortedFVList = FVlist.sort(function (a, b) {
         return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+    
+    // Iterator to transform a list to an object with listVariable : false
+    const [fruitsAndVegeIngredients, setFruitsAndVegeIngredients] = useState(() => {
+        var z = {};
+
+        for (var i = 0; i < sortedFVList.length; i++) {
+            z[sortedFVList[i]] = false;
+        }
+
+        return z;
     });
 
     // Searching functionality
     const [searchTerm, setSearchTerm] = useState("");
     const [searchResults, setSearchResults] = useState([]);
 
-    // Iterator to transform a list to an object with listVariable : false
-    const [fruitsAndVegeIngredients, setFruitsAndVegeIngredients] = useState(() => {
-        var z = {};
-
-        for (var i = 0; i < sortedList.length; i++) {
-            z[sortedList[i]] = false;
-        }
-
-        return z;
-    });
-
     const handleSearchChange = event => {
         setSearchTerm(event.target.value);
     }
+
+    useEffect(() => {
+        const results = sortedFVList.filter(searchItem => searchItem.toLowerCase().includes(searchTerm));
+        setSearchResults(results);
+        
+    }, [searchTerm]);
+
 
     // Button click
     function handleClick(item) {
@@ -51,12 +58,6 @@ const CategoryComponent = ( {categoryTitle} ) => {
         });
 
     }
-
-    useEffect(() => {
-        const results = sortedList.filter(searchItem => searchItem.toLowerCase().includes(searchTerm));
-        setSearchResults(results);
-        
-    }, [searchTerm]);
 
     // This following function allows for selected buttons to be moved and displayed at the top
     // Commented this out, because it makes UX quite weird...?
