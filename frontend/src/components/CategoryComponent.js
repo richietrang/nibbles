@@ -14,28 +14,67 @@ const CategoryComponent = ( {categoryTitle} ) => {
     const handleFVCategory = () => {
         setShowCategory("FV");
         // Reset search state on all other search terms
+        setSearchFVTerm("");
         setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleMSCategory = () => {
         setShowCategory("MS");
+        // Reset search state on all other search terms
         setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleDYCategory = () => {
         setShowCategory("DY");
+        // Reset search state on all other search terms
+        setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleGFCategory = () => {
         setShowCategory("GF");
+        // Reset search state on all other search terms
+        setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleLSCategory = () => {
         setShowCategory("LS");
+        // Reset search state on all other search terms
+        setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleMiscCategory = () => {
         setShowCategory("MISC");
+        // Reset search state on all other search terms
+        setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     /*******************************************************************/
@@ -88,6 +127,20 @@ const CategoryComponent = ( {categoryTitle} ) => {
         });
 
     }
+
+    // This following function allows for selected buttons to be moved and displayed at the top
+    // Commented this out, because it makes UX quite weird...? - Only for Fruits Veg, right now.
+/*     useEffect(() => {
+        const objectSorted = Object.fromEntries(
+            Object.entries(fruitsAndVegeIngredients).sort(([,a], [,b]) => b-a)
+        );
+
+        const listSorted =  Object.keys(objectSorted);
+
+        setSearchFVResults(listSorted);
+
+    }, [fruitsAndVegeIngredients]); */
+
     /*******************************************************************/
 
     /*******************************************************************/
@@ -142,54 +195,251 @@ const CategoryComponent = ( {categoryTitle} ) => {
     }
     /*******************************************************************/
 
-    // This following function allows for selected buttons to be moved and displayed at the top
-    // Commented this out, because it makes UX quite weird...? - Only for Fruits Veg, right now.
-/*     useEffect(() => {
-        const objectSorted = Object.fromEntries(
-            Object.entries(fruitsAndVegeIngredients).sort(([,a], [,b]) => b-a)
-        );
+    /*******************************************************************/
+    // Dairy list
+    const DYlist = [
+        "Milk",
+        "Cheese",
+        "Yoghurt",
+    ]
 
-        const listSorted =  Object.keys(objectSorted);
+    // Sort the list of items (case insensitive)
+    const sortedDYList = DYlist.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
 
-        setSearchFVResults(listSorted);
+    // Iterator to transform a list to an object with listVariable : false
+    const [dairyIngredients, setDairyIngredients] = useState(() => {
+        var dy = {};
 
-    }, [fruitsAndVegeIngredients]); */
+        for (var i = 0; i < sortedDYList.length; i++) {
+            dy[sortedDYList[i]] = false;
+        }
+
+        return dy;
+    });
+
+    // Searching functionality
+    const [searchDYTerm, setSearchDYTerm] = useState("");
+    const [searchDYResults, setSearchDYResults] = useState([]);
+
+    const handleDYSearchChange = event => {
+        setSearchDYTerm(event.target.value);
+    }
+
+    useEffect(() => {
+        const results = sortedDYList.filter(searchItem => searchItem.toLowerCase().includes(searchDYTerm));
+
+        setSearchDYResults(results);
+        
+    }, [searchDYTerm]);
+
+    // Meat Seafood Button click
+    function handleDYClick(item) {
+
+        // Sets values of items in list to it's opposite
+        setDairyIngredients({
+            ...dairyIngredients,
+            [item] : !dairyIngredients[item],
+        });
+
+    }
+    /*******************************************************************/
+
+    /*******************************************************************/
+    // Grains and Flour list
+    const GFlist = [
+        "Rice",
+        "Bread",
+        "Quinoa",
+        "Flour",
+    ]
+
+    // Sort the list of items (case insensitive)
+    const sortedGFList = GFlist.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+
+    // Iterator to transform a list to an object with listVariable : false
+    const [grainsAndFlourIngredients, setGrainsAndFlourIngredients] = useState(() => {
+        var gf = {};
+
+        for (var i = 0; i < sortedGFList.length; i++) {
+            gf[sortedGFList[i]] = false;
+        }
+
+        return gf;
+    });
+
+    // Searching functionality
+    const [searchGFTerm, setSearchGFTerm] = useState("");
+    const [searchGFResults, setSearchGFResults] = useState([]);
+
+    const handleGFSearchChange = event => {
+        setSearchGFTerm(event.target.value);
+    }
+
+    useEffect(() => {
+        const results = sortedGFList.filter(searchItem => searchItem.toLowerCase().includes(searchGFTerm));
+
+        setSearchGFResults(results);
+        
+    }, [searchGFTerm]);
+
+    // Meat Seafood Button click
+    function handleGFClick(item) {
+
+        // Sets values of items in list to it's opposite
+        setGrainsAndFlourIngredients({
+            ...grainsAndFlourIngredients,
+            [item] : !grainsAndFlourIngredients[item],
+        });
+
+    }
+    /*******************************************************************/
+
+    /*******************************************************************/
+    // Liquids and Sauces list
+    const LSlist = [
+        "Tomato Sauce",
+        "Coca Cola",
+        "Sweet Chilli Sauce",
+        "Siracha",
+    ]
+
+    // Sort the list of items (case insensitive)
+    const sortedLSList = LSlist.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+
+    // Iterator to transform a list to an object with listVariable : false
+    const [liquidsAndSaucesIngredients, setLiquidsAndSaucesIngredients] = useState(() => {
+        var ls = {};
+
+        for (var i = 0; i < sortedLSList.length; i++) {
+            ls[sortedLSList[i]] = false;
+        }
+
+        return ls;
+    });
+
+    // Searching functionality
+    const [searchLSTerm, setSearchLSTerm] = useState("");
+    const [searchLSResults, setSearchLSResults] = useState([]);
+
+    const handleLSSearchChange = event => {
+        setSearchLSTerm(event.target.value);
+    }
+
+    useEffect(() => {
+        const results = sortedLSList.filter(searchItem => searchItem.toLowerCase().includes(searchLSTerm));
+
+        setSearchLSResults(results);
+        
+    }, [searchLSTerm]);
+
+    // Meat Seafood Button click
+    function handleLSClick(item) {
+
+        // Sets values of items in list to it's opposite
+        setLiquidsAndSaucesIngredients({
+            ...liquidsAndSaucesIngredients,
+            [item] : !liquidsAndSaucesIngredients[item],
+        });
+
+    }
+    /*******************************************************************/
+
+    /*******************************************************************/
+    // Miscellaneous list
+    const Misclist = [
+        "Sugar",
+        "Salt",
+        "Pepper",
+        "Cumin",
+        "Cinnamon",
+    ]
+
+    // Sort the list of items (case insensitive)
+    const sortedMiscList = Misclist.sort(function (a, b) {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
+
+    // Iterator to transform a list to an object with listVariable : false
+    const [miscIngredients, setMiscIngredients] = useState(() => {
+        var misc = {};
+
+        for (var i = 0; i < sortedMiscList.length; i++) {
+            misc[sortedMiscList[i]] = false;
+        }
+
+        return misc;
+    });
+
+    // Searching functionality
+    const [searchMiscTerm, setSearchMiscTerm] = useState("");
+    const [searchMiscResults, setSearchMiscResults] = useState([]);
+
+    const handleMiscSearchChange = event => {
+        setSearchMiscTerm(event.target.value);
+    }
+
+    useEffect(() => {
+        const results = sortedMiscList.filter(searchItem => searchItem.toLowerCase().includes(searchMiscTerm));
+
+        setSearchMiscResults(results);
+        
+    }, [searchMiscTerm]);
+
+    // Meat Seafood Button click
+    function handleMiscClick(item) {
+
+        // Sets values of items in list to it's opposite
+        setMiscIngredients({
+            ...miscIngredients,
+            [item] : !miscIngredients[item],
+        });
+
+    }
+    /*******************************************************************/
 
   return (
     <div className="category-title"> 
         { categoryTitle }
 
-        <br />
+        <div className="category-buttons">
 
-        <button onClick={handleAllCategory}>
-            All
-        </button>
+            <button onClick={handleAllCategory} className="handle-category-button">
+                All
+            </button>
 
-        <button onClick={handleFVCategory}>
-            FV
-        </button>
+            <button onClick={handleFVCategory} className="handle-category-button">
+                FV
+            </button>
 
-        <button onClick={handleMSCategory}>
-            MS
-        </button>
+            <button onClick={handleMSCategory} className="handle-category-button">
+                MS
+            </button>
 
-        <button onClick={handleDYCategory}>
-            DY
-        </button>
+            <button onClick={handleDYCategory} className="handle-category-button">
+                DY
+            </button>
 
-        <button onClick={handleGFCategory}>
-            GF
-        </button>
+            <button onClick={handleGFCategory} className="handle-category-button">
+                GF
+            </button>
 
-        <button onClick={handleLSCategory}>
-            LS
-        </button>
+            <button onClick={handleLSCategory} className="handle-category-button">
+                LS
+            </button>
 
-        <button onClick={handleMiscCategory}>
-            MISC
-        </button>
+            <button onClick={handleMiscCategory} className="handle-category-button">
+                MISC
+            </button>
 
-        {showCategory == "FV" &&
+        </div>
+
+        {showCategory === "FV" &&
             <div className="search-div">
                 <div className="search-title">
                     Fruits and Vegetables
@@ -206,7 +456,7 @@ const CategoryComponent = ( {categoryTitle} ) => {
             </div>
         }
 
-        {showCategory == "MS" &&
+        {showCategory === "MS" &&
             <div className="search-div">
                 <div className="search-title">
                     Meats and Seafoods
@@ -223,6 +473,73 @@ const CategoryComponent = ( {categoryTitle} ) => {
             </div>
         }
 
+        {showCategory === "DY" &&
+            <div className="search-div">
+                <div className="search-title">
+                    Dairy
+                </div>
+                <div className="search-bar-div">
+                    <input type='search' className="search-bar" placeholder="Search" onChange={handleDYSearchChange} />
+                </div>
+                <div className="search-results-div">
+                    {searchDYResults.map(item => (
+                        <ButtonComponent key={item} buttonText={item} buttonBorder={"1px solid"} backgroundColor={dairyIngredients[item] ? "orange" : "white"}
+                        fontSize={"1rem"} display={"inline-block"} margin={"0 10px 10px 0"} onClick={() => handleDYClick(item)} />
+                    ))}
+                </div>
+            </div>
+        }
+
+        {showCategory === "GF" &&
+            <div className="search-div">
+                <div className="search-title">
+                    Grains and Flour
+                </div>
+                <div className="search-bar-div">
+                    <input type='search' className="search-bar" placeholder="Search" onChange={handleGFSearchChange} />
+                </div>
+                <div className="search-results-div">
+                    {searchGFResults.map(item => (
+                        <ButtonComponent key={item} buttonText={item} buttonBorder={"1px solid"} backgroundColor={grainsAndFlourIngredients[item] ? "orange" : "white"}
+                        fontSize={"1rem"} display={"inline-block"} margin={"0 10px 10px 0"} onClick={() => handleGFClick(item)} />
+                    ))}
+                </div>
+            </div>
+        }
+
+        {showCategory === "LS" &&
+            <div className="search-div">
+                <div className="search-title">
+                    Liquids and Sauces
+                </div>
+                <div className="search-bar-div">
+                    <input type='search' className="search-bar" placeholder="Search" onChange={handleLSSearchChange} />
+                </div>
+                <div className="search-results-div">
+                    {searchLSResults.map(item => (
+                        <ButtonComponent key={item} buttonText={item} buttonBorder={"1px solid"} backgroundColor={liquidsAndSaucesIngredients[item] ? "orange" : "white"}
+                        fontSize={"1rem"} display={"inline-block"} margin={"0 10px 10px 0"} onClick={() => handleLSClick(item)} />
+                    ))}
+                </div>
+            </div>
+        }
+
+        {showCategory === "MISC" &&
+            <div className="search-div">
+                <div className="search-title">
+                    Miscellaneous
+                </div>
+                <div className="search-bar-div">
+                    <input type='search' className="search-bar" placeholder="Search" onChange={handleMiscSearchChange} />
+                </div>
+                <div className="search-results-div">
+                    {searchMiscResults.map(item => (
+                        <ButtonComponent key={item} buttonText={item} buttonBorder={"1px solid"} backgroundColor={miscIngredients[item] ? "orange" : "white"}
+                        fontSize={"1rem"} display={"inline-block"} margin={"0 10px 10px 0"} onClick={() => handleMiscClick(item)} />
+                    ))}
+                </div>
+            </div>
+        }
 
     </div>
   );

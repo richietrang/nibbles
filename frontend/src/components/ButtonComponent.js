@@ -2,7 +2,7 @@ import React from 'react';
 import './ButtonComponent.css'
 
 // Button defaults to a white background with blue text if no backgroundColor or fontColor is provided
-const ButtonComponent = ({ buttonText, backgroundColor, fontColor, buttonBorder, fontSize, display, margin, onClick, disabled }) => {
+const ButtonComponent = ({ buttonText, backgroundColor, fontColor, buttonBorder, fontSize, display, margin, onClick, disabled, outline }) => {
   const styles = {
     buttonStyles: {
       backgroundColor: backgroundColor ? backgroundColor : 'white',
@@ -11,6 +11,7 @@ const ButtonComponent = ({ buttonText, backgroundColor, fontColor, buttonBorder,
       fontSize: fontSize,
       display: display,
       margin: margin,
+      outline: outline ? outline : 'none',
     }
   }
 

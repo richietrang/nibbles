@@ -11,6 +11,10 @@
     vertical-align: top;
 }
 
+.category-buttons {
+    padding: 1rem 0 0 0;
+}
+
 .search-title {
     font-family: "Raleway", sans-serif;
     font-weight: bold;
@@ -37,4 +41,19 @@
 
 .search-results-div {
     padding: 20px 0 0 0;
+}
+
+.handle-category-button {
+    border: 3px solid orange;
+    background-color: white;
+    border-radius: 1rem;
+    height:50px;
+    width:50px;
+    cursor:pointer;
+    outline: none;
+    margin-right: 6px;
+}
+
+.handle-category-button:focus {
+    background-color: orange;
 }
