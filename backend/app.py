@@ -1,10 +1,17 @@
+import csv
 import json
 
 from spoonacular import search_recipes, read_json_from_file
 
 
 from flask import Flask, request
+
+
+# Init globals
 app = Flask(__name__)
+endpoint_schema = read_json_from_file('endpoint_schema.json')
+
+
 
 
 @app.route('/search', methods=['POST'])
@@ -33,19 +40,21 @@ def search_for_recipes():
     return json.dumps(result)
 
 
-@app.route('/')
-def hello():
-    return "Hello World!"
+@app.route('/ingredients', methods=['GET'])
+def ingredients():
+    ingredients = []
+    with open('data/top-1k-ingredients.csv', newline='\n') as csvfile:
+        reader = csv.DictReader(csvfile, delimiter=';')
+        ingredients = list(reader)
 
-# variables
-endpoint_schema = read_json_from_file('endpoint_schema.json')
+    return json.dumps(ingredients)
 
 if __name__ == '__main__':
 
     # read endpoint schema
     # global endpoint_schema
     
-    endpoint_schema = read_json_from_file('endpoint_schema.json')
+    # endpoint_schema = read_json_from_file('endpoint_schema.json')
 
     # run app
     app.run()
