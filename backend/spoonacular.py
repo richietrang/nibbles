@@ -11,6 +11,7 @@ MAX_RECIPES_TO_QUERY = 2
 
 # Alex's spoonacular API key, doesn't have many requests right now, probably need to create another
 API_KEY = 'f494a127555c4c3b80a621fc4a6dd7b4'
+RAPID_API_KEY = 'd2a70b5910msh62b56af356b59a3p1e2900jsn2d3bf492368f'
 
 ENDPOINT_SCHEMA_JSON_PATH = 'endpoint_schema.json'
 
