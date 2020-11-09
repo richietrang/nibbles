@@ -7,8 +7,15 @@ const CategoryComponent = ( {categoryTitle} ) => {
 
     const [showCategory, setShowCategory] = useState("ALL");
 
-    const handleAllCategory = () => {
+    const handleAllCategory = (_this) => {
         setShowCategory("ALL");
+        // Reset search state on all other search terms
+        setSearchFVTerm("");
+        setSearchMSTerm("");
+        setSearchDYTerm("");
+        setSearchGFTerm("");
+        setSearchLSTerm("");
+        setSearchMiscTerm("");
     }
 
     const handleFVCategory = () => {
@@ -409,31 +416,31 @@ const CategoryComponent = ( {categoryTitle} ) => {
 
         <div className="category-buttons">
 
-            <button onClick={handleAllCategory} className="handle-category-button">
+            <button onClick={handleAllCategory} className={showCategory === "ALL" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 All
             </button>
 
-            <button onClick={handleFVCategory} className="handle-category-button">
+            <button onClick={handleFVCategory} className={showCategory === "FV" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 FV
             </button>
 
-            <button onClick={handleMSCategory} className="handle-category-button">
+            <button onClick={handleMSCategory} className={showCategory === "MS" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 MS
             </button>
 
-            <button onClick={handleDYCategory} className="handle-category-button">
+            <button onClick={handleDYCategory} className={showCategory === "DY" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 DY
             </button>
 
-            <button onClick={handleGFCategory} className="handle-category-button">
+            <button onClick={handleGFCategory} className={showCategory === "GF" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 GF
             </button>
 
-            <button onClick={handleLSCategory} className="handle-category-button">
+            <button onClick={handleLSCategory} className={showCategory === "LS" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 LS
             </button>
 
-            <button onClick={handleMiscCategory} className="handle-category-button">
+            <button onClick={handleMiscCategory} className={showCategory === "MISC" ? "handle-category-button-orange" : "handle-category-button-white"}>
                 MISC
             </button>
 
