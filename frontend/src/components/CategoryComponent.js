@@ -145,7 +145,6 @@ const CategoryComponent = ( {categoryTitle} ) => {
         "fresh mint",
         "eggplant",
         "beets",
-        "horseradish",
         "leeks",
         "brussel sprouts",
         "horseradish",
