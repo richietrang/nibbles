@@ -5,7 +5,7 @@ from spoonacular import search_recipes, read_json_from_file
 from flask_cors import CORS
 
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 
 # Init globals
@@ -29,8 +29,6 @@ def search_for_recipes():
     # endpoint_schema = read_json_from_file('endpoint_schema.json')
 
 
-    # Get json
-    # print(request.json)
     req_data = request.get_json(force=True)
 
     query_info = {k:req_data[k] for k in req_data if k in endpoint_schema}
