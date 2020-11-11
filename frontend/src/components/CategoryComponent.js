@@ -415,6 +415,38 @@ const CategoryComponent = props => {
       ...allIngredients,
       [item]: !allIngredients[item]
     });
+
+    if (fruitsAndVegeIngredients.hasOwnProperty(item)) {
+      setFruitsAndVegeIngredients({
+        ...fruitsAndVegeIngredients,
+        [item]: !fruitsAndVegeIngredients[item]
+      });
+    } else if (meatAndSeafoodIngredients.hasOwnProperty(item)) {
+      setMeatAndSeafoodIngredients({
+        ...meatAndSeafoodIngredients,
+        [item]: !meatAndSeafoodIngredients[item]
+      });
+    } else if (dairyIngredients.hasOwnProperty(item)) {
+      setDairyIngredients({
+        ...dairyIngredients,
+        [item]: !dairyIngredients[item]
+      });
+    } else if (grainsAndFlourIngredients.hasOwnProperty(item)) {
+      setGrainsAndFlourIngredients({
+        ...grainsAndFlourIngredients,
+        [item]: !grainsAndFlourIngredients[item]
+      });
+    } else if (liquidsAndSaucesIngredients.hasOwnProperty(item)) {
+      setLiquidsAndSaucesIngredients({
+        ...liquidsAndSaucesIngredients,
+        [item]: !liquidsAndSaucesIngredients[item]
+      });
+    } else if (miscIngredients.hasOwnProperty(item)) {
+      setMiscIngredients({
+        ...miscIngredients,
+        [item]: !miscIngredients[item]
+      });
+    }
   }
   /*******************************************************************/
 
