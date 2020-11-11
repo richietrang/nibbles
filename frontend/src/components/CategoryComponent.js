@@ -450,6 +450,19 @@ const CategoryComponent = props => {
       });
     }
   }
+
+  // This following function allows for selected buttons to be moved and displayed at the top
+  // Commented this out, because it makes UX quite weird...? - Only for Fruits Veg, right now.
+  useEffect(() => {
+        const objectSorted = Object.fromEntries(
+            Object.entries(allIngredients).sort(([,a], [,b]) => b-a)
+        );
+
+        const listSorted =  Object.keys(objectSorted);
+
+        setSearchAllResults(listSorted);
+
+  }, [allIngredients]);
   /*******************************************************************/
 
   return (
