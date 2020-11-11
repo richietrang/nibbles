@@ -2,6 +2,23 @@ import React from "react";
 import "./RecipeThumbnailComponent.css";
 
 class RecipeThumbnailComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recipeFavourited: false,
+    };
+
+    this.handleToggleSaveRecipe = this.handleToggleSaveRecipe.bind(
+      this
+    );
+  }
+
+  handleToggleSaveRecipe() {
+    this.setState((state, props) => ({
+      recipeFavourited: !state.recipeFavourited,
+    }));
+  }
+
   render() {
     const {
       title,
@@ -11,6 +28,11 @@ class RecipeThumbnailComponent extends React.Component {
       matchingIngredients,
       nonMatchingIngredients
     } = this.props.value;
+
+    const activeSaveRecipeIcon = require("../assets/images/star-active.png");
+    const inActiveSaveRecipeIcon = require("../assets/images/star-inactive.png");
+
+
     return (
       <div className="recipe-thumbnail-wrapper">
         <div className="recipe-thumbnail-circle-primary-photo-border">
@@ -29,14 +51,14 @@ class RecipeThumbnailComponent extends React.Component {
               <div className="recipe-thumbnail-info-item-text">{`${cookTimeInMins} Mins`}</div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item">
+            <div className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item" onClick={this.handleToggleSaveRecipe}>
               <div className="recipe-thumbnail-info-item-title">
-                More Photos
+                Save Recipe
               </div>
               <div className="recipe-thumbnail-info-item-icon">
                 <img
-                  src={require("../assets/images/more-photos-icon.svg")}
-                  alt="More photos button icon"
+                  src={this.state.recipeFavourited ? activeSaveRecipeIcon : inActiveSaveRecipeIcon}
+                  alt="Favourite icon"
                 />
               </div>
             </div>
