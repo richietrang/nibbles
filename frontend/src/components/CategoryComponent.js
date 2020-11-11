@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./CategoryComponent.css";
 import ButtonComponent from "./ButtonComponent";
 import * as Constants from "./constants";
-import FVImage from "../assets/images/fresh-produce.svg"
-import MSImage from "../assets/images/proteins.svg"
-import DYImage from "../assets/images/liquids.svg"
-import GFImage from "../assets/images/carbs-and-grains.svg"
-import LSImage from "../assets/images/sauces.svg"
-import MISCImage from "../assets/images/miscalleneous.svg"
+import FVImage from "../assets/images/fresh-produce.svg";
+import MSImage from "../assets/images/proteins.svg";
+import DYImage from "../assets/images/liquids.svg";
+import GFImage from "../assets/images/carbs-and-grains.svg";
+import LSImage from "../assets/images/sauces.svg";
+import MISCImage from "../assets/images/miscalleneous.svg";
 //import ALLImage from "../assets/images/all-food.svg"
 
 // Category component
 const CategoryComponent = props => {
   console.log(props);
-  const { categoryTitle, selectedIngredients } = props;
+  const { categoryTitle } = props;
   const [showCategory, setShowCategory] = useState("ALL");
 
   const categories = ["ALL", "FV", "MS", "DY", "GF", "LS", "MISC"];
@@ -74,7 +74,6 @@ const CategoryComponent = props => {
 
   // Fruit Vege Button click
   function handleFVClick(item) {
-
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -85,8 +84,8 @@ const CategoryComponent = props => {
 
     // Set value in all list to it's opposite
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
 
@@ -157,8 +156,8 @@ const CategoryComponent = props => {
 
     // Set value in all list to it's opposite
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
   /*******************************************************************/
@@ -201,7 +200,6 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleDYClick(item) {
-
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -212,8 +210,8 @@ const CategoryComponent = props => {
 
     // Set value in all list to it's opposite
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
   /*******************************************************************/
@@ -258,7 +256,6 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleGFClick(item) {
-
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -269,8 +266,8 @@ const CategoryComponent = props => {
 
     // Set value in all list to it's opposite
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
   /*******************************************************************/
@@ -316,7 +313,6 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleLSClick(item) {
-
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -327,8 +323,8 @@ const CategoryComponent = props => {
 
     // Set value in all list to it's opposite
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
   /*******************************************************************/
@@ -371,7 +367,6 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleMiscClick(item) {
-
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -381,16 +376,22 @@ const CategoryComponent = props => {
     });
 
     setAllIngredients({
-        ...allIngredients,
-        [item]: !allIngredients[item]
+      ...allIngredients,
+      [item]: !allIngredients[item]
     });
   }
   /*******************************************************************/
 
   /*******************************************************************/
   // All products list
-  const Alllist = [...Constants.MISC_LIST, ...Constants.MEAT_AND_SEAFOOD_LIST, ...Constants.FRUIT_AND_VEG_LIST, 
-                  ...Constants.GRAINS_AND_FLOUR_LIST, ...Constants.DAIRY_LIST, ...Constants.LIQUIDS_AND_SAUCES_LIST];
+  const Alllist = [
+    ...Constants.MISC_LIST,
+    ...Constants.MEAT_AND_SEAFOOD_LIST,
+    ...Constants.FRUIT_AND_VEG_LIST,
+    ...Constants.GRAINS_AND_FLOUR_LIST,
+    ...Constants.DAIRY_LIST,
+    ...Constants.LIQUIDS_AND_SAUCES_LIST
+  ];
 
   // Sort the list of items (case insensitive)
   const sortedAllList = Alllist.sort(function(a, b) {
@@ -426,7 +427,6 @@ const CategoryComponent = props => {
 
   // All Button click
   function handleAllClick(item) {
-
     resetAllSearchState();
 
     props.onIngredientToggle(item, !allIngredients[item]);
@@ -473,14 +473,13 @@ const CategoryComponent = props => {
   // This following function allows for selected buttons to be moved and displayed at the top
   // Commented this out, because it makes UX quite weird...? - Only for Fruits Veg, right now.
   useEffect(() => {
-        const objectSorted = Object.fromEntries(
-            Object.entries(allIngredients).sort(([,a], [,b]) => b-a)
-        );
+    const objectSorted = Object.fromEntries(
+      Object.entries(allIngredients).sort(([, a], [, b]) => b - a)
+    );
 
-        const listSorted =  Object.keys(objectSorted);
+    const listSorted = Object.keys(objectSorted);
 
-        setSearchAllResults(listSorted);
-
+    setSearchAllResults(listSorted);
   }, [allIngredients]);
   /*******************************************************************/
 
@@ -499,20 +498,22 @@ const CategoryComponent = props => {
             }
           >
             {category === "ALL" && "All"}
-            {category === "FV" && <img src={FVImage} className="catImage"/>}
-            {category === "MS" && <img src={MSImage} className="catImage"/>}
-            {category === "DY" && <img src={DYImage} className="catImage"/>}
-            {category === "GF" && <img src={GFImage} className="catImage2"/>}
-            {category === "LS" && <img src={LSImage} className="catImage"/>}
-            {category === "MISC" && <img src={MISCImage} className="catImage"/>}
+            {category === "FV" && <img src={FVImage} className="catImage" />}
+            {category === "MS" && <img src={MSImage} className="catImage" />}
+            {category === "DY" && <img src={DYImage} className="catImage" />}
+            {category === "GF" && <img src={GFImage} className="catImage2" />}
+            {category === "LS" && <img src={LSImage} className="catImage" />}
+            {category === "MISC" && (
+              <img src={MISCImage} className="catImage" />
+            )}
           </button>
         ))}
       </div>
 
       {showCategory === "ALL" && (
         <div className="search-div">
-        <div className="search-title">All Products</div>
-        <div className="search-bar-div">
+          <div className="search-title">All Products</div>
+          <div className="search-bar-div">
             <input
               type="search"
               className="search-bar"
@@ -520,23 +521,21 @@ const CategoryComponent = props => {
               value={searchAllTerm}
               onChange={handleAllSearchChange}
             />
-        </div>
-        <div className="search-results-div">
+          </div>
+          <div className="search-results-div">
             {searchAllResults.map(item => (
               <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
-                backgroundColor={
-                  allIngredients[item] ? "orange" : "white"
-                }
+                backgroundColor={allIngredients[item] ? "orange" : "white"}
                 fontSize={"1rem"}
                 display={"inline-block"}
                 margin={"0 10px 10px 0"}
                 onClick={() => handleAllClick(item)}
               />
             ))}
-        </div>
+          </div>
         </div>
       )}
 

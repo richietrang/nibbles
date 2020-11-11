@@ -9,29 +9,32 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedIngredients: new Set()
+      selectedIngredients: new Set(),
+      recipeList: [
+        {
+          title: "Pierogi",
+          cookTimeInMins: "45",
+          primaryPhotoUrl:
+            "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
+          recipeLink:
+            "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
+          matchingIngredients: [],
+          nonMatchingIngredients: []
+        }
+      ]
     };
-    this.recipeList = [
-      {
-        title: "Pierogi",
-        cookTimeInMins: "45",
-        primaryPhotoUrl:
-          "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
-        recipeLink:
-          "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
-        matchingIngredients: [],
-        nonMatchingIngredients: []
-      }
-    ];
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
       this
     );
   }
 
-  getRecipeList() {
-    if (!this.recipeList) {
-      return [];
+  updateRecipeList() {
+    if (this.state.selectedIngredients.size) {
+      this.setState((state, props) => ({
+        recipeList: []
+      }));
+      return;
     }
     console.log("updating Recipe List");
 
@@ -51,14 +54,19 @@ class HomePage extends React.Component {
         "Access-Control-Allow-Methods": "*"
       }
     };
+
     fetch("http://127.0.0.1:5000/search", options)
       .then(res => {
-        return res.text();
+        return res.json();
       })
       .then(data => {
         console.log(data);
+        this.setState((state, props) => ({
+          recipeList: data
+        }));
       });
-    return this.recipeList;
+
+    return this.state.recipeList;
   }
 
   handleIngredientListChange(item, newValue) {
@@ -74,6 +82,7 @@ class HomePage extends React.Component {
         };
       });
     }
+    this.updateRecipeList();
   }
 
   render() {
@@ -92,7 +101,7 @@ class HomePage extends React.Component {
             <div className="category-title align-center no-bottom-margin">
               Matching Recipes
             </div>
-            {this.getRecipeList().map(recipe => (
+            {this.state.recipeList.map(recipe => (
               <div className="recipe-thumbnail-results-container">
                 <RecipeThumbnailComponent key={recipe.title} value={recipe} />
               </div>
