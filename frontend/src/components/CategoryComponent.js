@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CategoryComponent.css";
-import IngredientComponent from "./IngredientComponent";
+import ButtonComponent from "./ButtonComponent";
 import * as Constants from "./constants";
 
 // Category component
@@ -360,7 +360,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchFVResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
@@ -390,7 +390,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchMSResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
@@ -420,7 +420,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchDYResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
@@ -448,7 +448,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchGFResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
@@ -478,7 +478,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchLSResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
@@ -508,7 +508,7 @@ const CategoryComponent = props => {
           </div>
           <div className="search-results-div">
             {searchMiscResults.map(item => (
-              <IngredientComponent
+              <ButtonComponent
                 key={item}
                 buttonText={item}
                 buttonBorder={"1px solid"}
