@@ -216,7 +216,7 @@ const CategoryComponent = ({ categoryTitle }) => {
 
   /*******************************************************************/
   // Meat and Seafood List
-  [
+  const MSlist = [
     "ahi tuna",
     "anchovies",
     "bacon",
