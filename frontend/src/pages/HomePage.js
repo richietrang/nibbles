@@ -8,7 +8,7 @@ import "./HomePage.css";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.selectedIngredients = [];
+    this.selectedIngredients = new Set();
     this.recipeList = [
       {
         title: "Pierogi",
@@ -28,7 +28,10 @@ class HomePage extends React.Component {
     return (
       <DefaultLayout>
         <HeaderComponent headerText="Turn your leftovers into lunchtime magic!" />
-        <CategoryComponent categoryTitle="Your Ingredients" />
+        <CategoryComponent
+          categoryTitle="Your Ingredients"
+          selectedIngredients={this.selectedIngredients}
+        />
         {this.recipeList.map(recipe => (
           <div className="recipe-thumbnail-results-container">
             <RecipeThumbnailComponent key={recipe.title} value={recipe} />
