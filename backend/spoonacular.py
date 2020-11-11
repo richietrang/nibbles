@@ -320,7 +320,7 @@ def search_recipes(query_info, test=False):
                     # 'image': r['image'],
                     # 'servings': r['servings'],
                     'cookTimeInMins': r['readyInMinutes'],
-                    'recipelink': r['sourceUrl'],
+                    'recipeLink': r['sourceUrl'],
                     'primaryPhotoUrl': r['image'],
                     'matchingIngredients': r_info['usedIngredients'],
                     'nonMatchingIngredients': r_info['unusedIngredients'],
@@ -364,4 +364,3 @@ if __name__ == '__main__':
         'QueryOffset': query_offset
     }    
     search_results = search_recipes(raw_query_info)
-    # print("SEARCH_RESULTS = ", search_results)
