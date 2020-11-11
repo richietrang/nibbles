@@ -40,6 +40,31 @@ class HomePage extends React.Component {
       this.setState((state, props) => ({
         selectedIngredients: state.selectedIngredients.add(item)
       }));
+
+      // Call api here
+      const ingredientsBody = JSON.stringify({
+        IngredientsList: Array.from(this.state.selectedIngredients),
+      });
+
+      console.log(ingredientsBody);
+      const options = {
+        method: 'POST',
+        body: ingredientsBody,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Headers': '*',
+          'Access-Control-Allow-Methods': '*',
+        },
+      }
+      fetch('http://127.0.0.1:5000/search', options)
+        .then(res => {
+          return res.text();
+        })
+          .then(data => {
+            console.log(data);
+          }) 
+
     } else {
       this.setState(function(state, props) {
         state.selectedIngredients.delete(item);

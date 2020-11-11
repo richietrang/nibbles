@@ -74,7 +74,6 @@ const CategoryComponent = props => {
 
   // Fruit Vege Button click
   function handleFVClick(item) {
-    props.onIngredientToggle(item, !fruitsAndVegeIngredients[item]);
 
     // Sets values of items in list to it's opposite
     setFruitsAndVegeIngredients({
@@ -410,6 +409,9 @@ const CategoryComponent = props => {
 
   // All Button click
   function handleAllClick(item) {
+
+    props.onIngredientToggle(item, !allIngredients[item]);
+
     // Sets values of items in list to it's opposite
     setAllIngredients({
       ...allIngredients,

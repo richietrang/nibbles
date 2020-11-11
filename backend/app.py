@@ -2,6 +2,7 @@ import csv
 import json
 
 from spoonacular import search_recipes, read_json_from_file
+from flask_cors import CORS
 
 
 from flask import Flask, request
@@ -9,6 +10,7 @@ from flask import Flask, request
 
 # Init globals
 app = Flask(__name__)
+CORS(app)
 endpoint_schema = read_json_from_file('endpoint_schema.json')
 
 
@@ -37,7 +39,7 @@ def search_for_recipes():
     # print("queryinfo=", query_info)
     # print(ingredient_list)
     result = search_recipes(query_info, test=False)
-    return json.dumps(result)
+    return jsonify(result)
 
 
 @app.route('/ingredients', methods=['GET'])

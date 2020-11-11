@@ -186,7 +186,8 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             return None
 
     # rank the response in order of pseudo-accuracy
-    ranked_json = rank_recipe_data(response_json, ingredients)
+    # ranked_json = rank_recipe_data(response_json, ingredients)
+    ranked_json = response_json
 
     # result = [
     #     {
