@@ -5,7 +5,6 @@ import "./ButtonComponent.css";
 class ButtonComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.toggle = false;
   }
 
   render() {
@@ -17,7 +16,7 @@ class ButtonComponent extends React.Component {
       fontSize,
       display,
       margin,
-      _,
+      onClick,
       disabled,
       outline
     } = this.props;
@@ -38,17 +37,12 @@ class ButtonComponent extends React.Component {
       <button
         className="primary-button"
         style={styles.buttonStyles}
-        onClick={this.onClick}
+        onClick={onClick}
         disabled={disabled}
       >
         {buttonText}
       </button>
     );
-  }
-
-  onClick() {
-    this.toggle = !this.toggle;
-    this.props.onClick();
   }
 }
 
