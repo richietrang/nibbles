@@ -1,21 +1,48 @@
 import React from "react";
 import "./RecipeThumbnailComponent.css";
+import ModalComponent from './ModalComponent';
 
 class RecipeThumbnailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recipeFavourited: false,
+      showIngredientsModal: false,
     };
 
     this.handleToggleSaveRecipe = this.handleToggleSaveRecipe.bind(
       this
     );
+
+    this.closeIngredientsModal = this.closeIngredientsModal.bind(
+      this
+    );
+
+    this.openIngredientsModal = this.openIngredientsModal.bind(
+      this
+    );
   }
 
   handleToggleSaveRecipe() {
+    // localStorage = window.localStorage;
+    // const authToken = localStorage.getItem('authToken');
+    // Check if authToken and !recipeFavourited do fetch call to save recipe.
+
+    // Check if authToken and recipeFavourited do fetch call to delete saved recipe.
     this.setState((state, props) => ({
       recipeFavourited: !state.recipeFavourited,
+    }));
+  }
+
+  closeIngredientsModal() {
+    this.setState((state, props) => ({
+      showIngredientsModal: false,
+    }));
+  }
+
+  openIngredientsModal() {
+    this.setState((state, props) => ({
+      showIngredientsModal: true,
     }));
   }
 
@@ -74,7 +101,7 @@ class RecipeThumbnailComponent extends React.Component {
               </div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item">
+            <div className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item" onClick={this.openIngredientsModal}>
               <div className="recipe-thumbnail-info-item-title">
                 Ingredients
               </div>
@@ -93,6 +120,16 @@ class RecipeThumbnailComponent extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.state.showIngredientsModal &&
+        <ModalComponent
+          enableCloseButton
+          closeButtonCb={this.closeIngredientsModal}
+        >
+          {/* Add the list html here. Like <div> title and list shit */}
+        </ModalComponent>
+        }
+
       </div>
     );
   }
