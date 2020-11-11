@@ -21,10 +21,12 @@ const ModalComponent = ({
                 backgroundColor="#efefef"
                 onClick={closeButtonCb}
               />
-              <ButtonComponent
-                buttonText={`${alternateButtonText}`}
-                backgroundColor="#febd2e"
-              />
+              {alternateButtonText &&
+                <ButtonComponent
+                  buttonText={`${alternateButtonText}`}
+                  backgroundColor="#febd2e"
+                />
+              }
             </div>
           )}
         </div>

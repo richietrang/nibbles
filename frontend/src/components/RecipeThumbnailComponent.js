@@ -1,7 +1,51 @@
 import React from "react";
 import "./RecipeThumbnailComponent.css";
+import ModalComponent from './ModalComponent';
 
 class RecipeThumbnailComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      recipeFavourited: false,
+      showIngredientsModal: false,
+    };
+
+    this.handleToggleSaveRecipe = this.handleToggleSaveRecipe.bind(
+      this
+    );
+
+    this.closeIngredientsModal = this.closeIngredientsModal.bind(
+      this
+    );
+
+    this.openIngredientsModal = this.openIngredientsModal.bind(
+      this
+    );
+  }
+
+  handleToggleSaveRecipe() {
+    // localStorage = window.localStorage;
+    // const authToken = localStorage.getItem('authToken');
+    // Check if authToken and !recipeFavourited do fetch call to save recipe.
+
+    // Check if authToken and recipeFavourited do fetch call to delete saved recipe.
+    this.setState((state, props) => ({
+      recipeFavourited: !state.recipeFavourited,
+    }));
+  }
+
+  closeIngredientsModal() {
+    this.setState((state, props) => ({
+      showIngredientsModal: false,
+    }));
+  }
+
+  openIngredientsModal() {
+    this.setState((state, props) => ({
+      showIngredientsModal: true,
+    }));
+  }
+
   render() {
     const {
       title,
@@ -11,6 +55,11 @@ class RecipeThumbnailComponent extends React.Component {
       matchingIngredients,
       nonMatchingIngredients
     } = this.props.value;
+
+    const activeSaveRecipeIcon = require("../assets/images/star-active.png");
+    const inActiveSaveRecipeIcon = require("../assets/images/star-inactive.png");
+
+
     return (
       <div className="recipe-thumbnail-wrapper">
         <div className="recipe-thumbnail-circle-primary-photo-border">
@@ -29,14 +78,14 @@ class RecipeThumbnailComponent extends React.Component {
               <div className="recipe-thumbnail-info-item-text">{`${cookTimeInMins} Mins`}</div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item">
+            <div className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item" onClick={this.handleToggleSaveRecipe}>
               <div className="recipe-thumbnail-info-item-title">
-                More Photos
+                Save Recipe
               </div>
               <div className="recipe-thumbnail-info-item-icon">
                 <img
-                  src={require("../assets/images/more-photos-icon.svg")}
-                  alt="More photos button icon"
+                  src={this.state.recipeFavourited ? activeSaveRecipeIcon : inActiveSaveRecipeIcon}
+                  alt="Favourite icon"
                 />
               </div>
             </div>
@@ -52,12 +101,12 @@ class RecipeThumbnailComponent extends React.Component {
               </div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item">
+            <div className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item" onClick={this.openIngredientsModal}>
               <div className="recipe-thumbnail-info-item-title">
                 Ingredients
               </div>
               <div className="recipe-thumbnail-info-item-icon">
-                {!nonMatchingIngredients.length ? (
+                {nonMatchingIngredients.length ? (
                   <div className="red-circle-with-number-text">
                     {nonMatchingIngredients.length}
                   </div>
@@ -71,6 +120,16 @@ class RecipeThumbnailComponent extends React.Component {
             </div>
           </div>
         </div>
+
+        {this.state.showIngredientsModal &&
+        <ModalComponent
+          enableCloseButton
+          closeButtonCb={this.closeIngredientsModal}
+        >
+          {/* Add the list html here. Like <div> title and list shit */}
+        </ModalComponent>
+        }
+
       </div>
     );
   }
