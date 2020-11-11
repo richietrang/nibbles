@@ -106,7 +106,7 @@ class RecipeThumbnailComponent extends React.Component {
                 Ingredients
               </div>
               <div className="recipe-thumbnail-info-item-icon">
-                {!nonMatchingIngredients.length ? (
+                {nonMatchingIngredients.length ? (
                   <div className="red-circle-with-number-text">
                     {nonMatchingIngredients.length}
                   </div>
