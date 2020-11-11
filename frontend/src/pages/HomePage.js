@@ -30,34 +30,7 @@ class HomePage extends React.Component {
   }
 
   getRecipeList() {
-    if (!this.recipeList) {
-      return [];
-    }
-    console.log("updating Recipe List");
-
-    // Call api here
-    const ingredientsBody = JSON.stringify({
-      IngredientsList: Array.from(this.state.selectedIngredients)
-    });
-
-    console.log(ingredientsBody);
-    const options = {
-      method: "POST",
-      body: ingredientsBody,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "*",
-        "Access-Control-Allow-Methods": "*"
-      }
-    };
-    fetch("http://127.0.0.1:5000/search", options)
-      .then(res => {
-        return res.text();
-      })
-      .then(data => {
-        console.log(data);
-      });
+    console.log("update");
     return this.recipeList;
   }
 
@@ -66,6 +39,30 @@ class HomePage extends React.Component {
       this.setState((state, props) => ({
         selectedIngredients: state.selectedIngredients.add(item)
       }));
+
+      // Call api here
+      const ingredientsBody = JSON.stringify({
+        IngredientsList: Array.from(this.state.selectedIngredients)
+      });
+
+      console.log(ingredientsBody);
+      const options = {
+        method: "POST",
+        body: ingredientsBody,
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Headers": "*",
+          "Access-Control-Allow-Methods": "*"
+        }
+      };
+      fetch("http://127.0.0.1:5000/search", options)
+        .then(res => {
+          return res.text();
+        })
+        .then(data => {
+          console.log(data);
+        });
     } else {
       this.setState(function(state, props) {
         state.selectedIngredients.delete(item);
@@ -89,14 +86,13 @@ class HomePage extends React.Component {
             />
           </div>
           <div className="recipes-section">
-            <div className="category-title align-center no-bottom-margin">
-              Matching Recipes
-            </div>
-            {this.getRecipeList().map(recipe => (
-              <div className="recipe-thumbnail-results-container">
-                <RecipeThumbnailComponent key={recipe.title} value={recipe} />
-              </div>
-            ))}
+            <div className="category-title align-center no-bottom-margin">Matching Recipes</div>
+              {this.getRecipeList().map(recipe => (
+                <div className="recipe-thumbnail-results-container">
+                  <RecipeThumbnailComponent key={recipe.title} value={recipe} />
+                </div>
+              ))}
+              
           </div>
         </div>
       </DefaultLayout>
