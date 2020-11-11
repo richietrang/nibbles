@@ -212,16 +212,16 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             response = requests.request("GET", url, headers=headers, params=querystring)
             response_json = json.loads(response.text)
 
-            dump_json_to_filepath(response_json, 'sample/findByIngredients.json')
-            print(response_json)
+            # dump_json_to_filepath(response_json, 'sample/findByIngredients.json')
+            # print(response_json)
         except Exception as ex:
             print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
             return None
 
     # rank the response in order of pseudo-accuracy
-    # ranked_json = rank_recipe_data(response_json, ingredients)
-    ranked_json = response_json
+    ranked_json = rank_recipe_data(response_json, ingredients)
+    # ranked_json = response_json
 
     # result = [
     #     {

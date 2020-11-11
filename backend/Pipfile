@@ -6,5 +6,6 @@ verify_ssl = true
 [packages]
 boto3 = "*"
 flask = "*"
+flask_cors = "*"
 requests = "*"
 gunicorn = "*"
