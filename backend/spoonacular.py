@@ -10,8 +10,7 @@ import boto3
 MAX_RECIPES_TO_QUERY = 2
 
 # Alex's spoonacular API key, doesn't have many requests right now, probably need to create another
-# API_KEY = 'f494a127555c4c3b80a621fc4a6dd7b4'
-API_KEY = '68f4923e7e354ef79bb69d8fbcb10901'
+API_KEY = 'f494a127555c4c3b80a621fc4a6dd7b4'
 RAPID_API_KEY = 'd2a70b5910msh62b56af356b59a3p1e2900jsn2d3bf492368f'
 
 ENDPOINT_SCHEMA_JSON_PATH = 'endpoint_schema.json'
@@ -85,35 +84,24 @@ def rank_recipe_data(recipe_data, queried_ingredients):
     '''
 
     '''
-    def extract_used_ingredients(recipe, queried_ingredients_set):
-        used_ingredients = [rused['name'].lower() for rused in recipe['usedIngredients']]
-        used_ingredients_set = set()
+    def extract_num_used_ingredients(recipe):
+        used_ingredients = recipe['usedIngredients']
+        num_used_ingredients = 0
+        for used_ingredient in used_ingredients:
+            used_ingredient_keywords = []
 
-        for queried_ingredient in queried_ingredients_set:
-            for used_ingredient in used_ingredients:
-                if queried_ingredient in used_ingredient:
-                    used_ingredients_set.add(queried_ingredient)
-        
-        return list(used_ingredients_set)
-
+            # extract keywords for multi-worded ingredients
+            # TODO: more robust way to handle plurals
+            for used_ingredient_keyword in used_ingredient['name'].split(' '):
+                used_ingredient_keywords.append(used_ingredient_keyword)
+                if used_ingredient_keyword.endswith('s'): used_ingredient_keywords.append(used_ingredient_keyword[:-1])
+                if used_ingredient_keyword.endswith('es'): used_ingredient_keywords.append(used_ingredient_keyword[:-2])
             
-        # print(used_ingredients, queried_ingredients)
-        # num_used_ingredients = 0
-        # for used_ingredient in used_ingredients:
-        #     used_ingredient_keywords = []
-
-        #     # extract keywords for multi-worded ingredients
-        #     # TODO: more robust way to handle plurals
-        #     for used_ingredient_keyword in used_ingredient['name'].split(' '):
-        #         used_ingredient_keywords.append(used_ingredient_keyword)
-        #         if used_ingredient_keyword.endswith('s'): used_ingredient_keywords.append(used_ingredient_keyword[:-1])
-        #         if used_ingredient_keyword.endswith('es'): used_ingredient_keywords.append(used_ingredient_keyword[:-2])
-            
-        #     for used_ingredient_keyword in used_ingredient_keywords:
-        #         if used_ingredient_keyword in queried_ingredients_set:
-        #             num_used_ingredients += 1
-        #             continue
-        # return num_used_ingredients
+            for used_ingredient_keyword in used_ingredient_keywords:
+                if used_ingredient_keyword in queried_ingredients_set:
+                    num_used_ingredients += 1
+                    continue
+        return num_used_ingredients
 
     def calculate_match_score(num_used_ingredients, num_unused_ingredients, num_missed_ingredients):
         # match_accuracy_score = num_used_ingredients / (num_queried_ingredients + num_unused_ingredients + num_missed_ingredients)
@@ -128,21 +116,11 @@ def rank_recipe_data(recipe_data, queried_ingredients):
     # extraction
     num_queried_ingredients = len(queried_ingredients)
     queried_ingredients_set = set([w.lower() for w in queried_ingredients])
-    
-
-
     to_return = []
 
     # dict to map a recipe's id to itself
     id_to_recipe_map = {}
-    # print("recipedata=", recipe_data)
-    for recipe in recipe_data:
-        used_ingredients = extract_used_ingredients(recipe, queried_ingredients_set)
-        unused_ingredients = {q for q in queried_ingredients_set if q not in set(used_ingredients)}
-        recipe['usedIngredients'] = used_ingredients
-        recipe['unusedIngredients'] = list(unused_ingredients)
-        recipe['missedIngredients'] = [r['name'] for r in recipe['missedIngredients']]
-        id_to_recipe_map[recipe['id']] = recipe
+    for recipe in recipe_data: id_to_recipe_map[recipe['id']] = recipe
 
     # sort data using a heap
     sorting_heap = []
@@ -213,15 +191,15 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             response_json = json.loads(response.text)
 
             # dump_json_to_filepath(response_json, 'sample/findByIngredients.json')
-            # print(response_json)
+            print(response_json)
         except Exception as ex:
             print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
             return None
 
     # rank the response in order of pseudo-accuracy
-    ranked_json = rank_recipe_data(response_json, ingredients)
-    # ranked_json = response_json
+    # ranked_json = rank_recipe_data(response_json, ingredients)
+    ranked_json = response_json
 
     # result = [
     #     {
@@ -234,8 +212,7 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
     # return a list of ids since informationBulk handles getting all required info
 
     # TODO: extract usedRecipes, internalMatchScore, etc here
-    # result = [r['id'] for r in ranked_json]
-    result = ranked_json
+    result = [r['id'] for r in ranked_json]
     return result    
 
     # dump_json_to_filepath(returned_json, 'sample/findByIngredients.json')
@@ -280,7 +257,7 @@ def information_bulk(query_info, api_key=API_KEY, test=False):
 
 
             # dump_json_to_filepath(response_json, 'sample/infoBulk.json')
-            # print(response_json)
+            print(response_json)
         except Exception as ex:
             # This means unable to fetch data for some reason, front end should handle this properly
             
@@ -296,35 +273,28 @@ def search_recipes(query_info, test=False):
     - findByIngredients
     - informationBulk
     '''
-    find_by_ingredients_info = find_by_ingredients(query_info=query_info, test=test)
-    recipe_id_list = [r['id'] for r in find_by_ingredients_info]
+    recipe_id_list = find_by_ingredients(query_info=query_info, test=test)
 
     recipes_query_info = {
         'RecipeIds': recipe_id_list
     }
     recipe_info = information_bulk(query_info = recipes_query_info, test=test)
-    # print(find_by_ingredients_info)
+
     result = []
-    for index, r in enumerate(recipe_info):
-
-        r_info = find_by_ingredients_info[index]
-
+    for r in recipe_info:
         try:
-            # recipe_dict_by_id = find_by_ingredients_info[r['id']]
-            # print(r['id'], recipe_dict_by_id)
-
             result.append(
                 {
-                    # 'id': r['id'],
+                    'id': r['id'],
                     'title': r['title'],
-                    # 'image': r['image'],
-                    # 'servings': r['servings'],
-                    'cookTimeInMins': r['readyInMinutes'],
-                    'recipelink': r['sourceUrl'],
-                    'primaryPhotoUrl': r['image'],
-                    'matchingIngredients': r_info['usedIngredients'],
-                    'nonMatchingIngredients': r_info['unusedIngredients'],
-                    'missingIngredients': r_info['missedIngredients']
+                    'image': r['image'],
+                    'servings': r['servings'],
+                    'readyInMinutes': r['readyInMinutes'],
+                    'sourceUrl': r['sourceUrl'],
+                    # 'usedIngredientCount': r['usedIngredientCount'],
+                    # 'missedIngredientCount': r['missedIngredientCount'],
+                    # 'internalMatchScore': r['internalMatchScore']
+                    # 'spoonacularSourceUrl': r['spoonacularSourceUrl'],
                 }
             )
         except Exception:
@@ -364,4 +334,7 @@ if __name__ == '__main__':
         'QueryOffset': query_offset
     }    
     search_results = search_recipes(raw_query_info)
-    # print("SEARCH_RESULTS = ", search_results)
+    print("SEARCH_RESULTS = ", search_results)
+
+
+
