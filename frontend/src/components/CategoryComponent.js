@@ -74,7 +74,8 @@ const CategoryComponent = props => {
 
   // Fruit Vege Button click
   function handleFVClick(item) {
-    props.onIngredientToggle(item, !fruitsAndVegeIngredients[item]);
+
+    resetAllSearchState();
 
     // Sets values of items in list to it's opposite
     setFruitsAndVegeIngredients({
@@ -144,7 +145,10 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleMSClick(item) {
-    console.log(item);
+    //console.log(item);
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setMeatAndSeafoodIngredients({
       ...meatAndSeafoodIngredients,
@@ -197,6 +201,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleDYClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setDairyIngredients({
       ...dairyIngredients,
@@ -251,6 +258,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleGFClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setGrainsAndFlourIngredients({
       ...grainsAndFlourIngredients,
@@ -306,6 +316,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleLSClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setLiquidsAndSaucesIngredients({
       ...liquidsAndSaucesIngredients,
@@ -358,6 +371,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleMiscClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setMiscIngredients({
       ...miscIngredients,
@@ -410,6 +426,11 @@ const CategoryComponent = props => {
 
   // All Button click
   function handleAllClick(item) {
+
+    resetAllSearchState();
+
+    props.onIngredientToggle(item, !allIngredients[item]);
+
     // Sets values of items in list to it's opposite
     setAllIngredients({
       ...allIngredients,
@@ -448,6 +469,19 @@ const CategoryComponent = props => {
       });
     }
   }
+
+  // This following function allows for selected buttons to be moved and displayed at the top
+  // Commented this out, because it makes UX quite weird...? - Only for Fruits Veg, right now.
+  useEffect(() => {
+        const objectSorted = Object.fromEntries(
+            Object.entries(allIngredients).sort(([,a], [,b]) => b-a)
+        );
+
+        const listSorted =  Object.keys(objectSorted);
+
+        setSearchAllResults(listSorted);
+
+  }, [allIngredients]);
   /*******************************************************************/
 
   return (
@@ -483,6 +517,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchAllTerm}
               onChange={handleAllSearchChange}
             />
         </div>
@@ -513,6 +548,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchFVTerm}
               onChange={handleFVSearchChange}
             />
           </div>
@@ -543,6 +579,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchMSTerm}
               onChange={handleMSSearchChange}
             />
           </div>
@@ -573,6 +610,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchDYTerm}
               onChange={handleDYSearchChange}
             />
           </div>
@@ -601,6 +639,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchGFTerm}
               onChange={handleGFSearchChange}
             />
           </div>
@@ -631,6 +670,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchLSTerm}
               onChange={handleLSSearchChange}
             />
           </div>
@@ -661,6 +701,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchMiscTerm}
               onChange={handleMiscSearchChange}
             />
           </div>

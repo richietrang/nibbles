@@ -172,6 +172,12 @@ def rank_recipe_data(recipe_data, queried_ingredients):
     return to_return
 
 
+def get_headers():
+    return {
+        'x-rapidapi-key': RAPID_API_KEY,
+        'x-rapidapi-host': "spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+    }
+
 # I don't think it should be required to pass in aws_info here
 # Also renamed function for consistency (match API endpoint)
 def find_by_ingredients(query_info, api_key=API_KEY, test=False):
@@ -187,28 +193,35 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
     # ingredients_sorted = sorted(ingredients)
     # ingredients_str = build_list_identifier(ingredients_sorted)
 
-    # generate endpoint
-    endpoint = build_endpoint(api_key, query_info, 'https://api.spoonacular.com/recipes/findByIngredients')
+    url = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients"
 
     if test:
         response_json = read_json_from_file('sample/findByIngredients.json')
-        num_ingredients = 5
+        num_ingredients = 2
         ingredients = [
-            'Chicken', 'Parsley', 'Tomato', 'Butter', 'Carrot'
+            'apple', 'chicken'
         ]
     else:
         # TODO: May have to add retrying, also better to use a session
         try:
             # send the query to spoonacular and retrieve the response
-            response = requests.get(endpoint)
+            headers = get_headers()
+            querystring = {
+                'ingredients': ','.join(ingredients)
+            }
+            response = requests.request("GET", url, headers=headers, params=querystring)
             response_json = json.loads(response.text)
+
+            dump_json_to_filepath(response_json, 'sample/findByIngredients.json')
+            print(response_json)
         except Exception as ex:
             print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
             return None
 
     # rank the response in order of pseudo-accuracy
-    ranked_json = rank_recipe_data(response_json, ingredients)
+    # ranked_json = rank_recipe_data(response_json, ingredients)
+    ranked_json = response_json
 
     # result = [
     #     {
@@ -251,14 +264,22 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
 
 # This should really be a class but I'm lazy and we're only implementing 2 endpoints
 def information_bulk(query_info, api_key=API_KEY, test=False):
-    endpoint = build_endpoint(api_key, query_info, 'https://api.spoonacular.com/recipes/informationBulk')
+    # endpoint = build_endpoint(api_key, query_info, 'https://api.spoonacular.com/recipes/informationBulk')
+    url = 'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/informationBulk'
     if test:
-        response_json = []
-        # response_json = read_json_from_file('sample/findByIngredients.json')
+        # response_json = []
+        response_json = read_json_from_file('sample/infoBulk.json')
     else:
         try:
-            response = requests.get(endpoint)
+            headers = get_headers()
+            querystring = {
+                'ids': ','.join(str(x) for x in query_info['RecipeIds'])
+            }
+            response = requests.request("GET", url, headers=headers, params=querystring)
             response_json = json.loads(response.text)
+
+
+            # dump_json_to_filepath(response_json, 'sample/infoBulk.json')
             # print(response_json)
         except Exception as ex:
             # This means unable to fetch data for some reason, front end should handle this properly

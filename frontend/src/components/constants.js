@@ -226,8 +226,8 @@ export const GRAINS_AND_FLOUR_LIST = [
   "spelt flour",
   "steel cut oats",
   "tapioca flour",
-  "whole weat flour",
-  "whole weat bread"
+  "whole wheat flour",
+  "whole wheat bread"
 ];
 
 export const LIQUIDS_AND_SAUCES_LIST = [

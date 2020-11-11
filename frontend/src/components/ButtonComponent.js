@@ -34,14 +34,14 @@ class ButtonComponent extends React.Component {
     };
 
     return (
-      <button
+      <div
         className="primary-button"
         style={styles.buttonStyles}
         onClick={onClick}
         disabled={disabled}
       >
         {buttonText}
-      </button>
+      </div>
     );
   }
 }
