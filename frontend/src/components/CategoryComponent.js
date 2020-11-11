@@ -75,6 +75,8 @@ const CategoryComponent = props => {
   // Fruit Vege Button click
   function handleFVClick(item) {
 
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setFruitsAndVegeIngredients({
       ...fruitsAndVegeIngredients,
@@ -143,7 +145,10 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleMSClick(item) {
-    console.log(item);
+    //console.log(item);
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setMeatAndSeafoodIngredients({
       ...meatAndSeafoodIngredients,
@@ -196,6 +201,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleDYClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setDairyIngredients({
       ...dairyIngredients,
@@ -250,6 +258,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleGFClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setGrainsAndFlourIngredients({
       ...grainsAndFlourIngredients,
@@ -305,6 +316,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleLSClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setLiquidsAndSaucesIngredients({
       ...liquidsAndSaucesIngredients,
@@ -357,6 +371,9 @@ const CategoryComponent = props => {
 
   // Meat Seafood Button click
   function handleMiscClick(item) {
+
+    resetAllSearchState();
+
     // Sets values of items in list to it's opposite
     setMiscIngredients({
       ...miscIngredients,
@@ -409,6 +426,8 @@ const CategoryComponent = props => {
 
   // All Button click
   function handleAllClick(item) {
+
+    resetAllSearchState();
 
     props.onIngredientToggle(item, !allIngredients[item]);
 
@@ -498,6 +517,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchAllTerm}
               onChange={handleAllSearchChange}
             />
         </div>
@@ -528,6 +548,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchFVTerm}
               onChange={handleFVSearchChange}
             />
           </div>
@@ -558,6 +579,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchMSTerm}
               onChange={handleMSSearchChange}
             />
           </div>
@@ -588,6 +610,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchDYTerm}
               onChange={handleDYSearchChange}
             />
           </div>
@@ -616,6 +639,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchGFTerm}
               onChange={handleGFSearchChange}
             />
           </div>
@@ -646,6 +670,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchLSTerm}
               onChange={handleLSSearchChange}
             />
           </div>
@@ -676,6 +701,7 @@ const CategoryComponent = props => {
               type="search"
               className="search-bar"
               placeholder="Search"
+              value={searchMiscTerm}
               onChange={handleMiscSearchChange}
             />
           </div>
