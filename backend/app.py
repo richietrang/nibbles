@@ -36,7 +36,7 @@ def search_for_recipes():
     # print("reqdata=", req_data)
     # print("queryinfo=", query_info)
     # print(ingredient_list)
-    result = search_recipes(query_info, test=False)
+    result = search_recipes(query_info, test=True)
     return jsonify(result)
 
 

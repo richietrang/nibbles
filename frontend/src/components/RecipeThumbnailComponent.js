@@ -7,8 +7,7 @@ class RecipeThumbnailComponent extends React.Component {
       title,
       cookTimeInMins,
       primaryPhotoUrl,
-      photosUrls,
-      recipelink,
+      recipeLink,
       matchingIngredients,
       nonMatchingIngredients
     } = this.props.value;
@@ -19,6 +18,7 @@ class RecipeThumbnailComponent extends React.Component {
             className="recipe-thumbnail-circle-primary-photo"
             src={primaryPhotoUrl}
             alt={`A picture of the ${title} recipe`}
+            onClick={() => window.open(recipeLink, "_blank")}
           />
         </div>
         <div className="recipe-thumbnail">
@@ -47,6 +47,7 @@ class RecipeThumbnailComponent extends React.Component {
                 <img
                   src={require("../assets/images/link-button-icon.svg")}
                   alt="A link icon to visit the recipe page"
+                  onClick={() => window.open(recipeLink, "_blank")}
                 />
               </div>
             </div>
