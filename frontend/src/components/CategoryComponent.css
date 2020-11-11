@@ -52,6 +52,7 @@
     cursor:pointer;
     outline: none;
     margin-right: 6px;
+    vertical-align: top;
 }
 
 .handle-category-button-orange {
@@ -63,4 +64,17 @@
     cursor:pointer;
     outline: none;
     margin-right: 6px;
+    vertical-align: top;
+}
+
+.catImage {
+    width: 35px;
+    height: 35px;
+}
+
+/* For SVG that isn't centred*/
+.catImage2 {
+    margin-left: -5px;
+    width: 35px;
+    height: 35px;
 }
