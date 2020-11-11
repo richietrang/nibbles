@@ -99,7 +99,13 @@
   padding-top: 0;
 }
 
-@media only screen and (max-width: 440px) {
+@media only screen and (max-width: 919px) {
+  .home-page-container {
+    flex-direction: column;
+  }
+}
+
+@media only screen and (max-width: 515px) {
   .recipe-thumbnail {
     width: 250px;
     height: 180px;

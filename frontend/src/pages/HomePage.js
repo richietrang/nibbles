@@ -79,16 +79,24 @@ class HomePage extends React.Component {
     return (
       <DefaultLayout>
         <HeaderComponent headerText="Turn your leftovers into lunchtime magic!" />
-        <CategoryComponent
-          categoryTitle="Your Ingredients"
-          selectedIngredients={this.selectedIngredients}
-          onIngredientToggle={this.handleIngredientListChange}
-        />
-        {this.getRecipeList().map(recipe => (
-          <div className="recipe-thumbnail-results-container">
-            <RecipeThumbnailComponent key={recipe.title} value={recipe} />
+        <div className="home-page-container">
+          <div className="ingredients-section">
+            <CategoryComponent
+              categoryTitle="Your Ingredients"
+              selectedIngredients={this.selectedIngredients}
+              onIngredientToggle={this.handleIngredientListChange}
+            />
           </div>
-        ))}
+          <div className="recipes-section">
+            <div className="category-title align-center no-bottom-margin">Matching Recipes</div>
+              {this.getRecipeList().map(recipe => (
+                <div className="recipe-thumbnail-results-container">
+                  <RecipeThumbnailComponent key={recipe.title} value={recipe} />
+                </div>
+              ))}
+              
+          </div>
+        </div>
       </DefaultLayout>
     );
   }

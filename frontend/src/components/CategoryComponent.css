@@ -5,10 +5,10 @@
     font-weight: bold;
     font-size: 2rem;
     color: #333333;
-    padding: 40px 0 0 40px;
-    width: 40%;
+    padding: 40px 15px;
     display: inline-block;
     vertical-align: top;
+    max-width: 100%;
 }
 
 .category-buttons {
