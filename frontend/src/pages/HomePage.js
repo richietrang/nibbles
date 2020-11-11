@@ -8,7 +8,9 @@ import "./HomePage.css";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-    this.selectedIngredients = new Set();
+    this.state = {
+      selectedIngredients: new Set()
+    };
     this.recipeList = [
       {
         title: "Pierogi",
@@ -22,6 +24,30 @@ class HomePage extends React.Component {
         nonMatchingIngredients: []
       }
     ];
+
+    this.handleIngredientListChange = this.handleIngredientListChange.bind(
+      this
+    );
+  }
+
+  getRecipeList() {
+    console.log("update");
+    return this.recipeList;
+  }
+
+  handleIngredientListChange(item, newValue) {
+    if (newValue) {
+      this.setState((state, props) => ({
+        selectedIngredients: state.selectedIngredients.add(item)
+      }));
+    } else {
+      this.setState(function(state, props) {
+        state.selectedIngredients.delete(item);
+        return {
+          selectedIngredients: state.selectedIngredients
+        };
+      });
+    }
   }
 
   render() {
@@ -31,8 +57,9 @@ class HomePage extends React.Component {
         <CategoryComponent
           categoryTitle="Your Ingredients"
           selectedIngredients={this.selectedIngredients}
+          onIngredientToggle={this.handleIngredientListChange}
         />
-        {this.recipeList.map(recipe => (
+        {this.getRecipeList().map(recipe => (
           <div className="recipe-thumbnail-results-container">
             <RecipeThumbnailComponent key={recipe.title} value={recipe} />
           </div>
