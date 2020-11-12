@@ -19,11 +19,11 @@ class HomePage extends React.Component {
             "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
           recipeLink:
             "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
-          matchingIngredients: [],
-          nonMatchingIngredients: []
+          matchingIngredients: ['apple', 'banana', 'carrot'],
+          nonMatchingIngredients: ['celery']
         }
       ],
-      allowMissingIngredients: false,
+      allowMissingIngredients: true,
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
