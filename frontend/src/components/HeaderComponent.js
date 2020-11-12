@@ -7,11 +7,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const HeaderComponent = ({ headerText }) => {
   const localStorage = window.localStorage;
-  const authToken = localStorage.getItem("authToken");
+  // const authToken = localStorage.getItem('authToken');
+
+  const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
-  const [msg, setMsg] = useState("initial message");
+  const [msg, setMsg] = useState("");
 
   const showSignUpModal = () => {
     setSignUpModalVisible(true);
@@ -28,7 +30,7 @@ const HeaderComponent = ({ headerText }) => {
 
   function handleLogout() {
     localStorage.setItem("authToken", "");
-    authToken = true;
+    setAuthToken(localStorage.getItem("authToken"));
   }
 
   return (
@@ -67,6 +69,14 @@ const HeaderComponent = ({ headerText }) => {
                 Login
               </div>
               <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+            </>
+          )}
+
+          {authToken && (
+            <>
+              <div className="logout-button">
+                <ButtonComponent buttonText="Logout" onClick={handleLogout} />
+              </div>
             </>
           )}
 
@@ -115,26 +125,26 @@ const HeaderComponent = ({ headerText }) => {
               onSubmit={(values, { setSubmitting }) => {
                 const response = fetch("http://127.0.0.1:5000/signup", {
                   method: "POST",
+                  body: JSON.stringify(values),
                   headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "*"
-                  },
-                  body: JSON.stringify(values)
+                  }
                 })
                   .then(res => res.json())
-                  .then(token => {
-                    if (token.access_token) {
-                      console.log(token);
-                    } else {
-                      alert("Invalid Email or Password");
-                    }
+                  .then(res => {
+                    console.log(res.msg);
+                    setMsg(res.msg);
                   });
+
+                alert(msg);
               }}
             >
               {({ touched, errors, isSubmitting }) => (
                 <Form>
+                  <p> Sign up to save recipes and have a personal profile! </p>
                   <label htmlFor="name">Name</label>
                   <Field
                     type="name"
@@ -200,7 +210,6 @@ const HeaderComponent = ({ headerText }) => {
           </div>
         </ModalComponent>
       )}
-
       {loginModalVisible && (
         <ModalComponent enableCloseButton closeButtonCb={closeLoginModal}>
           {/*  LOGIN FORM */}
@@ -226,25 +235,30 @@ const HeaderComponent = ({ headerText }) => {
               onSubmit={(values, { setSubmitting }) => {
                 const response = fetch("http://127.0.0.1:5000/login", {
                   method: "POST",
-                  body: JSON.stringify(values),
                   headers: {
                     "Content-Type": "application/json",
                     "Access-Control-Allow-Origin": "*",
                     "Access-Control-Allow-Headers": "*",
                     "Access-Control-Allow-Methods": "*"
-                  }
+                  },
+                  body: JSON.stringify(values)
                 })
                   .then(res => res.json())
-                  .then(res => {
-                    console.log(res.msg);
-                    setMsg(res.msg);
+                  .then(token => {
+                    if (token.access_token) {
+                      console.log(token);
+                      localStorage.setItem("authToken", token);
+                      setAuthToken(localStorage.getItem("authToken"));
+                      closeLoginModal();
+                    } else {
+                      alert("Invalid Email or Password");
+                    }
                   });
-
-                alert(msg);
               }}
             >
               {({ touched, errors, isSubmitting }) => (
                 <Form>
+                  <p> Log in to save recipes and view your profile! </p>
                   <label htmlFor="email">Email</label>
                   <Field
                     type="email"
@@ -294,6 +308,7 @@ const HeaderComponent = ({ headerText }) => {
           </div>
         </ModalComponent>
       )}
+      )
     </div>
   );
 };
