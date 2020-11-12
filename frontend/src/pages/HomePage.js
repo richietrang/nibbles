@@ -6,6 +6,8 @@ import RecipeThumbnailComponent from "../components/RecipeThumbnailComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import "./HomePage.css";
 
+const loader = require("../assets/images/loader.svg");
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -24,6 +26,7 @@ class HomePage extends React.Component {
         }
       ],
       allowMissingIngredients: true,
+      showModal: false,
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
@@ -31,6 +34,10 @@ class HomePage extends React.Component {
     );
 
     this.toggleAllowMissingIngredients = this.toggleAllowMissingIngredients.bind(
+      this
+    );
+
+    this.setShowModal = this.setShowModal.bind(
       this
     );
   }
@@ -121,6 +128,11 @@ class HomePage extends React.Component {
       allowMissingIngredients: !this.state.allowMissingIngredients,
     }));
   }
+  setShowModal(showModal) {
+    this.setState((state, props) => ({
+      showModal: showModal,
+    }));
+  }
 
   render() {
     return (
@@ -136,7 +148,7 @@ class HomePage extends React.Component {
           </div>
           <div className="recipes-section">
             <div className="category-title align-center no-bottom-margin">
-              Matching Recipes
+                Matching Recipes
             </div>
             <div className="allow-missing-ingredients-button-container">
               <ButtonComponent
@@ -151,11 +163,17 @@ class HomePage extends React.Component {
                 onClick={this.toggleAllowMissingIngredients}
               />
             </div>
-            {this.state.recipeList.map(recipe => (
-              <div className="recipe-thumbnail-results-container">
-                <RecipeThumbnailComponent key={recipe.title} value={recipe} />
-              </div>
-            ))}
+            {this.state.showModal ?
+              <img src={loader} alt="loader" />
+              :
+              <>
+              {this.state.recipeList.map(recipe => (
+                <div className="recipe-thumbnail-results-container">
+                  <RecipeThumbnailComponent key={recipe.title} value={recipe} />
+                </div>
+              ))}
+            </>
+            }
           </div>
         </div>
       </DefaultLayout>
