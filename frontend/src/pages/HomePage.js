@@ -3,7 +3,10 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import HeaderComponent from "../components/HeaderComponent";
 import CategoryComponent from "../components/CategoryComponent";
 import RecipeThumbnailComponent from "../components/RecipeThumbnailComponent";
+import ButtonComponent from "../components/ButtonComponent";
 import "./HomePage.css";
+
+const loader = require("../assets/images/loader.svg");
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -18,15 +21,23 @@ class HomePage extends React.Component {
             "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
           recipeLink:
             "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
-          matchingIngredients: [],
-          nonMatchingIngredients: []
+          matchingIngredients: ["apple", "banana", "carrot"],
+          nonMatchingIngredients: ["celery"]
         }
-      ]
+      ],
+      allowMissingIngredients: true,
+      showModal: false
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
       this
     );
+
+    this.toggleAllowMissingIngredients = this.toggleAllowMissingIngredients.bind(
+      this
+    );
+
+    this.setShowModal = this.setShowModal.bind(this);
   }
 
   updateRecipeList() {
@@ -98,6 +109,17 @@ class HomePage extends React.Component {
     // this.updateRecipeList();
   }
 
+  toggleAllowMissingIngredients() {
+    this.setState((state, props) => ({
+      allowMissingIngredients: !this.state.allowMissingIngredients
+    }));
+  }
+  setShowModal(showModal) {
+    this.setState((state, props) => ({
+      showModal: showModal
+    }));
+  }
+
   render() {
     return (
       <DefaultLayout>
@@ -114,11 +136,33 @@ class HomePage extends React.Component {
             <div className="category-title align-center no-bottom-margin">
               Matching Recipes
             </div>
-            {this.state.recipeList.map(recipe => (
-              <div className="recipe-thumbnail-results-container">
-                <RecipeThumbnailComponent key={recipe.title} value={recipe} />
-              </div>
-            ))}
+            <div className="allow-missing-ingredients-button-container">
+              <ButtonComponent
+                buttonText="Allow Missing Ingredients"
+                buttonBorder={"1px solid"}
+                backgroundColor={
+                  this.state.allowMissingIngredients ? "orange" : "white"
+                }
+                fontSize={"1rem"}
+                display={"inline-block"}
+                margin={"0 10px 10px 0"}
+                onClick={this.toggleAllowMissingIngredients}
+              />
+            </div>
+            {this.state.showModal ? (
+              <img src={loader} alt="loader" />
+            ) : (
+              <>
+                {this.state.recipeList.map(recipe => (
+                  <div className="recipe-thumbnail-results-container">
+                    <RecipeThumbnailComponent
+                      key={recipe.title}
+                      value={recipe}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </DefaultLayout>

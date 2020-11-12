@@ -126,7 +126,32 @@ class RecipeThumbnailComponent extends React.Component {
           enableCloseButton
           closeButtonCb={this.closeIngredientsModal}
         >
-          {/* Add the list html here. Like <div> title and list shit */}
+          { matchingIngredients.length > 0 &&
+            <div className="ingredients-list-wrapper">
+              <div className="ingredients-modal-title">Matched Ingredients</div>
+              <ul>
+                { matchingIngredients.map((ingredient) => {
+                  return (
+                    <li>{ingredient}</li>
+                  )
+                })
+                }
+              </ul>
+            </div>
+          }
+          { nonMatchingIngredients.length > 0 &&
+            <div className="ingredients-list-wrapper">
+              <div className="ingredients-modal-title">Missing Ingredients</div>
+              <ul>
+                { nonMatchingIngredients.map((ingredient) => {
+                  return (
+                    <li>{ingredient}</li>
+                  )
+                })
+                }
+              </ul>
+            </div>
+          }
         </ModalComponent>
         }
 

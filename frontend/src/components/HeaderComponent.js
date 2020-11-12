@@ -9,6 +9,8 @@ const HeaderComponent = ({ headerText }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
+  const [msg, setMsg] = useState("initial message")
+
   const showSignUpModal = () => {
     setSignUpModalVisible(true);
   }
@@ -62,13 +64,12 @@ const HeaderComponent = ({ headerText }) => {
         <ModalComponent
           enableCloseButton
           closeButtonCb={closeSignUpModal}
-          alternateButtonText="Sign Up"
         >
           {/*  SIGN UP FORM */}
           <div>
           <h1>Sign up Form</h1>
             <Formik
-              initialValues={{ email: '', password: '' }}
+              initialValues={{ name: '', email: '', password: '' }}
               validate={values => {
                 const errors = {};
                 if (!values.email) {
@@ -78,17 +79,54 @@ const HeaderComponent = ({ headerText }) => {
                 ) {
                   errors.email = 'Invalid email address';
                 }
+                if (!values.password) {
+                  errors.password = 'Password is required';
+                }
+                if (!values.name) {
+                  errors.name = 'Name is required';
+                }
                 return errors;
               }}
+              // SUBMIT
               onSubmit={(values, { setSubmitting }) => {
-                setTimeout(() => {
-                  alert(JSON.stringify(values, null, 2));
-                  setSubmitting(false);
-                }, 400);
-              }}
+                const response = fetch('http://127.0.0.1:5000/signup', {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Methods': '*',
+                  },
+                  body: JSON.stringify(values),
+                })
+                  .then(res => res.json())
+                  .then(token => {
+                    if (token.access_token) {
+                      console.log(token)
+                    }
+                    else {
+                      alert("Invalid Email or Password")
+                    }
+              })
+            }}
             >
               {({ touched, errors, isSubmitting }) => (
                 <Form>
+                  <label htmlFor="name">Name</label>
+                  <Field
+                    type="name"
+                    name="name"
+                    placeholder="Enter name"
+                    className={`form-control ${
+                      touched.name && errors.name ? "is-invalid" : ""
+                    }`} />
+                  <ErrorMessage
+                    component="div"
+                    name="name"
+                    className="invalid-feedback"/>
+                  <br/>
+                  <br/>
+
                   <label htmlFor="email">Email</label>
                   <Field
                     type="email"
@@ -102,6 +140,8 @@ const HeaderComponent = ({ headerText }) => {
                     name="email"
                     className="invalid-feedback"/>
                   <br/>
+                  <br/>
+
                   <label htmlFor="password">Password</label>
                     <Field
                       type="password"
@@ -114,9 +154,13 @@ const HeaderComponent = ({ headerText }) => {
                       component="div"
                       name="password"
                       className="invalid-feedback"/>
-                  <ButtonComponent type="submit" buttonText="Sign Up" disabled={isSubmitting} backgroundColor='#febd2e'>
-                    {isSubmitting ? "Please wait..." : "Run"}
-                  </ButtonComponent>
+                  <br/>
+                  <br/>
+                  <div className="signup-button">
+                    <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
+                      {isSubmitting ? "Please wait..." : "Sign Up"}
+                    </button>
+                  </div>
                 </Form>
               )}
             </Formik>
@@ -128,7 +172,6 @@ const HeaderComponent = ({ headerText }) => {
         <ModalComponent
           enableCloseButton
           closeButtonCb={closeLoginModal}
-          alternateButtonText="Log In"
         >
         {/*  LOGIN FORM */}
         <div>
@@ -144,13 +187,27 @@ const HeaderComponent = ({ headerText }) => {
               ) {
                 errors.email = 'Invalid email address';
               }
+              if (!values.password) {
+                errors.password = 'Password is required';
+              }
               return errors;
             }}
+            // SUBMIT
             onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false);
-              }, 400);
+              const response = fetch('http://127.0.0.1:5000/login', {
+                method: "POST",
+                body: JSON.stringify(values),
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Headers': '*',
+                  'Access-Control-Allow-Methods': '*',
+                },
+              })
+                .then(res => res.json())
+                .then(res => {console.log(res.msg); setMsg(res.msg)})
+
+              alert(msg)
             }}
           >
             {({ touched, errors, isSubmitting }) => (
@@ -168,6 +225,8 @@ const HeaderComponent = ({ headerText }) => {
                   name="email"
                   className="invalid-feedback"/>
                 <br/>
+                <br/>
+
                 <label htmlFor="password">Password</label>
                   <Field
                     type="password"
@@ -180,10 +239,13 @@ const HeaderComponent = ({ headerText }) => {
                     component="div"
                     name="password"
                     className="invalid-feedback"/>
+                <br/>
+                <br/>
+
                 <div className = "login-button">
-                  <ButtonComponent type="submit" buttonText="Log In" disabled={isSubmitting} backgroundColor='#febd2e'>
-                    {isSubmitting ? "Please wait..." : "Run"}
-                  </ButtonComponent>
+                  <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
+                    {isSubmitting ? "Please wait..." : "Log In"}
+                  </button>
                 </div>
               </Form>
             )}
