@@ -7,5 +7,6 @@ verify_ssl = true
 boto3 = "*"
 flask = "*"
 flask_cors = "*"
+flask_jwt_extended = "*"
 requests = "*"
 gunicorn = "*"

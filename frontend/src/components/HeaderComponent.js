@@ -1,33 +1,33 @@
-import React, { useState } from 'react';
-import './HeaderComponent.css';
-import ModalComponent from './ModalComponent';
-import { Link } from 'react-router-dom';
-import ButtonComponent from './ButtonComponent';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import React, { useState } from "react";
+import "./HeaderComponent.css";
+import ModalComponent from "./ModalComponent";
+import { Link } from "react-router-dom";
+import ButtonComponent from "./ButtonComponent";
+import { Formik, Form, Field, ErrorMessage } from "formik";
 
 const HeaderComponent = ({ headerText }) => {
   const localStorage = window.localStorage;
-  const authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem("authToken");
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
-  const [msg, setMsg] = useState("initial message")
+  const [msg, setMsg] = useState("initial message");
 
   const showSignUpModal = () => {
     setSignUpModalVisible(true);
-  }
+  };
   const closeSignUpModal = () => {
     setSignUpModalVisible(false);
-  }
+  };
   const showLoginModal = () => {
     setloginModalVisible(true);
-  }
+  };
   const closeLoginModal = () => {
     setloginModalVisible(false);
-  }
+  };
 
   function handleLogout() {
-    localStorage.setItem('authToken', '');
+    localStorage.setItem("authToken", "");
     authToken = true;
   }
 
@@ -36,10 +36,14 @@ const HeaderComponent = ({ headerText }) => {
       <div className="header-background-overlay-graphic"></div>
       <div className="navbar">
         <div className="icon-with-title">
-          <img className="navbar-logo" src={require('../assets/images/logo.svg')} alt="nibbles logo" />
+          <img
+            className="navbar-logo"
+            src={require("../assets/images/logo.svg")}
+            alt="nibbles logo"
+          />
           <Link
             to={{
-              pathname: '/',
+              pathname: "/"
             }}
             style={styles.noLinkTextDecoration}
           >
@@ -49,7 +53,7 @@ const HeaderComponent = ({ headerText }) => {
         <div className="nav-items">
           <Link
             to={{
-              pathname: '/saved-recipes',
+              pathname: "/saved-recipes"
             }}
             style={styles.noLinkTextDecoration}
           >
@@ -57,76 +61,77 @@ const HeaderComponent = ({ headerText }) => {
           </Link>
         </div>
         <div className="login-sign-up-buttons-container">
-          { !authToken &&
-          <>
-            <div className="login-button" onClick={showLoginModal}>Login</div>
-            <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
-          </>
-          }
+          {!authToken && (
+            <>
+              <div className="login-button" onClick={showLoginModal}>
+                Login
+              </div>
+              <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+            </>
+          )}
 
-        { authToken &&
-          <>
-            <ButtonComponent buttonText="Logout" onClick={handleLogout} />
-          </>
-          }
-
+          {authToken && (
+            <>
+              <ButtonComponent buttonText="Logout" onClick={handleLogout} />
+            </>
+          )}
         </div>
       </div>
       <div className="header-title-graphic-container">
         <div className="header-title">{headerText}</div>
         <div className="header-image-of-chef-wrapper">
-          <img className="header-image-of-chef" alt="graphic of person cooking in the kitchen" src={require('../assets/images/woman-cooking.svg')} />
+          <img
+            className="header-image-of-chef"
+            alt="graphic of person cooking in the kitchen"
+            src={require("../assets/images/woman-cooking.svg")}
+          />
         </div>
       </div>
-      { signUpModalVisible &&
-        <ModalComponent
-          enableCloseButton
-          closeButtonCb={closeSignUpModal}
-        >
+      {signUpModalVisible && (
+        <ModalComponent enableCloseButton closeButtonCb={closeSignUpModal}>
           {/*  SIGN UP FORM */}
           <div>
-          <h1>Sign up Form</h1>
+            <h1>Sign up Form</h1>
             <Formik
-              initialValues={{ name: '', email: '', password: '' }}
+              initialValues={{ name: "", email: "", password: "" }}
               validate={values => {
                 const errors = {};
                 if (!values.email) {
-                  errors.email = 'Email is required';
+                  errors.email = "Email is required";
                 } else if (
                   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                 ) {
-                  errors.email = 'Invalid email address';
+                  errors.email = "Invalid email address";
                 }
                 if (!values.password) {
-                  errors.password = 'Password is required';
+                  errors.password = "Password is required";
                 }
                 if (!values.name) {
-                  errors.name = 'Name is required';
+                  errors.name = "Name is required";
                 }
                 return errors;
               }}
               // SUBMIT
               onSubmit={(values, { setSubmitting }) => {
-                const response = fetch('http://127.0.0.1:5000/signup', {
+                const response = fetch("http://127.0.0.1:5000/signup", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Headers': '*',
-                    'Access-Control-Allow-Methods': '*',
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "*"
                   },
-                  body: JSON.stringify(values),
+                  body: JSON.stringify(values)
                 })
                   .then(res => res.json())
                   .then(token => {
                     if (token.access_token) {
-                      console.log(token)
+                      console.log(token);
+                    } else {
+                      alert("Invalid Email or Password");
                     }
-                    else {
-                      alert("Invalid Email or Password")
-                    }
-              })
-            }}
+                  });
+              }}
             >
               {({ touched, errors, isSubmitting }) => (
                 <Form>
@@ -137,13 +142,15 @@ const HeaderComponent = ({ headerText }) => {
                     placeholder="Enter name"
                     className={`form-control ${
                       touched.name && errors.name ? "is-invalid" : ""
-                    }`} />
+                    }`}
+                  />
                   <ErrorMessage
                     component="div"
                     name="name"
-                    className="invalid-feedback"/>
-                  <br/>
-                  <br/>
+                    className="invalid-feedback"
+                  />
+                  <br />
+                  <br />
 
                   <label htmlFor="email">Email</label>
                   <Field
@@ -151,31 +158,39 @@ const HeaderComponent = ({ headerText }) => {
                     name="email"
                     placeholder="Enter email"
                     className={`form-control ${
-  									  touched.email && errors.email ? "is-invalid" : ""
-  									}`} />
+                      touched.email && errors.email ? "is-invalid" : ""
+                    }`}
+                  />
                   <ErrorMessage
                     component="div"
                     name="email"
-                    className="invalid-feedback"/>
-                  <br/>
-                  <br/>
+                    className="invalid-feedback"
+                  />
+                  <br />
+                  <br />
 
                   <label htmlFor="password">Password</label>
-                    <Field
-                      type="password"
-                      name="password"
-                      placeholder="Enter password"
-                      className={`form-control ${
-                        touched.password && errors.password ? "is-invalid" : ""
-                      }`} />
-                    <ErrorMessage
-                      component="div"
-                      name="password"
-                      className="invalid-feedback"/>
-                  <br/>
-                  <br/>
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Enter password"
+                    className={`form-control ${
+                      touched.password && errors.password ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="password"
+                    className="invalid-feedback"
+                  />
+                  <br />
+                  <br />
                   <div className="signup-button">
-                    <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      backgroundColor="#febd2e"
+                    >
                       {isSubmitting ? "Please wait..." : "Sign Up"}
                     </button>
                   </div>
@@ -184,104 +199,112 @@ const HeaderComponent = ({ headerText }) => {
             </Formik>
           </div>
         </ModalComponent>
-      }
+      )}
 
-      { loginModalVisible &&
-        <ModalComponent
-          enableCloseButton
-          closeButtonCb={closeLoginModal}
-        >
-        {/*  LOGIN FORM */}
-        <div>
-        <h1>Login</h1>
-          <Formik
-            initialValues={{ email: '', password: '' }}
-            validate={values => {
-              const errors = {};
-              if (!values.email) {
-                errors.email = 'Email is required';
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = 'Invalid email address';
-              }
-              if (!values.password) {
-                errors.password = 'Password is required';
-              }
-              return errors;
-            }}
-            // SUBMIT
-            onSubmit={(values, { setSubmitting }) => {
-              const response = fetch('http://127.0.0.1:5000/login', {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: {
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Headers': '*',
-                  'Access-Control-Allow-Methods': '*',
-                },
-              })
-                .then(res => res.json())
-                .then(res => {console.log(res.msg); setMsg(res.msg)})
+      {loginModalVisible && (
+        <ModalComponent enableCloseButton closeButtonCb={closeLoginModal}>
+          {/*  LOGIN FORM */}
+          <div>
+            <h1>Login</h1>
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validate={values => {
+                const errors = {};
+                if (!values.email) {
+                  errors.email = "Email is required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                if (!values.password) {
+                  errors.password = "Password is required";
+                }
+                return errors;
+              }}
+              // SUBMIT
+              onSubmit={(values, { setSubmitting }) => {
+                const response = fetch("http://127.0.0.1:5000/login", {
+                  method: "POST",
+                  body: JSON.stringify(values),
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "*",
+                    "Access-Control-Allow-Methods": "*"
+                  }
+                })
+                  .then(res => res.json())
+                  .then(res => {
+                    console.log(res.msg);
+                    setMsg(res.msg);
+                  });
 
-              alert(msg)
-            }}
-          >
-            {({ touched, errors, isSubmitting }) => (
-              <Form>
-                <label htmlFor="email">Email</label>
-                <Field
-                  type="email"
-                  name="email"
-                  placeholder="Enter email"
-                  className={`form-control ${
-                    touched.email && errors.email ? "is-invalid" : ""
-                  }`} />
-                <ErrorMessage
-                  component="div"
-                  name="email"
-                  className="invalid-feedback"/>
-                <br/>
-                <br/>
+                alert(msg);
+              }}
+            >
+              {({ touched, errors, isSubmitting }) => (
+                <Form>
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Enter email"
+                    className={`form-control ${
+                      touched.email && errors.email ? "is-invalid" : ""
+                    }`}
+                  />
+                  <ErrorMessage
+                    component="div"
+                    name="email"
+                    className="invalid-feedback"
+                  />
+                  <br />
+                  <br />
 
-                <label htmlFor="password">Password</label>
+                  <label htmlFor="password">Password</label>
                   <Field
                     type="password"
                     name="password"
                     placeholder="Enter password"
                     className={`form-control ${
                       touched.password && errors.password ? "is-invalid" : ""
-                    }`} />
+                    }`}
+                  />
                   <ErrorMessage
                     component="div"
                     name="password"
-                    className="invalid-feedback"/>
-                <br/>
-                <br/>
+                    className="invalid-feedback"
+                  />
+                  <br />
+                  <br />
 
-                <div className = "login-button">
-                  <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
-                    {isSubmitting ? "Please wait..." : "Log In"}
-                  </button>
-                </div>
-              </Form>
-            )}
-          </Formik>
-        </div>
+                  <div className="login-button">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      backgroundColor="#febd2e"
+                    >
+                      {isSubmitting ? "Please wait..." : "Log In"}
+                    </button>
+                  </div>
+                </Form>
+              )}
+            </Formik>
+          </div>
         </ModalComponent>
-      }
+      )}
     </div>
   );
-}
+};
 
 const styles = {
   headerContainer: {
-    backgroundImage: `url(${require('../assets/images/header-overlay.svg')})`,
+    backgroundImage: `url(${require("../assets/images/header-overlay.svg")})`
   },
   noLinkTextDecoration: {
-    textDecoration: 'none',
-    color: '#4e4e4e',
-  },
-}
+    textDecoration: "none",
+    color: "#4e4e4e"
+  }
+};
 export default HeaderComponent;

@@ -26,7 +26,8 @@ class HomePage extends React.Component {
         }
       ],
       allowMissingIngredients: true,
-      showModal: false
+      showModal: false,
+      toggleSignUpModal: false
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
@@ -37,6 +38,7 @@ class HomePage extends React.Component {
       this
     );
 
+    // Modal for missing ingredients
     this.setShowModal = this.setShowModal.bind(this);
   }
 
@@ -120,10 +122,18 @@ class HomePage extends React.Component {
     }));
   }
 
+  showSignUpModal = () => {
+    console.log("c");
+    this.child.showSignUpModal();
+  };
+
   render() {
     return (
       <DefaultLayout>
-        <HeaderComponent headerText="Turn your leftovers into lunchtime magic!" />
+        <HeaderComponent
+          headerText="Turn your leftovers into lunchtime magic!"
+          ref={cd => (this.child = cd)}
+        />
         <div className="home-page-container">
           <div className="ingredients-section">
             <CategoryComponent
@@ -133,7 +143,10 @@ class HomePage extends React.Component {
             />
           </div>
           <div className="recipes-section">
-            <div className="category-title align-center no-bottom-margin">
+            <div
+              className="category-title align-center no-bottom-margin"
+              onClick={this.showSignUpModal}
+            >
               Matching Recipes
             </div>
             <div className="allow-missing-ingredients-button-container">
