@@ -23,7 +23,7 @@ class HomePage extends React.Component {
           nonMatchingIngredients: []
         }
       ],
-      allowMissingIngredients: false,
+      allowMissingIngredients: true,
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
