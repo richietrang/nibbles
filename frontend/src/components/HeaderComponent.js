@@ -40,11 +40,11 @@ const HeaderComponent = ({ headerText }) => {
         <div className="nav-items">
           <Link
             to={{
-              pathname: '/how-nibbles-works',
+              pathname: '/saved-recipes',
             }}
             style={styles.noLinkTextDecoration}
           >
-            <div className="nav-item">how it works</div>
+            <div className="nav-item">Saved Recipes</div>
           </Link>
         </div>
         <div className="login-sign-up-buttons-container">

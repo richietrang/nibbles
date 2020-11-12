@@ -3,7 +3,7 @@ import { BrowserRouter, Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 import './App.css';
 import HomePage from './pages/HomePage';
-import HowNibblesWorksPage from './pages/HowNibblesWorksPage';
+import SavedRecipesPage from './pages/SavedRecipesPage';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Router history={history}>
           <Switch>
             <Route path='/' exact component={HomePage} />
-            <Route path='/how-nibbles-works' component={HowNibblesWorksPage} />
+            <Route path='/saved-recipes' component={SavedRecipesPage} />
           </Switch>
         </Router>
       </div>
