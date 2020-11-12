@@ -63,7 +63,7 @@ class HomePage extends React.Component {
         })
           .then(data => {
             console.log(data);
-          }) 
+          })
 
     } else {
       this.setState(function(state, props) {
