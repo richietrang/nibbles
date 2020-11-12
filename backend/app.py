@@ -14,6 +14,8 @@ from flask_jwt_extended import (
 from boto3.dynamodb.conditions import Key, Attr
 import boto3
 
+import aws_config as keys
+
 # Init globals
 app = Flask(__name__)
 jwt = JWTManager(app)
@@ -23,6 +25,13 @@ SAVED_RECIPES_TABLE_NAME = 'savedRecipes'
 SAVED_RECIPES_TABLE_KEY = 'userEmail'
 
 READ_IN_CONFIG = True
+
+dynamodb = boto3.resource('dynamodb',
+                    aws_access_key_id=keys.ACCESS_KEY_ID,
+                    aws_secret_access_key=keys.ACCESS_SECRET_KEY,
+                    region_name=keys.REGION_NAME
+                    )
+    
 
 AWS_CONFIG = None
 try: AWS_CONFIG = read_json_from_file('aws_config.json')
@@ -267,7 +276,7 @@ def signup():
         password = form_data["password"]
         email = form_data["email"]
 
-        table = dynamodb_client.Table('users')
+        table = dynamodb.Table('users')
 
         table.put_item(
             Item = {
@@ -289,7 +298,7 @@ def login():
         password = form_data["password"]
         email = form_data["email"]
 
-        table = dynamodb_client.Table('users')
+        table = dynamodb.Table('users')
         response = table.query(
             KeyConditionExpression=Key('email').eq(email)
         )
