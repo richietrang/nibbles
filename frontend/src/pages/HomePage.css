@@ -19,13 +19,24 @@
 }
 
 .recipes-section {
+  min-width: 500px;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
+.allow-missing-ingredients-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 @media only screen and (max-width: 919px) {
   .home-page-container {
     flex-direction: column;
+  }
+  .recipes-section {
+    min-width: unset;
   }
 }

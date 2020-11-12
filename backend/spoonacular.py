@@ -213,11 +213,13 @@ def find_by_ingredients(query_info, api_key=API_KEY, test=False):
             response_json = json.loads(response.text)
 
             # dump_json_to_filepath(response_json, 'sample/findByIngredients.json')
-            # print(response_json)
         except Exception as ex:
             print(traceback.format_exc(ex))
             # This means unable to fetch data for some reason, front end should handle this properly
             return None
+    
+    print(response_json)
+
 
     # rank the response in order of pseudo-accuracy
     ranked_json = rank_recipe_data(response_json, ingredients)
@@ -280,12 +282,13 @@ def information_bulk(query_info, api_key=API_KEY, test=False):
 
 
             # dump_json_to_filepath(response_json, 'sample/infoBulk.json')
-            # print(response_json)
         except Exception as ex:
             # This means unable to fetch data for some reason, front end should handle this properly
             
             print(traceback.format_exc(ex))
             return None
+    
+    print(response_json)
     
     return response_json
 
@@ -305,6 +308,8 @@ def search_recipes(query_info, test=False):
     recipe_info = information_bulk(query_info = recipes_query_info, test=test)
     # print(find_by_ingredients_info)
     result = []
+
+    print(len(recipe_info), len(find_by_ingredients_info))
     for index, r in enumerate(recipe_info):
 
         r_info = find_by_ingredients_info[index]
