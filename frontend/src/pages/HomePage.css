@@ -36,4 +36,7 @@
   .home-page-container {
     flex-direction: column;
   }
+  .recipes-section {
+    min-width: unset;
+  }
 }
