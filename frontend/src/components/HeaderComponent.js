@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./HeaderComponent.css";
 import ModalComponent from "./ModalComponent";
 import { Link } from "react-router-dom";
 import ButtonComponent from "./ButtonComponent";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-const HeaderComponent = ({ headerText }) => {
+const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
+  console.log("header", toggleSignUpModal);
   const localStorage = window.localStorage;
   // const authToken = localStorage.getItem('authToken');
 
   const [authToken, setAuthToken] = useState(localStorage.getItem("authToken"));
-  const [signUpModalVisible, setSignUpModalVisible] = useState(false);
+
+  const [signUpModalVisible, setSignUpModalVisible] = useState(
+    toggleSignUpModal
+  );
+  useEffect(() => {
+    setSignUpModalVisible(toggleSignUpModal);
+  }, [toggleSignUpModal]);
+
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
   const [msg, setMsg] = useState("");
@@ -199,7 +207,7 @@ const HeaderComponent = ({ headerText }) => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      backgroundColor="#febd2e"
+                      backgroundcolor="#febd2e"
                     >
                       {isSubmitting ? "Please wait..." : "Sign Up"}
                     </button>

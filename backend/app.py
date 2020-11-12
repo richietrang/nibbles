@@ -1,5 +1,6 @@
 import csv
 import json
+import traceback
 import boto3
 
 from spoonacular import search_recipes, read_json_from_file
@@ -86,16 +87,11 @@ def add_saved_recipe():
     """
     add a given recipeId from dynamodb given a userEmail
     """
-
-    global dynamodb_client
-    global SAVED_RECIPES_TABLE_NAME
-    global SAVED_RECIPES_TABLE_KEY
-
-    req_data = request.get_json(force=True)
-    userEmail = req_data['userEmail']
-    recipeId = req_data['recipeId']
-
     try:
+        req_data = request.get_json(force=True)
+        userEmail = req_data['userEmail']
+        recipeId = req_data['recipeId']
+
         queried_response = query_dynamodb_table(
             SAVED_RECIPES_TABLE_NAME,
             SAVED_RECIPES_TABLE_KEY,
@@ -128,6 +124,7 @@ def add_saved_recipe():
 
 
     except Exception as e:
+        print(traceback.format_exc())
         return {
             "success": False
         }
@@ -138,16 +135,12 @@ def delete_saved_recipe():
     """
     delete a given recipeId from dynamodb given a userEmail
     """
-
-    global dynamodb_client
-    global SAVED_RECIPES_TABLE_NAME
-    global SAVED_RECIPES_TABLE_KEY
-
-    req_data = request.get_json(force=True)
-    userEmail = req_data['userEmail']
-    recipeId = req_data['recipeId']
-
     try:
+        req_data = request.get_json(force=True)
+        userEmail = req_data['userEmail']
+        recipeId = req_data['recipeId']
+
+
         queried_response = query_dynamodb_table(
             SAVED_RECIPES_TABLE_NAME,
             SAVED_RECIPES_TABLE_KEY,
@@ -184,6 +177,7 @@ def delete_saved_recipe():
 
 
     except Exception as e:
+        print(traceback.format_exc())
         return {
             "success": False
         }
@@ -194,16 +188,11 @@ def get_saved_recipe():
     """
     retrieve list of saved recipes from dynamodb
     """
-
-    global dynamodb_client
-    global SAVED_RECIPES_TABLE_NAME
-    global SAVED_RECIPES_TABLE_KEY
-
-    req_data = request.get_json(force=True)
-    userEmail = req_data['userEmail']
-    recipeId = req_data['recipeId']
-
     try:
+        req_data = request.get_json(force=True)
+        userEmail = req_data['userEmail']
+        recipeId = req_data['recipeId']
+
         queried_response = query_dynamodb_table(
             SAVED_RECIPES_TABLE_NAME,
             SAVED_RECIPES_TABLE_KEY,
@@ -330,4 +319,4 @@ if __name__ == '__main__':
     # endpoint_schema = read_json_from_file('endpoint_schema.json')
 
     # run app
-    app.run()
+    app.run(debug=True)

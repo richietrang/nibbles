@@ -15,6 +15,7 @@ class HomePage extends React.Component {
       selectedIngredients: new Set(),
       recipeList: [
         {
+          id: "123",
           title: "Pierogi",
           cookTimeInMins: "45",
           primaryPhotoUrl:
@@ -40,6 +41,8 @@ class HomePage extends React.Component {
 
     // Modal for missing ingredients
     this.setShowModal = this.setShowModal.bind(this);
+
+    this.child = React.createRef();
   }
 
   updateRecipeList() {
@@ -123,16 +126,19 @@ class HomePage extends React.Component {
   }
 
   showSignUpModal = () => {
-    console.log("c");
-    this.child.showSignUpModal();
+    console.log("showSignUpModal");
+    this.setState((state, props) => ({
+      toggleSignUpModal: true
+    }));
   };
 
   render() {
+    console.log("rerender home page");
     return (
       <DefaultLayout>
         <HeaderComponent
           headerText="Turn your leftovers into lunchtime magic!"
-          ref={cd => (this.child = cd)}
+          toggleSignUpModal={this.state.toggleSignUpModal}
         />
         <div className="home-page-container">
           <div className="ingredients-section">
@@ -143,10 +149,7 @@ class HomePage extends React.Component {
             />
           </div>
           <div className="recipes-section">
-            <div
-              className="category-title align-center no-bottom-margin"
-              onClick={this.showSignUpModal}
-            >
+            <div className="category-title align-center no-bottom-margin">
               Matching Recipes
             </div>
             <div className="allow-missing-ingredients-button-container">
@@ -171,6 +174,7 @@ class HomePage extends React.Component {
                     <RecipeThumbnailComponent
                       key={recipe.title}
                       value={recipe}
+                      onSaveRecipe={this.showSignUpModal}
                     />
                   </div>
                 ))}

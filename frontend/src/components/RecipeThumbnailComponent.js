@@ -1,48 +1,79 @@
 import React from "react";
 import "./RecipeThumbnailComponent.css";
-import ModalComponent from './ModalComponent';
+import ModalComponent from "./ModalComponent";
 
 class RecipeThumbnailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       recipeFavourited: false,
-      showIngredientsModal: false,
+      showIngredientsModal: false
     };
 
-    this.handleToggleSaveRecipe = this.handleToggleSaveRecipe.bind(
-      this
-    );
+    this.handleToggleSaveRecipe = this.handleToggleSaveRecipe.bind(this);
 
-    this.closeIngredientsModal = this.closeIngredientsModal.bind(
-      this
-    );
+    this.closeIngredientsModal = this.closeIngredientsModal.bind(this);
 
-    this.openIngredientsModal = this.openIngredientsModal.bind(
-      this
-    );
+    this.openIngredientsModal = this.openIngredientsModal.bind(this);
+  }
+
+  addOrDeleteRecipe(add) {
+    const body = JSON.stringify({
+      userEmail: "test@test.com",
+      recipeId: this.props.value.id
+    });
+
+    console.log(body);
+
+    const options = {
+      method: "POST",
+      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Methods": "*"
+      }
+    };
+
+    var endpoint = "deleterecipe";
+    if (add) {
+      endpoint = "addrecipe";
+    }
+    fetch(`http://127.0.0.1:5000/${endpoint}`, options)
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+      });
   }
 
   handleToggleSaveRecipe() {
     // localStorage = window.localStorage;
     // const authToken = localStorage.getItem('authToken');
     // Check if authToken and !recipeFavourited do fetch call to save recipe.
+    if (this.state.recipeFavourited) {
+      this.addOrDeleteRecipe(false);
+    } else {
+      this.addOrDeleteRecipe(true);
+    }
 
     // Check if authToken and recipeFavourited do fetch call to delete saved recipe.
     this.setState((state, props) => ({
-      recipeFavourited: !state.recipeFavourited,
+      recipeFavourited: !state.recipeFavourited
     }));
   }
 
   closeIngredientsModal() {
     this.setState((state, props) => ({
-      showIngredientsModal: false,
+      showIngredientsModal: false
     }));
   }
 
   openIngredientsModal() {
     this.setState((state, props) => ({
-      showIngredientsModal: true,
+      showIngredientsModal: true
     }));
   }
 
@@ -58,7 +89,6 @@ class RecipeThumbnailComponent extends React.Component {
 
     const activeSaveRecipeIcon = require("../assets/images/star-active.png");
     const inActiveSaveRecipeIcon = require("../assets/images/star-inactive.png");
-
 
     return (
       <div className="recipe-thumbnail-wrapper">
@@ -78,13 +108,20 @@ class RecipeThumbnailComponent extends React.Component {
               <div className="recipe-thumbnail-info-item-text">{`${cookTimeInMins} Mins`}</div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item" onClick={this.handleToggleSaveRecipe}>
+            <div
+              className="recipe-thumbnail-info-item-wrapper photos-thumbnail-info-item"
+              onClick={this.handleToggleSaveRecipe}
+            >
               <div className="recipe-thumbnail-info-item-title">
                 Save Recipe
               </div>
               <div className="recipe-thumbnail-info-item-icon">
                 <img
-                  src={this.state.recipeFavourited ? activeSaveRecipeIcon : inActiveSaveRecipeIcon}
+                  src={
+                    this.state.recipeFavourited
+                      ? activeSaveRecipeIcon
+                      : inActiveSaveRecipeIcon
+                  }
                   alt="Favourite icon"
                 />
               </div>
@@ -101,7 +138,10 @@ class RecipeThumbnailComponent extends React.Component {
               </div>
             </div>
 
-            <div className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item" onClick={this.openIngredientsModal}>
+            <div
+              className="recipe-thumbnail-info-item-wrapper no-right-border ingredients-thumbnail-info-item"
+              onClick={this.openIngredientsModal}
+            >
               <div className="recipe-thumbnail-info-item-title">
                 Ingredients
               </div>
@@ -121,40 +161,37 @@ class RecipeThumbnailComponent extends React.Component {
           </div>
         </div>
 
-        {this.state.showIngredientsModal &&
-        <ModalComponent
-          enableCloseButton
-          closeButtonCb={this.closeIngredientsModal}
-        >
-          { matchingIngredients.length > 0 &&
-            <div className="ingredients-list-wrapper">
-              <div className="ingredients-modal-title">Matched Ingredients</div>
-              <ul>
-                { matchingIngredients.map((ingredient) => {
-                  return (
-                    <li>{ingredient}</li>
-                  )
-                })
-                }
-              </ul>
-            </div>
-          }
-          { nonMatchingIngredients.length > 0 &&
-            <div className="ingredients-list-wrapper">
-              <div className="ingredients-modal-title">Missing Ingredients</div>
-              <ul>
-                { nonMatchingIngredients.map((ingredient) => {
-                  return (
-                    <li>{ingredient}</li>
-                  )
-                })
-                }
-              </ul>
-            </div>
-          }
-        </ModalComponent>
-        }
-
+        {this.state.showIngredientsModal && (
+          <ModalComponent
+            enableCloseButton
+            closeButtonCb={this.closeIngredientsModal}
+          >
+            {matchingIngredients.length > 0 && (
+              <div className="ingredients-list-wrapper">
+                <div className="ingredients-modal-title">
+                  Matched Ingredients
+                </div>
+                <ul>
+                  {matchingIngredients.map(ingredient => {
+                    return <li>{ingredient}</li>;
+                  })}
+                </ul>
+              </div>
+            )}
+            {nonMatchingIngredients.length > 0 && (
+              <div className="ingredients-list-wrapper">
+                <div className="ingredients-modal-title">
+                  Missing Ingredients
+                </div>
+                <ul>
+                  {nonMatchingIngredients.map(ingredient => {
+                    return <li>{ingredient}</li>;
+                  })}
+                </ul>
+              </div>
+            )}
+          </ModalComponent>
+        )}
       </div>
     );
   }
