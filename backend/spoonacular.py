@@ -320,7 +320,7 @@ def search_recipes(query_info, test=False):
 
             result.append(
                 {
-                    # 'id': r['id'],
+                    'id': r['id'],
                     'title': r['title'],
                     # 'image': r['image'],
                     # 'servings': r['servings'],

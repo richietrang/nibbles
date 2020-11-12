@@ -12,7 +12,7 @@ import MISCImage from "../assets/images/miscalleneous.svg";
 
 // Category component
 const CategoryComponent = props => {
-  console.log(props);
+  console.log("Updating category component", props);
   const { categoryTitle } = props;
   const [showCategory, setShowCategory] = useState("ALL");
 

@@ -6,6 +6,8 @@ import RecipeThumbnailComponent from "../components/RecipeThumbnailComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import "./HomePage.css";
 
+const loader = require("../assets/images/loader.svg");
+
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
@@ -19,11 +21,12 @@ class HomePage extends React.Component {
             "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
           recipeLink:
             "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
-          matchingIngredients: ['apple', 'banana', 'carrot'],
-          nonMatchingIngredients: ['celery']
+          matchingIngredients: ["apple", "banana", "carrot"],
+          nonMatchingIngredients: ["celery"]
         }
       ],
       allowMissingIngredients: true,
+      showModal: false
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
@@ -33,16 +36,19 @@ class HomePage extends React.Component {
     this.toggleAllowMissingIngredients = this.toggleAllowMissingIngredients.bind(
       this
     );
+
+    this.setShowModal = this.setShowModal.bind(this);
   }
 
   updateRecipeList() {
-    if (this.state.selectedIngredients.size) {
+    if (!this.state.selectedIngredients.size) {
       this.setState((state, props) => ({
         recipeList: []
       }));
       return;
     }
-    console.log("updating Recipe List");
+
+    console.log("Updated Recipe List", this.state.recipeList);
 
     // Call api here
     const ingredientsBody = JSON.stringify({
@@ -77,23 +83,40 @@ class HomePage extends React.Component {
 
   handleIngredientListChange(item, newValue) {
     if (newValue) {
-      this.setState((state, props) => ({
-        selectedIngredients: state.selectedIngredients.add(item)
-      }));
+      this.setState(
+        (state, props) => ({
+          selectedIngredients: state.selectedIngredients.add(item)
+        }),
+        () => {
+          console.log(this.state);
+          this.updateRecipeList();
+        }
+      );
     } else {
-      this.setState(function(state, props) {
-        state.selectedIngredients.delete(item);
-        return {
-          selectedIngredients: state.selectedIngredients
-        };
-      });
+      this.setState(
+        function(state, props) {
+          state.selectedIngredients.delete(item);
+          return {
+            selectedIngredients: state.selectedIngredients
+          };
+        },
+        () => {
+          console.log(this.state);
+          this.updateRecipeList();
+        }
+      );
     }
-    this.updateRecipeList();
+    // this.updateRecipeList();
   }
 
   toggleAllowMissingIngredients() {
     this.setState((state, props) => ({
-      allowMissingIngredients: !this.state.allowMissingIngredients,
+      allowMissingIngredients: !this.state.allowMissingIngredients
+    }));
+  }
+  setShowModal(showModal) {
+    this.setState((state, props) => ({
+      showModal: showModal
     }));
   }
 
@@ -126,11 +149,20 @@ class HomePage extends React.Component {
                 onClick={this.toggleAllowMissingIngredients}
               />
             </div>
-            {this.state.recipeList.map(recipe => (
-              <div className="recipe-thumbnail-results-container">
-                <RecipeThumbnailComponent key={recipe.title} value={recipe} />
-              </div>
-            ))}
+            {this.state.showModal ? (
+              <img src={loader} alt="loader" />
+            ) : (
+              <>
+                {this.state.recipeList.map(recipe => (
+                  <div className="recipe-thumbnail-results-container">
+                    <RecipeThumbnailComponent
+                      key={recipe.title}
+                      value={recipe}
+                    />
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </DefaultLayout>

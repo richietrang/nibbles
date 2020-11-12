@@ -25,6 +25,7 @@ const ModalComponent = ({
                 <ButtonComponent
                   buttonText={`${alternateButtonText}`}
                   backgroundColor="#febd2e"
+                  onClick={alternateButtonCb}
                 />
               }
             </div>
