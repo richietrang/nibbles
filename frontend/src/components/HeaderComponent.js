@@ -64,7 +64,6 @@ const HeaderComponent = ({ headerText }) => {
         <ModalComponent
           enableCloseButton
           closeButtonCb={closeSignUpModal}
-          alternateButtonText="Sign Up"
         >
           {/*  SIGN UP FORM */}
           <div>
@@ -80,14 +79,15 @@ const HeaderComponent = ({ headerText }) => {
                 ) {
                   errors.email = 'Invalid email address';
                 }
+                if (!values.password) {
+                  errors.password = 'Password is required';
+                }
+                if (!values.name) {
+                  errors.name = 'Name is required';
+                }
                 return errors;
               }}
-              // onSubmit={(values, { setSubmitting }) => {
-              //   setTimeout(() => {
-              //     alert(JSON.stringify(values, null, 2));
-              //     setSubmitting(false);
-              //   }, 400);
-              // }}
+              // SUBMIT
               onSubmit={(values, { setSubmitting }) => {
                 const response = fetch('http://127.0.0.1:5000/signup', {
                   method: "POST",
@@ -156,10 +156,11 @@ const HeaderComponent = ({ headerText }) => {
                       className="invalid-feedback"/>
                   <br/>
                   <br/>
-
-                  <ButtonComponent type="submit" buttonText="Sign Up" disabled={isSubmitting} backgroundColor='#febd2e'>
-                    {isSubmitting ? "Please wait..." : "Run"}
-                  </ButtonComponent>
+                  <div className="signup-button">
+                    <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
+                      {isSubmitting ? "Please wait..." : "Sign Up"}
+                    </button>
+                  </div>
                 </Form>
               )}
             </Formik>
@@ -171,7 +172,6 @@ const HeaderComponent = ({ headerText }) => {
         <ModalComponent
           enableCloseButton
           closeButtonCb={closeLoginModal}
-          alternateButtonText="Log In"
         >
         {/*  LOGIN FORM */}
         <div>
@@ -187,13 +187,13 @@ const HeaderComponent = ({ headerText }) => {
               ) {
                 errors.email = 'Invalid email address';
               }
+              if (!values.password) {
+                errors.password = 'Password is required';
+              }
               return errors;
             }}
+            // SUBMIT
             onSubmit={(values, { setSubmitting }) => {
-              // setTimeout(() => {
-              //   alert(JSON.stringify(values, null, 2));
-              //   setSubmitting(false);
-              // }, 400);
               const response = fetch('http://127.0.0.1:5000/login', {
                 method: "POST",
                 body: JSON.stringify(values),
@@ -243,9 +243,9 @@ const HeaderComponent = ({ headerText }) => {
                 <br/>
 
                 <div className = "login-button">
-                  <ButtonComponent type="submit" buttonText="Log In" disabled={isSubmitting} backgroundColor='#febd2e'>
-                    {isSubmitting ? "Please wait..." : "Run"}
-                  </ButtonComponent>
+                  <button type="submit" disabled={isSubmitting} backgroundColor='#febd2e'>
+                    {isSubmitting ? "Please wait..." : "Log In"}
+                  </button>
                 </div>
               </Form>
             )}
