@@ -21,7 +21,6 @@ def search_for_recipes():
     """
     Search for recipes that match list of ingredients
     """
-    
     # global vars
     global endpoint_schema
 
@@ -33,10 +32,15 @@ def search_for_recipes():
 
     query_info = {k:req_data[k] for k in req_data if k in endpoint_schema}
 
+    print('search_for_recipes was called with:', query_info)
+    
+    if not query_info['IngredientsList']:
+        return jsonify([])
+
     # print("reqdata=", req_data)
     # print("queryinfo=", query_info)
     # print(ingredient_list)
-    result = search_recipes(query_info, test=True)
+    result = search_recipes(query_info, test=False)
     return jsonify(result)
 
 

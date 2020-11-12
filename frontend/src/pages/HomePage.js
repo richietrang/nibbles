@@ -30,13 +30,14 @@ class HomePage extends React.Component {
   }
 
   updateRecipeList() {
-    if (this.state.selectedIngredients.size) {
+    if (!this.state.selectedIngredients.size) {
       this.setState((state, props) => ({
         recipeList: []
       }));
       return;
     }
-    console.log("updating Recipe List");
+
+    console.log("Updated Recipe List", this.state.recipeList);
 
     // Call api here
     const ingredientsBody = JSON.stringify({
@@ -71,18 +72,30 @@ class HomePage extends React.Component {
 
   handleIngredientListChange(item, newValue) {
     if (newValue) {
-      this.setState((state, props) => ({
-        selectedIngredients: state.selectedIngredients.add(item)
-      }));
+      this.setState(
+        (state, props) => ({
+          selectedIngredients: state.selectedIngredients.add(item)
+        }),
+        () => {
+          console.log(this.state);
+          this.updateRecipeList();
+        }
+      );
     } else {
-      this.setState(function(state, props) {
-        state.selectedIngredients.delete(item);
-        return {
-          selectedIngredients: state.selectedIngredients
-        };
-      });
+      this.setState(
+        function(state, props) {
+          state.selectedIngredients.delete(item);
+          return {
+            selectedIngredients: state.selectedIngredients
+          };
+        },
+        () => {
+          console.log(this.state);
+          this.updateRecipeList();
+        }
+      );
     }
-    this.updateRecipeList();
+    // this.updateRecipeList();
   }
 
   render() {
