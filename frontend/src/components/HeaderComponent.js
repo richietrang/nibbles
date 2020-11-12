@@ -6,6 +6,8 @@ import ButtonComponent from './ButtonComponent';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const HeaderComponent = ({ headerText }) => {
+  const localStorage = window.localStorage;
+  const authToken = localStorage.getItem('authToken');
   const [signUpModalVisible, setSignUpModalVisible] = useState(false);
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
@@ -22,6 +24,11 @@ const HeaderComponent = ({ headerText }) => {
   }
   const closeLoginModal = () => {
     setloginModalVisible(false);
+  }
+
+  function handleLogout() {
+    localStorage.setItem('authToken', '');
+    authToken = true;
   }
 
   return (
@@ -50,8 +57,19 @@ const HeaderComponent = ({ headerText }) => {
           </Link>
         </div>
         <div className="login-sign-up-buttons-container">
-          <div className="login-button" onClick={showLoginModal}>Login</div>
-          <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+          { !authToken &&
+          <>
+            <div className="login-button" onClick={showLoginModal}>Login</div>
+            <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+          </>
+          }
+
+        { authToken &&
+          <>
+            <ButtonComponent buttonText="Logout" onClick={handleLogout} />
+          </>
+          }
+
         </div>
       </div>
       <div className="header-title-graphic-container">
