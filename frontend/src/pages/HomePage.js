@@ -3,6 +3,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import HeaderComponent from "../components/HeaderComponent";
 import CategoryComponent from "../components/CategoryComponent";
 import RecipeThumbnailComponent from "../components/RecipeThumbnailComponent";
+import ButtonComponent from "../components/ButtonComponent";
 import "./HomePage.css";
 
 class HomePage extends React.Component {
@@ -21,10 +22,15 @@ class HomePage extends React.Component {
           matchingIngredients: [],
           nonMatchingIngredients: []
         }
-      ]
+      ],
+      allowMissingIngredients: false,
     };
 
     this.handleIngredientListChange = this.handleIngredientListChange.bind(
+      this
+    );
+
+    this.toggleAllowMissingIngredients = this.toggleAllowMissingIngredients.bind(
       this
     );
   }
@@ -85,6 +91,12 @@ class HomePage extends React.Component {
     this.updateRecipeList();
   }
 
+  toggleAllowMissingIngredients() {
+    this.setState((state, props) => ({
+      allowMissingIngredients: !this.state.allowMissingIngredients,
+    }));
+  }
+
   render() {
     return (
       <DefaultLayout>
@@ -100,6 +112,19 @@ class HomePage extends React.Component {
           <div className="recipes-section">
             <div className="category-title align-center no-bottom-margin">
               Matching Recipes
+            </div>
+            <div className="allow-missing-ingredients-button-container">
+              <ButtonComponent
+                buttonText="Allow Missing Ingredients"
+                buttonBorder={"1px solid"}
+                backgroundColor={
+                  this.state.allowMissingIngredients ? "orange" : "white"
+                }
+                fontSize={"1rem"}
+                display={"inline-block"}
+                margin={"0 10px 10px 0"}
+                onClick={this.toggleAllowMissingIngredients}
+              />
             </div>
             {this.state.recipeList.map(recipe => (
               <div className="recipe-thumbnail-results-container">

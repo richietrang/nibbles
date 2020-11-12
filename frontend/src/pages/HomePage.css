@@ -25,6 +25,13 @@
   flex-direction: column;
 }
 
+.allow-missing-ingredients-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 @media only screen and (max-width: 919px) {
   .home-page-container {
     flex-direction: column;
