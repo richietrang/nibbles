@@ -71,7 +71,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"F9BC2F"} fontSize={"1.3em"} fontColor="4e4e4e"/>
             </Link>
             <Link
               to={{
@@ -79,7 +79,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"F9BC2F"} fontSize={"1.3em"} fontColor="4e4e4e"/>
             </Link>
             </>
           )}
@@ -275,7 +275,6 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                       console.log(token);
                       localStorage.setItem("authToken", token.access_token);
                       localStorage.setItem("user", token.name);
-                      localStorage.setItem("email", token.email)
                       setAuthToken(localStorage.getItem("authToken"));
                       closeLoginModal();
                     } else {

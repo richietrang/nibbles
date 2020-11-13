@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Raleway:wght@700;@800");
 
+.saved-recipe-title {
+  text-align: center;
+}
+
 h1 {
   padding-bottom: 0;
   margin-bottom: 0;
