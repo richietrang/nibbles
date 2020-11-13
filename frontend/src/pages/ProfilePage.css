@@ -1,6 +1,55 @@
+.welcome-title {
+  text-align: center;
+}
 
 .change-password {
   display:flex;
   text-align: center;
   justify-content: center;
+}
+
+.form-display {
+  display:inline-block;
+  text-align: left;
+  overflow: auto;
+  font-size: .8em;
+}
+
+#field-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#input-field{
+  display: block;
+  box-sizing: border-box;
+  width: 25em;
+  outline: none;
+  margin: 0;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  font-size: 16px;
+  padding: .4em .5em;
+  border-radius: 2px;
+}
+
+.signup-button {
+	border-radius: 20px;
+	border: 1px solid orange;
+	background-color: orange;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.pw-button {
+  text-align: center;
+}
+
+.sign-up-block {
+  text-align:center;
 }

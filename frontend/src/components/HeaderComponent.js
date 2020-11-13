@@ -69,7 +69,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
             </Link>
             <Link
               to={{
@@ -77,7 +77,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
             </Link>
             </>
           )}
