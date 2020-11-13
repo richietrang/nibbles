@@ -50,7 +50,7 @@ const ProfilePage = () => {
       {pwModalVisible && (
         <ModalComponent enableCloseButton closeButtonCb={closeChangePwModal}>
           {/*  CHANGE PW FORM */}
-          <div className="sign-up-block">
+          <div className="changePw-block">
             <h1>Change Password</h1>
             <Formik
               initialValues={{ email: "", password: "" }}
