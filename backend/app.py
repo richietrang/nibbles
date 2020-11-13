@@ -90,7 +90,7 @@ def add_saved_recipe():
     try:
         req_data = request.get_json(force=True)
         userEmail = req_data['userEmail']
-        recipeId = req_data['recipeId']
+        recipeId = str(req_data['recipeId'])
 
         # try to extract current list
         recipes_list = None
@@ -118,6 +118,7 @@ def add_saved_recipe():
 
         # add new item to list
         recipes_list.append(recipeId)
+        print("recipesList=", recipes_list)
         new_recipes_str = ','.join(recipes_list)
 
 
@@ -145,7 +146,7 @@ def delete_saved_recipe():
     try:
         req_data = request.get_json(force=True)
         userEmail = req_data['userEmail']
-        recipeId = req_data['recipeId']
+        recipeId = str(req_data['recipeId'])
 
 
         queried_response = query_dynamodb_table(
