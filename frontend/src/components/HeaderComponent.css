@@ -196,3 +196,7 @@
 .field-padding {
   padding-bottom: .8em;
 }
+
+.invalid-feedback {
+  color: red;
+}
