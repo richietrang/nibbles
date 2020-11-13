@@ -6,7 +6,7 @@ class RecipeThumbnailComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      recipeFavourited: false,
+      recipeFavourited: props.recipeFavourited,
       showIngredientsModal: false
     };
 
