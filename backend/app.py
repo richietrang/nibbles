@@ -335,7 +335,7 @@ def login():
             msg = 'Login Success'
             access_token = create_access_token(identity = {'name': name})
 
-    return jsonify({'name': name, 'msg': msg, 'access_token':access_token})
+    return jsonify({'name': name, 'email': email, 'msg': msg, 'access_token':access_token})
 
 # Protect a view with jwt_required, which requires a valid access token
 # in the request to access.

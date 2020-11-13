@@ -32,10 +32,6 @@ const ProfilePage = () => {
     setPwVisible(false);
   };
 
-  const alertMessage = () => {
-    alert(msg);
-  };
-
   const settingsPicture = require("../assets/images/settings.png");
 
 
@@ -85,11 +81,14 @@ const ProfilePage = () => {
                 })
                   .then(res => res.json())
                   .then(res => {
-                    console.log(res.msg);
-                    setMsg(res.msg);
+                    if(res.email) {
+                      console.log(res.msg);
+                      setMsg(res.msg);
+                      alert(res.msg);
+                    } else {
+                      alert("Password Change Failed")
+                    }
                   });
-
-                alertMessage()
               }}
             >
               {({ touched, errors, isSubmitting }) => (

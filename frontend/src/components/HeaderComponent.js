@@ -271,6 +271,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                       console.log(token);
                       localStorage.setItem("authToken", token.access_token);
                       localStorage.setItem("user", token.name);
+                      localStorage.setItem("email", token.email)
                       setAuthToken(localStorage.getItem("authToken"));
                       closeLoginModal();
                     } else {
