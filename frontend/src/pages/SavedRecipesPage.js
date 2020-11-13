@@ -29,7 +29,7 @@ const SavedRecipesPage = () => {
       { !savedRecipes &&
         <div className="saved-recipes-container">
           <p>No recipes have been saved yet. Go out and explore!</p>
-          <img className="no-saved-recipes-image" src={recipesPicture} alt="recipes icon picture" />
+          <img className="no-saved-recipes-image" src={recipesPicture} alt="recipes icon" />
           <Link
             to={{
               pathname: '/',
