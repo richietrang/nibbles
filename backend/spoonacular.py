@@ -313,6 +313,39 @@ def information_bulk(query_info, api_key=API_KEY, test=False):
     return response_json
 
 
+def combine_recipe_info(recipe_info, find_by_ingredients_info=None):
+    result = []
+
+    for index, r in enumerate(recipe_info):
+        try:
+            new_entry = {
+                    'id': r['id'],
+                    'title': r['title'],
+                    # 'servings': r['servings'],
+                    'cookTimeInMins': r['readyInMinutes'],
+                    'recipeLink': r['sourceUrl'],
+                    'primaryPhotoUrl': r['image'],
+                }
+            
+            if find_by_ingredients_info is None:
+                r_info = {}
+            else:
+                r_info = find_by_ingredients_info[index]
+            
+            new_entry.update({                    
+                'matchingIngredients': r_info.get('usedIngredients', []),
+                'nonMatchingIngredients': r_info.get('unusedIngredients', []),
+                'missingIngredients': r_info.get('missedIngredients', [])
+            })
+            result.append(new_entry)
+        except Exception:
+            print('Failed to parse recipe: id={}', r['id'])
+            print(traceback.format_exc())
+            return None
+        
+    return result
+
+
 def search_recipes(query_info, test=False):
     '''
     Combine results from 2 endpoints:
@@ -325,36 +358,12 @@ def search_recipes(query_info, test=False):
     recipes_query_info = {
         'RecipeIds': recipe_id_list
     }
-    recipe_info = information_bulk(query_info = recipes_query_info, test=test)
-    # print(find_by_ingredients_info)
+    recipe_info = information_bulk(query_info=recipes_query_info, test=test)
+
     result = []
 
     print(len(recipe_info), len(find_by_ingredients_info))
-    for index, r in enumerate(recipe_info):
-
-        r_info = find_by_ingredients_info[index]
-
-        try:
-            # recipe_dict_by_id = find_by_ingredients_info[r['id']]
-            # print(r['id'], recipe_dict_by_id)
-
-            result.append(
-                {
-                    'id': r['id'],
-                    'title': r['title'],
-                    # 'image': r['image'],
-                    # 'servings': r['servings'],
-                    'cookTimeInMins': r['readyInMinutes'],
-                    'recipeLink': r['sourceUrl'],
-                    'primaryPhotoUrl': r['image'],
-                    'matchingIngredients': r_info['usedIngredients'],
-                    'nonMatchingIngredients': r_info['unusedIngredients'],
-                    'missingIngredients': r_info['missedIngredients']
-                }
-            )
-        except Exception:
-            print('Failed to parse recipe: id={}', r['id'])
-            return None
+    result = combine_recipe_info(recipe_info, find_by_ingredients_info)
 
     print("result is ", result)
     return result

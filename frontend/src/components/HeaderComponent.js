@@ -15,9 +15,9 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(
     toggleSignUpModal
   );
-  useEffect(() => {
-    setSignUpModalVisible(toggleSignUpModal);
-  }, [toggleSignUpModal]);
+  // useEffect(() => {
+  //   setSignUpModalVisible(toggleSignUpModal);
+  // }, [toggleSignUpModal]);
 
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
@@ -40,6 +40,8 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
     localStorage.setItem("authToken", "");
     setAuthToken(localStorage.getItem("authToken"));
   }
+
+  // setSignUpModalVisible(toggleSignUpModal);
 
   return (
     <div className="header-container" style={styles.headerContainer}>
