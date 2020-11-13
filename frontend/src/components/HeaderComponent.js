@@ -367,7 +367,6 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </div>
         </ModalComponent>
       )}
-      )
     </div>
   );
 };
