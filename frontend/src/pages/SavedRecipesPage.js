@@ -56,7 +56,7 @@ const SavedRecipesPage = () => {
   return (
     <DefaultLayout>
       <HeaderComponent headerText="Go and make some yummy nibbles!" />
-      <h1 className="category-title align-center">Your Saved Recipes</h1>
+      <h1 className="saved-recipe-title">Your Saved Recipes</h1>
 
       {!savedRecipes && (
         <div className="saved-recipes-container">

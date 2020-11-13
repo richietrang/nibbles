@@ -213,7 +213,7 @@ def get_saved_recipe():
                 "success": True,
                 "savedRecipes": []
             }
-        
+
         recipe_id_list = recipes_str.split(',')
 
 
@@ -225,7 +225,7 @@ def get_saved_recipe():
 
         recipe_info = information_bulk(query_info=recipes_query_info)
         recipes_list = combine_recipe_info(recipe_info, find_by_ingredients_info=None)
-        
+
         return {
             "success": True,
             "savedRecipes": recipes_list
@@ -330,8 +330,7 @@ def signup():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    msg = 'Invalid username or password'
-    result = ""
+    msg = ''
     if request.method == 'POST':
         form_data = request.json
         password = form_data["password"]
@@ -341,16 +340,19 @@ def login():
         response = table.query(
             KeyConditionExpression=Key('email').eq(email)
         )
-        items = response['Items']
-        name = items[0]['name']
-        print(items[0]['password'])
-        print(items[0]['name'])
-        print(items[0]['email'])
-        if password == items[0]['password']:
-            msg = 'Login Success'
-            access_token = create_access_token(identity = {'name': name})
 
-    return jsonify({'name': name, 'email': email, 'msg': msg, 'access_token':access_token})
+        try:
+            items = response['Items']
+            name = items[0]['name']
+            if password == items[0]['password']:
+                msg = 'Login Success'
+                access_token = create_access_token(identity = {'name': name})
+
+            return jsonify({'name': name, 'email': email, 'msg': msg, 'access_token':access_token})
+
+        except:
+            msg = 'Invalid username or password'
+            return jsonify({'msg': msg})
 
 # Protect a view with jwt_required, which requires a valid access token
 # in the request to access.
