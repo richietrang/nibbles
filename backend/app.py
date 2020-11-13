@@ -92,22 +92,29 @@ def add_saved_recipe():
         userEmail = req_data['userEmail']
         recipeId = req_data['recipeId']
 
-        queried_response = query_dynamodb_table(
-            SAVED_RECIPES_TABLE_NAME,
-            SAVED_RECIPES_TABLE_KEY,
-            userEmail
-        )
+        # try to extract current list
+        recipes_list = None
+        queried_response = None
+        try:
+            queried_response = query_dynamodb_table(
+                SAVED_RECIPES_TABLE_NAME,
+                SAVED_RECIPES_TABLE_KEY,
+                userEmail
+            )
 
-        # get current list of recipes
-        recipes_str = queried_response['savedRecipes']
-        recipes_list = recipes_str.split(',')
+            # get current list of recipes
+            recipes_str = queried_response['savedRecipes']
+            recipes_list = recipes_str.split(',')
+        except:
+            queried_response = {
+                'userEmail': userEmail,
+            }
+            recipes_list = []
 
-        print(recipeId, recipes_list)
         if recipeId in recipes_list:
             return {
                 "success": False
             }
-
 
         # add new item to list
         recipes_list.append(recipeId)
