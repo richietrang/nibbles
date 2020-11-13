@@ -8,8 +8,11 @@ import "./SavedRecipesPage.css";
 import { Link } from "react-router-dom";
 
 const fetchData = async () => {
+  localStorage = window.localStorage;
+  const userEmail = localStorage.getItem("userEmail");
+
   const body = JSON.stringify({
-    userEmail: "test@test.com"
+    userEmail: userEmail
   });
 
   console.log(body);

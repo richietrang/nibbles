@@ -18,8 +18,11 @@ class RecipeThumbnailComponent extends React.Component {
   }
 
   addOrDeleteRecipe(add) {
+    localStorage = window.localStorage;
+    const userEmail = localStorage.getItem("userEmail");
+
     const body = JSON.stringify({
-      userEmail: "test@test.com",
+      userEmail: userEmail,
       recipeId: this.props.value.id
     });
 
@@ -50,8 +53,6 @@ class RecipeThumbnailComponent extends React.Component {
   }
 
   handleToggleSaveRecipe() {
-    // localStorage = window.localStorage;
-    // const authToken = localStorage.getItem('authToken');
     // Check if authToken and !recipeFavourited do fetch call to save recipe.
     if (this.state.recipeFavourited) {
       this.addOrDeleteRecipe(false);
