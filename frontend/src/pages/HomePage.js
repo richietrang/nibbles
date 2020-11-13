@@ -13,19 +13,7 @@ class HomePage extends React.Component {
     super(props);
     this.state = {
       selectedIngredients: new Set(),
-      recipeList: [
-        {
-          id: "123",
-          title: "Pierogi",
-          cookTimeInMins: "45",
-          primaryPhotoUrl:
-            "https://www.mygourmetconnection.com/wp-content/uploads/potato-and-cheese-pierogi-720x540.jpg",
-          recipeLink:
-            "https://www.mygourmetconnection.com/potato-and-cheese-pierogi/",
-          matchingIngredients: ["apple", "banana", "carrot"],
-          nonMatchingIngredients: ["celery"]
-        }
-      ],
+      recipeList: [],
       allowMissingIngredients: true,
       showModal: false,
       toggleSignUpModal: false
@@ -177,15 +165,21 @@ class HomePage extends React.Component {
               <img src={loader} alt="loader" />
             ) : (
               <>
-                {this.getRecipeList().map(recipe => (
-                  <div className="recipe-thumbnail-results-container">
-                    <RecipeThumbnailComponent
-                      key={recipe.title}
-                      value={recipe}
-                      onSaveRecipe={this.showSignUpModal}
-                    />
+                {this.getRecipeList() ? (
+                  this.getRecipeList().map(recipe => (
+                    <div className="recipe-thumbnail-results-container">
+                      <RecipeThumbnailComponent
+                        key={recipe.title}
+                        value={recipe}
+                        onSaveRecipe={this.showSignUpModal}
+                      />
+                    </div>
+                  ))
+                ) : (
+                  <div className="category-title align-center no-bottom-margin">
+                    No matching recipes found. Try searching for something else?
                   </div>
-                ))}
+                )}
               </>
             )}
           </div>
