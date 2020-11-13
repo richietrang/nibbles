@@ -63,7 +63,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </Link>
         </div>
         <div className="nav-items">
-          {authToken && (
+          {/* {authToken && (
             <>
               <Link
               to={{
@@ -71,7 +71,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"F9BC2F"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Profile"  fontColor="4e4e4e"/>
             </Link>
             <Link
               to={{
@@ -79,10 +79,10 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
               style={styles.noLinkTextDecoration}
             >
-              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"F9BC2F"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes"  fontColor="4e4e4e"/>
             </Link>
             </>
-          )}
+          )} */}
         </div>
         <div className="login-sign-up-buttons-container">
           {!authToken && (
@@ -100,13 +100,35 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
             </>
           )}
         </div>
+        <div className="logged-in-buttons-container">
           {authToken && (
-            <div className="logged-in-buttons-container">
+            <>
+              <div className='profile-button'>
+                <Link
+                  to={{
+                    pathname: "/profile"
+                  }}
+                  style={styles.noLinkTextDecoration}
+                >
+                  <ButtonComponent buttonText="Profile"/>
+                </Link>
+              </div>
+              <div className='recipe-button'>
+                <Link
+                  to={{
+                    pathname: "/saved-recipes"
+                  }}
+                  style={styles.noLinkTextDecoration}
+                >
+                  <ButtonComponent buttonText="Saved Recipes"/>
+                </Link>
+              </div>
               <div className="logout-button">
                 <ButtonComponent buttonText="Logout" onClick={handleLogout} />
               </div>
-            </div>
+            </>
           )}
+        </div>
       </div>
       <div className="header-title-graphic-container">
         <div className="header-title">{headerText}</div>
@@ -157,11 +179,17 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                 })
                   .then(res => res.json())
                   .then(res => {
-                    console.log(res.msg);
-                    setMsg(res.msg);
+                    if (res.msg) {
+                      console.log(res.msg);
+                      setMsg(res.msg);
+                      alert(res.msg);
+                      closeSignUpModal();
+                    } else {
+                      alert("Signup Failed")
+                      closeSignUpModal();
+                      showSignUpModal();
+                    }
                   });
-
-                alert(msg);
               }}
             >
               {({ touched, errors, isSubmitting }) => (
