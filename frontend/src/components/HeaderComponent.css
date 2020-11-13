@@ -45,7 +45,11 @@
   color: #4e4e4e;
   font-size: 1rem;
   font-weight: 700;
-  flex: 4;
+  flex: 2;
+  padding-left: 10px;
+  padding-right: 10px;
+  display:flex;
+  vertical-align: bottom;
 }
 
 .nav-item {
@@ -57,15 +61,40 @@
   display: flex;
   align-items: center;
   flex: 2;
-  padding-right: 10px;
 }
 
-.login-button {
+.nav_login-button {
+  white-space: nowrap;
   font-family: "Karla", sans-serif;
   color: #4e4e4e;
   font-size: 1rem;
   font-weight: 700;
   margin-right: 2rem;
+  cursor: pointer;
+}
+
+.nav_signup-button {
+  white-space: nowrap;
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+.logged-in-buttons-container {
+  display: flex;
+  align-items: center;
+  flex: 2;
+}
+
+.logout-button {
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  /* margin-left: 2rem; */
   cursor: pointer;
 }
 
@@ -137,4 +166,66 @@
   .nav-item {
     text-align: right;
   }
+}
+
+.sign-up-heading {
+  text-align: center;
+}
+
+#input-field{
+  display: block;
+  box-sizing: border-box;
+  width: 25em;
+  outline: none;
+  margin: 0;
+  background: #fff;
+  border: 1px solid #dbdbdb;
+  font-size: 16px;
+  padding: .4em .5em;
+  border-radius: 2px;
+}
+
+.sign-up-block {
+  text-align:center;
+}
+
+.form-display {
+  display:inline-block;
+  text-align: left;
+  overflow: auto;
+  font-size: .8em;
+}
+
+.signup-button-block {
+  text-align: center;
+}
+
+.signup-button {
+	border-radius: 20px;
+	border: 1px solid orange;
+	background-color: orange;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.signup-button:active {
+  transform: scale(0.9);
+}
+
+#field-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.field-padding {
+  padding-bottom: .8em;
+}
+
+.invalid-feedback {
+  color: red;
 }

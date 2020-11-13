@@ -96,7 +96,7 @@ class RecipeThumbnailComponent extends React.Component {
           <img
             className="recipe-thumbnail-circle-primary-photo"
             src={primaryPhotoUrl}
-            alt={`A picture of the ${title} recipe`}
+            alt={`${title} recipe`}
             onClick={() => window.open(recipeLink, "_blank")}
           />
         </div>
@@ -181,7 +181,7 @@ class RecipeThumbnailComponent extends React.Component {
             {nonMatchingIngredients.length > 0 && (
               <div className="ingredients-list-wrapper">
                 <div className="ingredients-modal-title">
-                  Missing Ingredients
+                  Unused Ingredients
                 </div>
                 <ul>
                   {nonMatchingIngredients.map(ingredient => {

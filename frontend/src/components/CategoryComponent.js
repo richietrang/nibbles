@@ -74,6 +74,9 @@ const CategoryComponent = props => {
 
   // Fruit Vege Button click
   function handleFVClick(item) {
+
+    props.onIngredientToggle(item, !fruitsAndVegeIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -146,6 +149,8 @@ const CategoryComponent = props => {
   function handleMSClick(item) {
     //console.log(item);
 
+    props.onIngredientToggle(item, !meatAndSeafoodIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -198,8 +203,11 @@ const CategoryComponent = props => {
     setSearchDYResults(results);
   }, [searchDYTerm]);
 
-  // Meat Seafood Button click
+  // Diary Foods Button click
   function handleDYClick(item) {
+
+    props.onIngredientToggle(item, !dairyIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -254,8 +262,11 @@ const CategoryComponent = props => {
     setSearchGFResults(results);
   }, [searchGFTerm]);
 
-  // Meat Seafood Button click
+  // Grains and Flour Button click
   function handleGFClick(item) {
+
+    props.onIngredientToggle(item, !grainsAndFlourIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -311,8 +322,11 @@ const CategoryComponent = props => {
     setSearchLSResults(results);
   }, [searchLSTerm]);
 
-  // Meat Seafood Button click
+  // Liquids and Sauces Button click
   function handleLSClick(item) {
+
+    props.onIngredientToggle(item, !liquidsAndSaucesIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -365,8 +379,11 @@ const CategoryComponent = props => {
     setSearchMiscResults(results);
   }, [searchMiscTerm]);
 
-  // Meat Seafood Button click
+  // Miscellaneous Foods Button click
   function handleMiscClick(item) {
+
+    props.onIngredientToggle(item, !miscIngredients[item]);
+
     resetAllSearchState();
 
     // Sets values of items in list to it's opposite
@@ -498,13 +515,13 @@ const CategoryComponent = props => {
             }
           >
             {category === "ALL" && "All"}
-            {category === "FV" && <img src={FVImage} className="catImage" />}
-            {category === "MS" && <img src={MSImage} className="catImage" />}
-            {category === "DY" && <img src={DYImage} className="catImage" />}
-            {category === "GF" && <img src={GFImage} className="catImage2" />}
-            {category === "LS" && <img src={LSImage} className="catImage" />}
+            {category === "FV" && <img src={FVImage} alt="Fruits and Veges Category" className="catImage" />}
+            {category === "MS" && <img src={MSImage} alt="Meats and Seafood Category" className="catImage" />}
+            {category === "DY" && <img src={DYImage} alt="Dairy Category" className="catImage" />}
+            {category === "GF" && <img src={GFImage} alt="Grains and Flour Category" className="catImage2" />}
+            {category === "LS" && <img src={LSImage} alt="Liquids and Sauces Category" className="catImage" />}
             {category === "MISC" && (
-              <img src={MISCImage} className="catImage" />
+              <img src={MISCImage} alt="Miscellaneous Category" className="catImage" />
             )}
           </button>
         ))}

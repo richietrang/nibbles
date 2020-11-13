@@ -63,39 +63,50 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </Link>
         </div>
         <div className="nav-items">
-          <Link
-            to={{
-              pathname: "/saved-recipes"
-            }}
-            style={styles.noLinkTextDecoration}
-          >
-            <div className="nav-item">Saved Recipes</div>
-          </Link>
+          {authToken && (
+            <>
+              <Link
+              to={{
+                pathname: "/profile"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+            </Link>
+            <Link
+              to={{
+                pathname: "/saved-recipes"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+            </Link>
+            </>
+          )}
         </div>
         <div className="login-sign-up-buttons-container">
           {!authToken && (
             <>
+            {/*
               <div className="login-button" onClick={showLoginModal}>
                 Login
+              </div> */}
+              <div className="nav_login-button">
+                <ButtonComponent className="nav-items" buttonText="Log in" onClick={showLoginModal} />
               </div>
-              <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
-            </>
-          )}
-
-          {authToken && (
-            <>
-              <div className="logout-button">
-                <ButtonComponent buttonText="Logout" onClick={handleLogout} />
+              <div className="nav_signup-button">
+                <ButtonComponent className="nav-items" buttonText="Sign up" onClick={showSignUpModal} />
               </div>
-            </>
-          )}
-
-          {authToken && (
-            <>
-              <ButtonComponent buttonText="Logout" onClick={handleLogout} />
             </>
           )}
         </div>
+          {authToken && (
+            <div className="logged-in-buttons-container">
+              <div className="logout-button">
+                <ButtonComponent buttonText="Logout" onClick={handleLogout} />
+              </div>
+            </div>
+          )}
       </div>
       <div className="header-title-graphic-container">
         <div className="header-title">{headerText}</div>
@@ -110,8 +121,9 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
       {signUpModalVisible && (
         <ModalComponent enableCloseButton closeButtonCb={closeSignUpModal}>
           {/*  SIGN UP FORM */}
-          <div>
-            <h1>Sign up Form</h1>
+          <div className="sign-up-block">
+            <h1 className="sign-up-heading">Sign up Form</h1>
+            <p> Sign up to save recipes and have a personal profile! </p>
             <Formik
               initialValues={{ name: "", email: "", password: "" }}
               validate={values => {
@@ -153,46 +165,48 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
             >
               {({ touched, errors, isSubmitting }) => (
-                <Form>
-                  <p> Sign up to save recipes and have a personal profile! </p>
-                  <label htmlFor="name">Name</label>
-                  <Field
-                    type="name"
-                    name="name"
-                    placeholder="Enter name"
-                    className={`form-control ${
-                      touched.name && errors.name ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="name"
-                    className="invalid-feedback"
-                  />
-                  <br />
-                  <br />
+                <Form className="form-display">
+                  <label htmlFor="name" id="field-title">Name</label>
+                  <div className="field-padding">
+                    <Field
+                      type="name"
+                      name="name"
+                      id="input-field"
+                      placeholder="Enter name"
+                      className={`form-control ${
+                        touched.name && errors.name ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="name"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
-                  <label htmlFor="email">Email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    className={`form-control ${
-                      touched.email && errors.email ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="email"
-                    className="invalid-feedback"
-                  />
-                  <br />
-                  <br />
+                  <label htmlFor="email" id="field-title">Email</label>
+                  <div className="field-padding">
+                    <Field
+                      type="email"
+                      name="email"
+                      id="input-field"
+                      placeholder="Enter email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="email"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password" id="field-title">Password</label>
                   <Field
                     type="password"
                     name="password"
+                    id="input-field"
                     placeholder="Enter password"
                     className={`form-control ${
                       touched.password && errors.password ? "is-invalid" : ""
@@ -204,11 +218,12 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                     className="invalid-feedback"
                   />
                   <br />
-                  <br />
-                  <div className="signup-button">
+
+                  <div className="signup-button-block">
                     <button
                       type="submit"
                       disabled={isSubmitting}
+                      className="signup-button"
                       backgroundcolor="#febd2e"
                     >
                       {isSubmitting ? "Please wait..." : "Sign Up"}
@@ -223,8 +238,9 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
       {loginModalVisible && (
         <ModalComponent enableCloseButton closeButtonCb={closeLoginModal}>
           {/*  LOGIN FORM */}
-          <div>
-            <h1>Login</h1>
+          <div className="sign-up-block">
+            <h1 className="sign-up-heading">Login</h1>
+            <p> Log in to save recipes and view your profile! </p>
             <Formik
               initialValues={{ email: "", password: "" }}
               validate={values => {
@@ -257,7 +273,8 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                   .then(token => {
                     if (token.access_token) {
                       console.log(token);
-                      localStorage.setItem("authToken", token);
+                      localStorage.setItem("authToken", token.access_token);
+                      localStorage.setItem("user", token.name);
                       setAuthToken(localStorage.getItem("authToken"));
                       closeLoginModal();
                     } else {
@@ -267,29 +284,30 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               }}
             >
               {({ touched, errors, isSubmitting }) => (
-                <Form>
-                  <p> Log in to save recipes and view your profile! </p>
-                  <label htmlFor="email">Email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    placeholder="Enter email"
-                    className={`form-control ${
-                      touched.email && errors.email ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="email"
-                    className="invalid-feedback"
-                  />
-                  <br />
-                  <br />
+                <Form className="form-display">
+                  <label htmlFor="email" id="field-title">Email</label>
+                  <div className="field-padding">
+                    <Field
+                      type="email"
+                      name="email"
+                      id="input-field"
+                      placeholder="Enter email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="email"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password" id="field-title">Password</label>
                   <Field
                     type="password"
                     name="password"
+                    id="input-field"
                     placeholder="Enter password"
                     className={`form-control ${
                       touched.password && errors.password ? "is-invalid" : ""
@@ -301,12 +319,12 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                     className="invalid-feedback"
                   />
                   <br />
-                  <br />
 
-                  <div className="login-button">
+                  <div className="signup-button-block">
                     <button
                       type="submit"
                       disabled={isSubmitting}
+                      className="signup-button"
                       backgroundColor="#febd2e"
                     >
                       {isSubmitting ? "Please wait..." : "Log In"}
