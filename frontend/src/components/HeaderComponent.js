@@ -15,9 +15,9 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
   const [signUpModalVisible, setSignUpModalVisible] = useState(
     toggleSignUpModal
   );
-  useEffect(() => {
-    setSignUpModalVisible(toggleSignUpModal);
-  }, [toggleSignUpModal]);
+  // useEffect(() => {
+  //   setSignUpModalVisible(toggleSignUpModal);
+  // }, [toggleSignUpModal]);
 
   const [loginModalVisible, setloginModalVisible] = useState(false);
 
@@ -41,6 +41,8 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
     setAuthToken(localStorage.getItem("authToken"));
   }
 
+  // setSignUpModalVisible(toggleSignUpModal);
+
   return (
     <div className="header-container" style={styles.headerContainer}>
       <div className="header-background-overlay-graphic"></div>
@@ -61,6 +63,26 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </Link>
         </div>
         <div className="nav-items">
+          {authToken && (
+            <>
+              <Link
+              to={{
+                pathname: "/profile"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+            </Link>
+            <Link
+              to={{
+                pathname: "/saved-recipes"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.3em"} fontColor="4e4e4e"/>
+            </Link>
+            </>
+          )}
         </div>
         <div className="login-sign-up-buttons-container">
           {!authToken && (
@@ -78,31 +100,13 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
             </>
           )}
         </div>
-        <div className="logged-in-buttons-container">
           {authToken && (
-            <>
-              <Link
-                to={{
-                  pathname: "/profile"
-                }}
-                style={styles.noLinkTextDecoration}
-              >
-                <ButtonComponent className="nav-items" buttonText="Profile"/>
-              </Link>
-              <Link
-                to={{
-                  pathname: "/saved-recipes"
-                }}
-                style={styles.noLinkTextDecoration}
-              >
-                <div className="nav-items">Saved Recipes</div>
-              </Link>
+            <div className="logged-in-buttons-container">
               <div className="logout-button">
                 <ButtonComponent buttonText="Logout" onClick={handleLogout} />
               </div>
-            </>
+            </div>
           )}
-        </div>
       </div>
       <div className="header-title-graphic-container">
         <div className="header-title">{headerText}</div>

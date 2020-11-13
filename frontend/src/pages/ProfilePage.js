@@ -38,9 +38,10 @@ const ProfilePage = () => {
   return (
     <DefaultLayout>
       <HeaderComponent
-        headerText="Profile Page"
+        headerText="Your Profile"
       />
-      <h1 className="category-title align-center">Welcome {user}</h1>
+      <h1 className="welcome-title">Welcome {user}</h1>
+      <br/><br/>
 
       <div className="change-password">
         <ButtonComponent buttonText="Change Password" backgroundColor="#febd2e" onClick={showChangePwModal}/>
@@ -49,7 +50,7 @@ const ProfilePage = () => {
       {pwModalVisible && (
         <ModalComponent enableCloseButton closeButtonCb={closeChangePwModal}>
           {/*  CHANGE PW FORM */}
-          <div>
+          <div className="sign-up-block">
             <h1>Change Password</h1>
             <Formik
               initialValues={{ email: "", password: "" }}
@@ -92,11 +93,12 @@ const ProfilePage = () => {
               }}
             >
               {({ touched, errors, isSubmitting }) => (
-                <Form>
-                  <label htmlFor="email">Email</label>
+                <Form className="form-display">
+                  <label htmlFor="email" id="field-title">Email</label>
                   <Field
                     type="email"
                     name="email"
+                    id="input-field"
                     placeholder="Enter email"
                     className={`form-control ${
                       touched.email && errors.email ? "is-invalid" : ""
@@ -110,10 +112,11 @@ const ProfilePage = () => {
                   <br />
                   <br />
 
-                  <label htmlFor="password">New Password</label>
+                  <label htmlFor="password" id="field-title">New Password</label>
                   <Field
                     type="password"
                     name="password"
+                    id="input-field"
                     placeholder="Enter password"
                     className={`form-control ${
                       touched.password && errors.password ? "is-invalid" : ""
@@ -130,6 +133,7 @@ const ProfilePage = () => {
                     <button
                       type="submit"
                       disabled={isSubmitting}
+                      className="signup-button"
                       backgroundcolor="#febd2e"
                     >
                       {isSubmitting ? "Please wait..." : "Change Password"}
