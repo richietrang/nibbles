@@ -154,38 +154,40 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               {({ touched, errors, isSubmitting }) => (
                 <Form className="form-display">
                   <label htmlFor="name" id="field-title">Name</label>
-                  <Field
-                    type="name"
-                    name="name"
-                    id="input-field"
-                    placeholder="Enter name"
-                    className={`form-control ${
-                      touched.name && errors.name ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="name"
-                    className="invalid-feedback"
-                  />
-                  <br />
+                  <div className="field-padding">
+                    <Field
+                      type="name"
+                      name="name"
+                      id="input-field"
+                      placeholder="Enter name"
+                      className={`form-control ${
+                        touched.name && errors.name ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="name"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
                   <label htmlFor="email" id="field-title">Email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    id="input-field"
-                    placeholder="Enter email"
-                    className={`form-control ${
-                      touched.email && errors.email ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="email"
-                    className="invalid-feedback"
-                  />
-                  <br />
+                  <div className="field-padding">
+                    <Field
+                      type="email"
+                      name="email"
+                      id="input-field"
+                      placeholder="Enter email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="email"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
                   <label htmlFor="password" id="field-title">Password</label>
                   <Field
@@ -203,6 +205,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                     className="invalid-feedback"
                   />
                   <br />
+                  
                   <div className="signup-button-block">
                     <button
                       type="submit"
@@ -269,21 +272,22 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               {({ touched, errors, isSubmitting }) => (
                 <Form className="form-display">
                   <label htmlFor="email" id="field-title">Email</label>
-                  <Field
-                    type="email"
-                    name="email"
-                    id="input-field"
-                    placeholder="Enter email"
-                    className={`form-control ${
-                      touched.email && errors.email ? "is-invalid" : ""
-                    }`}
-                  />
-                  <ErrorMessage
-                    component="div"
-                    name="email"
-                    className="invalid-feedback"
-                  />
-                  <br />
+                  <div className="field-padding">
+                    <Field
+                      type="email"
+                      name="email"
+                      id="input-field"
+                      placeholder="Enter email"
+                      className={`form-control ${
+                        touched.email && errors.email ? "is-invalid" : ""
+                      }`}
+                    />
+                    <ErrorMessage
+                      component="div"
+                      name="email"
+                      className="invalid-feedback"
+                    />
+                  </div>
 
                   <label htmlFor="password" id="field-title">Password</label>
                   <Field
