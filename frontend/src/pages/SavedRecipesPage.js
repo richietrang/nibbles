@@ -7,10 +7,7 @@ import RecipeThumbnailComponent from "../components/RecipeThumbnailComponent";
 import "./SavedRecipesPage.css";
 import { Link } from "react-router-dom";
 
-const fetchData = async () => {
-  localStorage = window.localStorage;	
-  const userEmail = localStorage.getItem("userEmail");
-
+const fetchData = async userEmail => {
   const body = JSON.stringify({
     userEmail: userEmail
   });
@@ -41,15 +38,16 @@ const SavedRecipesPage = () => {
       color: "#4e4e4e"
     }
   };
-  const localStorage = window.localStorage;
   const recipesPicture = require("../assets/images/recipe.png");
 
   // const savedRecipes = JSON.parse(window.localStorage.getItem('savedRecipes'));
 
   const [savedRecipes, setSavedRecipes] = useState([]);
 
+  const userEmail = window.localStorage.getItem("email");
+
   useEffect(() => {
-    fetchData().then(res => {
+    fetchData(userEmail).then(res => {
       console.log(res);
       setSavedRecipes(res.savedRecipes);
     });
