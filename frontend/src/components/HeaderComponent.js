@@ -280,6 +280,8 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                       closeLoginModal();
                     } else {
                       alert("Invalid Email or Password");
+                      closeLoginModal()
+                      showLoginModal()
                     }
                   });
               }}
