@@ -52,7 +52,7 @@ class RecipeThumbnailComponent extends React.Component {
   }
 
   handleToggleSaveRecipe() {
-    this.props.onSaveRecipe();
+    // this.props.onSaveRecipe();
     // Check if authToken and !recipeFavourited do fetch call to save recipe.
     if (this.state.recipeFavourited) {
       this.addOrDeleteRecipe(false);
@@ -76,6 +76,10 @@ class RecipeThumbnailComponent extends React.Component {
     this.setState((state, props) => ({
       showIngredientsModal: true
     }));
+  }
+
+  isLoggedIn() {
+    return window.localStorage.getItem("authToken");
   }
 
   render() {
