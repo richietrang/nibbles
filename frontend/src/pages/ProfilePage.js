@@ -42,7 +42,7 @@ const ProfilePage = () => {
   return (
     <DefaultLayout>
       <HeaderComponent
-        headerText="Profile Page"
+        headerText="Your Profile"
       />
       <h1 className="category-title align-center">Welcome {user}</h1>
 
