@@ -118,7 +118,6 @@ def add_saved_recipe():
 
         # add new item to list
         recipes_list.append(recipeId)
-        print("recipesList=", recipes_list)
         new_recipes_str = ','.join(recipes_list)
 
 
@@ -244,7 +243,7 @@ def search_for_recipes():
 
     query_info = {k:req_data[k] for k in req_data if k in endpoint_schema}
 
-    print('search_for_recipes was called with:', query_info)
+    # print('search_for_recipes was called with:', query_info)
 
     if not query_info['IngredientsList']:
         return jsonify([])

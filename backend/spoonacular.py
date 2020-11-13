@@ -83,10 +83,25 @@ def build_list_identifier(lst):
 
 def rank_recipe_data(recipe_data, queried_ingredients):
     '''
-
+  
     '''
     def extract_used_ingredients(recipe, queried_ingredients_set):
         used_ingredients = [rused['name'].lower() for rused in recipe['usedIngredients']]
+
+        # handle plurality
+        for index, used_ingredient in enumerate(used_ingredients):
+            if used_ingredient[-2:] == 'es':
+                if used_ingredient[-3:] == 'ies':
+                    used_ingredients[index] = used_ingredients[:-3] + 'y'
+                elif used_ingredient[-4:] == 'aves':
+                    used_ingredients[index] = used_ingredients[:-3] + 'f'
+                elif used_ingredient[-3:] == 'oes':
+                    used_ingredients[index] = used_ingredients[:-2]
+                else:
+                    used_ingredients[index] = used_ingredients[:-1]
+            elif used_ingredient[-1:] == 's':
+                used_ingredients[index] = used_ingredients[:-1]
+                
         used_ingredients_set = set()
 
         for queried_ingredient in queried_ingredients_set:
@@ -135,13 +150,18 @@ def rank_recipe_data(recipe_data, queried_ingredients):
 
     # dict to map a recipe's id to itself
     id_to_recipe_map = {}
-    # print("recipedata=", recipe_data)
     for recipe in recipe_data:
-        used_ingredients = extract_used_ingredients(recipe, queried_ingredients_set)
-        unused_ingredients = {q for q in queried_ingredients_set if q not in set(used_ingredients)}
-        recipe['usedIngredients'] = used_ingredients
-        recipe['unusedIngredients'] = list(unused_ingredients)
-        recipe['missedIngredients'] = [r['name'] for r in recipe['missedIngredients']]
+        print("recipekeys=", [r for r in recipe])
+
+        # used_ingredients = extract_used_ingredients(recipe, queried_ingredients_set)
+        # unused_ingredients = {q for q in queried_ingredients_set if q not in set(used_ingredients)}
+        # recipe['usedIngredients'] = used_ingredients
+        # recipe['unusedIngredients'] = list(unused_ingredients)
+        # recipe['missedIngredients'] = [r['name'] for r in recipe['missedIngredients']]
+
+        recipe['usedIngredients'] = list(set([r['name'] for r in recipe['usedIngredients']]))
+        recipe['unusedIngredients'] = list(set([r['name'] for r in recipe['unusedIngredients']]))
+        recipe['missedIngredients'] = list(set([r['name'] for r in recipe['missedIngredients']]))
         id_to_recipe_map[recipe['id']] = recipe
 
     # sort data using a heap
@@ -336,6 +356,7 @@ def search_recipes(query_info, test=False):
             print('Failed to parse recipe: id={}', r['id'])
             return None
 
+    print("result is ", result)
     return result
 
 
