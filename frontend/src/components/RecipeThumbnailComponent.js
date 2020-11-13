@@ -18,8 +18,7 @@ class RecipeThumbnailComponent extends React.Component {
   }
 
   addOrDeleteRecipe(add) {
-    localStorage = window.localStorage;
-    const userEmail = localStorage.getItem("userEmail");
+    const userEmail = window.localStorage.getItem("email");
 
     const body = JSON.stringify({
       userEmail: userEmail,
@@ -53,6 +52,7 @@ class RecipeThumbnailComponent extends React.Component {
   }
 
   handleToggleSaveRecipe() {
+    this.props.onSaveRecipe();
     // Check if authToken and !recipeFavourited do fetch call to save recipe.
     if (this.state.recipeFavourited) {
       this.addOrDeleteRecipe(false);
@@ -102,7 +102,12 @@ class RecipeThumbnailComponent extends React.Component {
           />
         </div>
         <div className="recipe-thumbnail">
-          <div className="recipe-title">{title}</div>
+          <div
+            className="recipe-title"
+            onClick={() => window.open(recipeLink, "_blank")}
+          >
+            {title}
+          </div>
           <div className="recipe-thumbnail-info-container">
             <div className="recipe-thumbnail-info-item-wrapper">
               <div className="recipe-thumbnail-info-item-title">Cook Time</div>

@@ -132,6 +132,14 @@ class HomePage extends React.Component {
     }));
   };
 
+  getRecipeList = () => {
+    if (this.state.allowMissingIngredients) {
+      return this.state.recipeList;
+    } else {
+      return this.state.recipeList.filter(recipe => !recipe.missingIngredients);
+    }
+  };
+
   render() {
     console.log("rerender home page");
     return (
@@ -169,7 +177,7 @@ class HomePage extends React.Component {
               <img src={loader} alt="loader" />
             ) : (
               <>
-                {this.state.recipeList.map(recipe => (
+                {this.getRecipeList().map(recipe => (
                   <div className="recipe-thumbnail-results-container">
                     <RecipeThumbnailComponent
                       key={recipe.title}
