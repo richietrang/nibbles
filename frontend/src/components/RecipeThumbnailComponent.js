@@ -181,7 +181,7 @@ class RecipeThumbnailComponent extends React.Component {
             {nonMatchingIngredients.length > 0 && (
               <div className="ingredients-list-wrapper">
                 <div className="ingredients-modal-title">
-                  Missing Ingredients
+                  Unused Ingredients
                 </div>
                 <ul>
                   {nonMatchingIngredients.map(ingredient => {

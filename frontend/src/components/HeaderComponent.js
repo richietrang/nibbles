@@ -61,6 +61,26 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </Link>
         </div>
         <div className="nav-items">
+          {authToken && (
+            <>
+              <Link
+              to={{
+                pathname: "/profile"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Profile" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+            </Link>
+            <Link
+              to={{
+                pathname: "/saved-recipes"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent className="nav-items" buttonText="Saved Recipes" backgroundColor={"FFF"} fontSize={"1.4em"} fontColor="4e4e4e"/>
+            </Link>
+            </>
+          )}
         </div>
         <div className="login-sign-up-buttons-container">
           {!authToken && (
@@ -70,39 +90,21 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                 Login
               </div> */}
               <div className="nav_login-button">
-                <ButtonComponent buttonText="Log in" onClick={showLoginModal} />
+                <ButtonComponent className="nav-items" buttonText="Log in" onClick={showLoginModal} />
               </div>
               <div className="nav_signup-button">
-                <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+                <ButtonComponent className="nav-items" buttonText="Sign up" onClick={showSignUpModal} />
               </div>
             </>
           )}
         </div>
-        <div className="logged-in-buttons-container">
           {authToken && (
-            <>
-              <Link
-                to={{
-                  pathname: "/profile"
-                }}
-                style={styles.noLinkTextDecoration}
-              >
-                <ButtonComponent className="nav-items" buttonText="Profile"/>
-              </Link>
-              <Link
-                to={{
-                  pathname: "/saved-recipes"
-                }}
-                style={styles.noLinkTextDecoration}
-              >
-                <div className="nav-items">Saved Recipes</div>
-              </Link>
+            <div className="logged-in-buttons-container">
               <div className="logout-button">
                 <ButtonComponent buttonText="Logout" onClick={handleLogout} />
               </div>
-            </>
+            </div>
           )}
-        </div>
       </div>
       <div className="header-title-graphic-container">
         <div className="header-title">{headerText}</div>

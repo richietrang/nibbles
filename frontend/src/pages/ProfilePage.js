@@ -36,18 +36,18 @@ const ProfilePage = () => {
     alert(msg);
   };
 
-  const recipesPicture = require("../assets/images/recipe.png");
+  const settingsPicture = require("../assets/images/settings.png");
 
 
   return (
     <DefaultLayout>
       <HeaderComponent
-        headerText="Profile Page"
+        headerText="Your Profile"
       />
       <h1 className="category-title align-center">Welcome {user}</h1>
 
       <div className="change-password">
-        <ButtonComponent buttonText="Change Password" onClick={showChangePwModal}/>
+        <ButtonComponent buttonText="Change Password" backgroundColor="#febd2e" onClick={showChangePwModal}/>
       </div>
 
       {pwModalVisible && (
@@ -145,7 +145,7 @@ const ProfilePage = () => {
 
       <div className="saved-recipes-container">
         <p>Other settings to be added in the future!</p>
-        <img className="no-saved-recipes-image" src={recipesPicture} alt="recipes icon picture" />
+        <img className="no-saved-recipes-image" src={settingsPicture} alt="settings picture" />
       </div>
 
 
