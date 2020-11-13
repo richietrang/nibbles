@@ -3,7 +3,7 @@ import json
 import traceback
 import boto3
 
-from spoonacular import search_recipes, read_json_from_file
+from spoonacular import search_recipes, read_json_from_file, information_bulk, combine_recipe_info
 from flask_cors import CORS
 
 from flask import Flask, request, jsonify
@@ -90,7 +90,7 @@ def add_saved_recipe():
     try:
         req_data = request.get_json(force=True)
         userEmail = req_data['userEmail']
-        recipeId = req_data['recipeId']
+        recipeId = str(req_data['recipeId'])
 
         queried_response = query_dynamodb_table(
             SAVED_RECIPES_TABLE_NAME,
@@ -138,7 +138,7 @@ def delete_saved_recipe():
     try:
         req_data = request.get_json(force=True)
         userEmail = req_data['userEmail']
-        recipeId = req_data['recipeId']
+        recipeId = str(req_data['recipeId'])
 
 
         queried_response = query_dynamodb_table(
@@ -191,7 +191,6 @@ def get_saved_recipe():
     try:
         req_data = request.get_json(force=True)
         userEmail = req_data['userEmail']
-        recipeId = req_data['recipeId']
 
         queried_response = query_dynamodb_table(
             SAVED_RECIPES_TABLE_NAME,
@@ -201,7 +200,24 @@ def get_saved_recipe():
 
         # get current list of recipes
         recipes_str = queried_response['savedRecipes']
-        recipes_list = recipes_str.split(',')
+
+        if not recipes_str:
+            return {
+                "success": True,
+                "savedRecipes": []
+            }
+        
+        recipe_id_list = recipes_str.split(',')
+
+
+        recipes_query_info = {
+            'RecipeIds': recipe_id_list
+        }
+
+        print(recipe_id_list)
+
+        recipe_info = information_bulk(query_info=recipes_query_info)
+        recipes_list = combine_recipe_info(recipe_info, find_by_ingredients_info=None)
         
         return {
             "success": True,
