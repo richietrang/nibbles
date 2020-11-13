@@ -41,7 +41,6 @@ const SavedRecipesPage = () => {
   const localStorage = window.localStorage;
   const recipesPicture = require("../assets/images/recipe.png");
 
-<<<<<<< HEAD
   // const savedRecipes = JSON.parse(window.localStorage.getItem('savedRecipes'));
 
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -57,27 +56,15 @@ const SavedRecipesPage = () => {
     <DefaultLayout>
       <HeaderComponent headerText="Go and make some yummy nibbles!" />
       <h1 className="category-title align-center">Your Saved Recipes</h1>
-=======
-  return (
-    <DefaultLayout>
-      <HeaderComponent
-        headerText="Go and make some yummy nibbles"
-      />
-      <h1 className="category-title align-center">Your saved recipes</h1>
->>>>>>> b30df816c24434685adf51972848e85a8fbd36b8
 
       {!savedRecipes && (
         <div className="saved-recipes-container">
           <p>No recipes have been saved yet. Go out and explore!</p>
-<<<<<<< HEAD
           <img
             className="no-saved-recipes-image"
             src={recipesPicture}
-            alt="recipes icon picture"
+            alt="recipes icon"
           />
-=======
-          <img className="no-saved-recipes-image" src={recipesPicture} alt="recipes icon" />
->>>>>>> b30df816c24434685adf51972848e85a8fbd36b8
           <Link
             to={{
               pathname: "/"
