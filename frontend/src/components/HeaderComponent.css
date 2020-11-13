@@ -61,7 +61,7 @@
   flex: 2;
 }
 
-.login-button {
+.nav_login-button {
   white-space: nowrap;
   font-family: "Karla", sans-serif;
   color: #4e4e4e;
@@ -71,7 +71,7 @@
   cursor: pointer;
 }
 
-.signup-button {
+.nav_signup-button {
   white-space: nowrap;
   font-family: "Karla", sans-serif;
   color: #4e4e4e;

@@ -69,10 +69,10 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
               <div className="login-button" onClick={showLoginModal}>
                 Login
               </div> */}
-              <div className="login-button">
+              <div className="nav_login-button">
                 <ButtonComponent buttonText="Log in" onClick={showLoginModal} />
               </div>
-              <div className="signup-button">
+              <div className="nav_signup-button">
                 <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
               </div>
             </>
@@ -214,7 +214,7 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                     className="invalid-feedback"
                   />
                   <br />
-                  
+
                   <div className="signup-button-block">
                     <button
                       type="submit"
