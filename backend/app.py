@@ -32,7 +32,7 @@ dynamodb = boto3.resource('dynamodb',
                     aws_secret_access_key=keys.ACCESS_SECRET_KEY,
                     region_name=keys.REGION_NAME
                     )
-    
+
 
 AWS_CONFIG = None
 try: AWS_CONFIG = read_json_from_file('aws_config.json')
@@ -62,11 +62,11 @@ def query_dynamodb_table(table_name, key, value):
     to_return = {}
     for k in queried_response:
         to_return[k] = queried_response[k]['S']
-    
+
     return to_return
 
 def put_dynamodb_table(table_name, entry):
-    
+
     global dynamodb_client
 
     dynamodb_items = {}
@@ -79,7 +79,7 @@ def put_dynamodb_table(table_name, entry):
 
     # put item
     dynamodb_client.put_item(TableName=table_name, Item=dynamodb_items)
-    
+
 
 
 @app.route('/addrecipe', methods=['POST'])
@@ -113,7 +113,7 @@ def add_saved_recipe():
         recipes_list.append(recipeId)
         new_recipes_str = ','.join(recipes_list)
 
-        
+
         # update dynamodb
         queried_response['savedRecipes'] = new_recipes_str
         put_dynamodb_table(SAVED_RECIPES_TABLE_NAME, queried_response)
@@ -166,7 +166,7 @@ def delete_saved_recipe():
         recipes_list.pop(index_to_remove)
         new_recipes_str = ','.join(recipes_list)
 
-        
+
         # update dynamodb
         queried_response['savedRecipes'] = new_recipes_str
         put_dynamodb_table(SAVED_RECIPES_TABLE_NAME, queried_response)
@@ -202,7 +202,7 @@ def get_saved_recipe():
         # get current list of recipes
         recipes_str = queried_response['savedRecipes']
         recipes_list = recipes_str.split(',')
-        
+
         return {
             "success": True,
             "savedRecipes": recipes_list
@@ -237,7 +237,7 @@ def search_for_recipes():
     query_info = {k:req_data[k] for k in req_data if k in endpoint_schema}
 
     print('search_for_recipes was called with:', query_info)
-    
+
     if not query_info['IngredientsList']:
         return jsonify([])
 
@@ -256,6 +256,33 @@ def ingredients():
         ingredients = list(reader)
 
     return json.dumps(ingredients)
+
+@app.route('/changepw', methods=['GET', 'POST'])
+def changePW():
+    msg = 'Invalid username or password'
+    result = ""
+    if request.method == 'POST':
+        form_data = request.json
+        password = form_data["password"]
+        email = form_data["email"]
+
+        try:
+            table = dynamodb.Table('users')
+            print(password)
+            response = table.update_item(
+                Key={'email':email},
+                UpdateExpression="SET password = :updated",
+                ExpressionAttributeValues={
+                    ':updated': password
+                },
+                ReturnValues="UPDATED_NEW"
+            )
+            msg = 'Password Changed'
+        except:
+            msg = 'Password Change Failed'
+
+    return jsonify({'msg': msg})
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -300,7 +327,7 @@ def login():
             msg = 'Login Success'
             access_token = create_access_token(identity = {'name': name})
 
-    return jsonify({'msg': msg, 'access_token':access_token})
+    return jsonify({'name': name, 'msg': msg, 'access_token':access_token})
 
 # Protect a view with jwt_required, which requires a valid access token
 # in the request to access.

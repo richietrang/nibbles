@@ -46,6 +46,8 @@
   font-size: 1rem;
   font-weight: 700;
   flex: 4;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .nav-item {
@@ -57,15 +59,41 @@
   display: flex;
   align-items: center;
   flex: 2;
-  padding-right: 10px;
 }
 
 .login-button {
+  white-space: nowrap;
   font-family: "Karla", sans-serif;
   color: #4e4e4e;
   font-size: 1rem;
   font-weight: 700;
   margin-right: 2rem;
+  cursor: pointer;
+}
+
+.signup-button {
+  white-space: nowrap;
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+.logged-in-buttons-container {
+  display: flex;
+  align-items: center;
+  flex: 2;
+  padding-right: 10px;
+}
+
+.logout-button {
+  font-family: "Karla", sans-serif;
+  color: #4e4e4e;
+  font-size: 1rem;
+  font-weight: 700;
+  /* margin-left: 2rem; */
   cursor: pointer;
 }
 

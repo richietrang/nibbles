@@ -61,36 +61,45 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
           </Link>
         </div>
         <div className="nav-items">
-          <Link
-            to={{
-              pathname: "/saved-recipes"
-            }}
-            style={styles.noLinkTextDecoration}
-          >
-            <div className="nav-item">Saved Recipes</div>
-          </Link>
         </div>
         <div className="login-sign-up-buttons-container">
           {!authToken && (
             <>
+            {/*
               <div className="login-button" onClick={showLoginModal}>
                 Login
+              </div> */}
+              <div className="login-button">
+                <ButtonComponent buttonText="Log in" onClick={showLoginModal} />
               </div>
-              <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+              <div className="signup-button">
+                <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+              </div>
             </>
           )}
-
+        </div>
+        <div className="logged-in-buttons-container">
           {authToken && (
             <>
+              <Link
+                to={{
+                  pathname: "/profile"
+                }}
+                style={styles.noLinkTextDecoration}
+              >
+                <ButtonComponent className="nav-items" buttonText="Profile"/>
+              </Link>
+              <Link
+                to={{
+                  pathname: "/saved-recipes"
+                }}
+                style={styles.noLinkTextDecoration}
+              >
+                <div className="nav-items">Saved Recipes</div>
+              </Link>
               <div className="logout-button">
                 <ButtonComponent buttonText="Logout" onClick={handleLogout} />
               </div>
-            </>
-          )}
-
-          {authToken && (
-            <>
-              <ButtonComponent buttonText="Logout" onClick={handleLogout} />
             </>
           )}
         </div>
@@ -255,7 +264,8 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                   .then(token => {
                     if (token.access_token) {
                       console.log(token);
-                      localStorage.setItem("authToken", token);
+                      localStorage.setItem("authToken", token.access_token);
+                      localStorage.setItem("user", token.name);
                       setAuthToken(localStorage.getItem("authToken"));
                       closeLoginModal();
                     } else {

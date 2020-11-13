@@ -18,10 +18,10 @@ const SavedRecipesPage = () => {
   const localStorage = window.localStorage;
   const savedRecipes = JSON.parse(window.localStorage.getItem('savedRecipes'));
   const recipesPicture = require("../assets/images/recipe.png");
-  
+
   return (
     <DefaultLayout>
-      <HeaderComponent 
+      <HeaderComponent
         headerText="Go and make some yummy nibbles"
       />
       <h1 className="category-title align-center">Your saved recipes</h1>
