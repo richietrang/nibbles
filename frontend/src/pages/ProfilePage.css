@@ -46,6 +46,10 @@
 	transition: transform 80ms ease-in;
 }
 
+.error {
+  text-align: center;
+}
+
 .pw-button {
   text-align: center;
 }

@@ -34,9 +34,10 @@ const ProfilePage = () => {
 
   const settingsPicture = require("../assets/images/settings.png");
 
-
   return (
     <DefaultLayout>
+      {authToken && (
+        <>
       <HeaderComponent
         headerText="Your Profile"
       />
@@ -150,8 +151,14 @@ const ProfilePage = () => {
         <p>Other settings to be added in the future!</p>
         <img className="no-saved-recipes-image" src={settingsPicture} alt="settings picture" />
       </div>
+      </>
+    )}
 
-
+    {!authToken && (
+      <>
+        <h1 className="error"> Access not allowed</h1>
+      </>
+    )}
     </DefaultLayout>
   );
 }

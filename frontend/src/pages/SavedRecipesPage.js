@@ -39,7 +39,7 @@ const SavedRecipesPage = () => {
     }
   };
   const recipesPicture = require("../assets/images/recipe.png");
-
+  const authToken = localStorage.getItem('authToken')
   // const savedRecipes = JSON.parse(window.localStorage.getItem('savedRecipes'));
 
   const [savedRecipes, setSavedRecipes] = useState([]);
@@ -55,41 +55,50 @@ const SavedRecipesPage = () => {
 
   return (
     <DefaultLayout>
-      <HeaderComponent headerText="Go and make some yummy nibbles!" />
-      <h1 className="saved-recipe-title">Your Saved Recipes</h1>
+      {authToken && (
+        <>
+        <HeaderComponent headerText="Go and make some yummy nibbles!" />
+        <h1 className="saved-recipe-title">Your Saved Recipes</h1>
 
-      {!savedRecipes && (
-        <div className="saved-recipes-container">
-          <p>No recipes have been saved yet. Go out and explore!</p>
-          <img
-            className="no-saved-recipes-image"
-            src={recipesPicture}
-            alt="recipes icon"
-          />
-          <Link
-            to={{
-              pathname: "/"
-            }}
-            style={styles.noLinkTextDecoration}
-          >
-            <ButtonComponent buttonText="Home Page" backgroundColor="#febd2e" />
-          </Link>
-        </div>
-      )}
+        {!savedRecipes && (
+          <div className="saved-recipes-container">
+            <p>No recipes have been saved yet. Go out and explore!</p>
+            <img
+              className="no-saved-recipes-image"
+              src={recipesPicture}
+              alt="recipes icon"
+            />
+            <Link
+              to={{
+                pathname: "/"
+              }}
+              style={styles.noLinkTextDecoration}
+            >
+              <ButtonComponent buttonText="Home Page" backgroundColor="#febd2e" />
+            </Link>
+          </div>
+        )}
 
-      {savedRecipes && savedRecipes.length && (
-        <div className="saved-recipes-container">
-          {savedRecipes.map(recipe => (
-            <div className="recipe-thumbnail-results-container">
-              <RecipeThumbnailComponent
-                key={recipe.id}
-                value={recipe}
-                recipeFavourited={true}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+        {savedRecipes && savedRecipes.length && (
+          <div className="saved-recipes-container">
+            {savedRecipes.map(recipe => (
+              <div className="recipe-thumbnail-results-container">
+                <RecipeThumbnailComponent
+                  key={recipe.id}
+                  value={recipe}
+                  recipeFavourited={true}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </>
+    )}
+    {!authToken && (
+      <>
+        <h1 className="error"> Access not allowed</h1>
+      </>
+    )}
     </DefaultLayout>
   );
 };
