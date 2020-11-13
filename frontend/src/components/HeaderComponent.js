@@ -70,10 +70,10 @@ const HeaderComponent = ({ headerText, toggleSignUpModal }) => {
                 Login
               </div> */}
               <div className="nav_login-button">
-                <ButtonComponent buttonText="Log in" onClick={showLoginModal} />
+                <ButtonComponent className="nav-items" buttonText="Log in" onClick={showLoginModal} />
               </div>
               <div className="nav_signup-button">
-                <ButtonComponent buttonText="Sign up" onClick={showSignUpModal} />
+                <ButtonComponent className="nav-items" buttonText="Sign up" onClick={showSignUpModal} />
               </div>
             </>
           )}
