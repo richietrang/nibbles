@@ -8,7 +8,7 @@ import "./SavedRecipesPage.css";
 import { Link } from "react-router-dom";
 
 const fetchData = async () => {
-  localStorage = window.localStorage;
+  localStorage = window.localStorage;	
   const userEmail = localStorage.getItem("userEmail");
 
   const body = JSON.stringify({
@@ -58,7 +58,7 @@ const SavedRecipesPage = () => {
   return (
     <DefaultLayout>
       <HeaderComponent headerText="Go and make some yummy nibbles!" />
-      <h1 className="category-title align-center">Your Saved Recipes</h1>
+      <h1 className="saved-recipe-title">Your Saved Recipes</h1>
 
       {!savedRecipes && (
         <div className="saved-recipes-container">
